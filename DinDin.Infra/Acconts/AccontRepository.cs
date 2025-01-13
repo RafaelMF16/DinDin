@@ -1,12 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DinDin.Domain.Acconts;
 
 namespace DinDin.Infra.Acconts
 {
-    internal class AccontRepository
+    public class AccontRepository : IAccontRepository
     {
+        public void Add(Accont accont)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteAccont(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Accont GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Accont UpdateAccont(Accont accont)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
