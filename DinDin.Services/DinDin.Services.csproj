@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DinDin.Infra\DinDin.Infra.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -4,9 +4,16 @@ namespace DinDin.Tests.Users
 {
     public class MockUserRepository : IUserRepository
     {
+        private readonly UserSingleton _instance;
+
+        public MockUserRepository ()
+        {
+            _instance = UserSingleton.Instance;
+        }
+
         public void Add(User user)
         {
-            throw new NotImplementedException();
+            _instance.Add(user);
         }
 
         public void Delete(int id)
