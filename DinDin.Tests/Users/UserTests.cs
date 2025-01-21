@@ -24,7 +24,7 @@ namespace DinDin.Tests.Users
                 Name = "Test",
                 Login = "login",
                 Password = "password",
-                CreationDate = DateTime.Now,
+                CreationDate = DateTime.Now
             };
 
             _userService.Add(newUser);
