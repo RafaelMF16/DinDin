@@ -30,5 +30,25 @@ namespace DinDin.Services.Users
                 throw new Exception(exception.Message);
             }
         }
+
+        public User GetById(int id)
+        {
+            var user = _userRepository.GetById(id)
+                ?? throw new ArgumentNullException($"Not find user with id: {id}");
+
+            return user;
+        }
+
+        public void Delete(int id)
+        {
+            try
+            {
+                _userRepository.Delete(id);
+            }
+            catch(Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
     }
 }

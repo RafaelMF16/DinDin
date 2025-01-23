@@ -18,12 +18,14 @@ namespace DinDin.Tests.Users
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var userThatWillBeDeleted = _instance.Find(user => user.Id == id);
+
+            _instance.Remove(userThatWillBeDeleted);
         }
 
         public User GetById(int id)
         {
-            throw new NotImplementedException();
+            return _instance.Find(user => user.Id == id);
         }
 
         public void Update(User user)

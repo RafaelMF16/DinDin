@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using DinDin.Domain.Users;
+﻿using DinDin.Domain.Users;
 using DinDin.Services.Users;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -203,6 +202,101 @@ namespace DinDin.Tests.Users
             var errorMessage = Assert.Throws<FluentValidation.ValidationException>(() => _userService.Add(newUser));
 
             Assert.Equal(errorMessageExpected, errorMessage.Errors.First().ErrorMessage);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public void Get_by_id_must_return_user_with_id_expected(int id)
+        {
+            CreateUsersList();
+
+            var expectedId = id; 
+
+            var dataBaseUser = _userService.GetById(id);
+
+            Assert.Equal(expectedId, dataBaseUser.Id);
+        }
+
+        [Theory]
+        [InlineData(4)]
+        [InlineData(5)]
+        [InlineData(6)]
+        public void Get_by_id_must_throw_exception_if_id_is_null(int id)
+        {
+            CreateUsersList();
+
+            var errorMessageExpected = $"Not find user with id: {id}";
+
+            var errorMessage = Assert.Throws<ArgumentNullException>(() => _userService.GetById(id)).ParamName;
+
+            Assert.Equal(errorMessageExpected, errorMessage);
+        }
+
+        [Fact]
+        public void Delete_should_delete_user_with_id_one()
+        {
+            CreateUsersList();
+
+            const int deletedUserId = 1;
+
+            _userService.Delete(deletedUserId);
+
+            var dataBaseList = UserSingleton.Instance;
+
+            Assert.DoesNotContain(dataBaseList, user => user.Id == deletedUserId);
+        }
+
+        [Fact]
+        public void Delete_not_must_delete_user_with_id_four()
+        {
+            CreateUsersList();
+
+            const int deletedUserId = 4;
+
+            _userService.Delete(deletedUserId);
+
+            var dataBaseList = UserSingleton.Instance;
+
+            const int expectedListSize = 3;
+
+            Assert.Equal(expectedListSize, dataBaseList.Count);
+        }
+
+        private void CreateUsersList()
+        {
+            var UsersSingletonList = UserSingleton.Instance;
+
+            var UsersList = new List<User>
+            {
+                new User
+                {
+                    Id = 1,
+                    Name = "User",
+                    Login = "Login",
+                    Password = "password",
+                    CreationDate = DateTime.Parse("06/11/2024")
+                },
+                new User
+                {
+                    Id = 2,
+                    Name = "User02",
+                    Login = "Login02",
+                    Password = "password02",
+                    CreationDate = DateTime.Parse("11/16/2023")
+                },
+                new User
+                {
+                    Id = 3,
+                    Name = "User03",
+                    Login = "Login03",
+                    Password = "password03",
+                    CreationDate = DateTime.Now
+                }
+            };
+
+            UsersSingletonList.AddRange(UsersList);
         }
     }
 }
