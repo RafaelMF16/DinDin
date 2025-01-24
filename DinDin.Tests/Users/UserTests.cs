@@ -264,6 +264,22 @@ namespace DinDin.Tests.Users
             Assert.Equal(expectedListSize, dataBaseList.Count);
         }
 
+        [Fact]
+        public void Update_should_update_name_of_user_with_id_one()
+        {
+            CreateUsersList();
+
+            var dataBaseList = UserSingleton.Instance;
+
+            var updatedUser = new User
+            {
+                Id = 1,
+                Name = "Updated User",
+                Password = "password",
+                CreationDate = DateTime.Parse("06/11/2024")
+            };
+        }
+
         private void CreateUsersList()
         {
             var UsersSingletonList = UserSingleton.Instance;
