@@ -25,6 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DinDin.Domain\DinDin.Domain.csproj" />
+    <ProjectReference Include="..\DinDin.Infra\DinDin.Infra.csproj" />
     <ProjectReference Include="..\DinDin.Services\DinDin.Services.csproj" />
   </ItemGroup>
 
