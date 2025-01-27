@@ -20,11 +20,10 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User 
             {
-                Id = 1,
                 Name = "Test",
                 Login = "login",
                 Password = "password",
-                CreationDate = DateTime.Now
+                CreationDate = DateTime.UtcNow
             };
 
             _userService.Add(newUser);
@@ -43,7 +42,7 @@ namespace DinDin.Tests.Users
                 Name = name,
                 Login = "login",
                 Password = "password",
-                CreationDate = DateTime.Now
+                CreationDate = DateTime.UtcNow
             };
 
             const string errorMessageExpected = "The Name field is mandatory";
@@ -64,7 +63,7 @@ namespace DinDin.Tests.Users
                 Name = name,
                 Login = "login",
                 Password = "password",
-                CreationDate = DateTime.Now
+                CreationDate = DateTime.UtcNow
             };
 
             const string errorMessageExpected = "The Name field can contain a maximum of 100 characters";
@@ -85,7 +84,7 @@ namespace DinDin.Tests.Users
                 Name = "Rafael",
                 Login = login,
                 Password = "password",
-                CreationDate = DateTime.Now
+                CreationDate = DateTime.UtcNow
             };
 
             const string errorMessageExpected = "The Login field is mandatory";
@@ -106,7 +105,7 @@ namespace DinDin.Tests.Users
                 Name = "Rafael",
                 Login = login,
                 Password = "password",
-                CreationDate = DateTime.Now
+                CreationDate = DateTime.UtcNow
             };
 
             const string errorMessageExpected = "The Login field can contain a maximum of 100 characters";
@@ -127,7 +126,7 @@ namespace DinDin.Tests.Users
                 Name = "Rafael",
                 Login = "login",
                 Password = password,
-                CreationDate = DateTime.Now
+                CreationDate = DateTime.UtcNow
             };
 
             const string errorMessageExpected = "The Password field is mandatory";
@@ -150,7 +149,7 @@ namespace DinDin.Tests.Users
                 Name = "Test",
                 Login = "login",
                 Password = password,
-                CreationDate = DateTime.Now
+                CreationDate = DateTime.UtcNow
             };
 
             const string errorMessageExpected = "The Password field can contain a minimum of 8 characters";
@@ -172,7 +171,7 @@ namespace DinDin.Tests.Users
                 Name = "Test",
                 Login = "login",
                 Password = password,
-                CreationDate = DateTime.Now
+                CreationDate = DateTime.UtcNow
             };
 
             const string errorMessageExpected = "The Password field can contain a maximum of 50 characters";
@@ -190,14 +189,13 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = 1,
                 Name = "Test",
                 Login = "login",
                 Password = "password",
-                CreationDate = DateTime.Parse(creationDate)
+                CreationDate = DateTime.Parse(creationDate).ToUniversalTime()
             };
 
-            const string errorMessageExpected = "The Creation Date must be the current date";
+            const string errorMessageExpected = "The Creation Date not is valid";
 
             var errorMessage = Assert.Throws<FluentValidation.ValidationException>(() => _userService.Add(newUser));
 
@@ -275,9 +273,35 @@ namespace DinDin.Tests.Users
             {
                 Id = 1,
                 Name = "Updated User",
+                Login = "Login",
                 Password = "password",
-                CreationDate = DateTime.Parse("06/11/2024")
+                CreationDate = DateTime.Parse("06/11/2024").ToUniversalTime()
             };
+
+            _userService.Update(updatedUser);
+
+            Assert.Contains(UserSingleton.Instance, user => user == updatedUser);
+        }
+
+        [Fact]
+        public void Update_should_update_password_of_user_with_id_one()
+        {
+            CreateUsersList();
+
+            var dataBaseList = UserSingleton.Instance;
+
+            var updatedUser = new User
+            {
+                Id = 1,
+                Name = "User",
+                Login = "Login",
+                Password = "wordpass",
+                CreationDate = DateTime.Parse("06/11/2024").ToUniversalTime()
+            };
+
+            _userService.Update(updatedUser);
+
+            Assert.Contains(UserSingleton.Instance, user => user == updatedUser);
         }
 
         private void CreateUsersList()
@@ -292,7 +316,7 @@ namespace DinDin.Tests.Users
                     Name = "User",
                     Login = "Login",
                     Password = "password",
-                    CreationDate = DateTime.Parse("06/11/2024")
+                    CreationDate = DateTime.Parse("06/11/2024").ToUniversalTime()
                 },
                 new User
                 {
@@ -300,7 +324,7 @@ namespace DinDin.Tests.Users
                     Name = "User02",
                     Login = "Login02",
                     Password = "password02",
-                    CreationDate = DateTime.Parse("11/16/2023")
+                    CreationDate = DateTime.Parse("11/16/2023").ToUniversalTime()
                 },
                 new User
                 {
@@ -308,7 +332,7 @@ namespace DinDin.Tests.Users
                     Name = "User03",
                     Login = "Login03",
                     Password = "password03",
-                    CreationDate = DateTime.Now
+                    CreationDate = DateTime.UtcNow
                 }
             };
 

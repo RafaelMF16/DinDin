@@ -50,5 +50,22 @@ namespace DinDin.Services.Users
                 throw new Exception(exception.Message);
             }
         }
+
+        public void Update(User user)
+        {
+            try
+            {
+                _userValidator.ValidateAndThrow(user);
+                _userRepository.Update(user);
+            }
+            catch (ValidationException validationException)
+            {
+                throw new ValidationException(validationException.Errors);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
+        }
     }
 }

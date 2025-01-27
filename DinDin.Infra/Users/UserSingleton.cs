@@ -4,7 +4,7 @@
     {
         private UserSingleton() { }
 
-        private static readonly Lazy<UserSingleton> lazy = new Lazy<UserSingleton>(() => new UserSingleton());
+        private static readonly Lazy<UserSingleton> lazy = new(() => new UserSingleton());
 
         public static UserSingleton Instance
         {

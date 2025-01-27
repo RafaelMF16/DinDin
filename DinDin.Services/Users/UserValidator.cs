@@ -27,7 +27,7 @@ namespace DinDin.Services.Users
                 .MaximumLength(50).WithMessage("The Password field can contain a maximum of 50 characters");
 
             RuleFor(user => user)
-                .Must(user => ValidateUserCreationDate(user)).WithMessage("The Creation Date must be the current date");
+                .Must(user => ValidateUserCreationDate(user)).WithMessage("The Creation Date not is valid");
         }
 
         private bool ValidateUserCreationDate(User user)

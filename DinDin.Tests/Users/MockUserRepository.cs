@@ -30,7 +30,9 @@ namespace DinDin.Tests.Users
 
         public void Update(User user)
         {
-            throw new NotImplementedException();
+            var dataBaseUser = GetById(user.Id);
+
+            _instance[_instance.IndexOf(dataBaseUser)] = user;
         }
     }
 }
