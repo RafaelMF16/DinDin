@@ -1,5 +1,8 @@
-﻿using DinDin.Domain.Users;
+﻿using DinDin.Domain.Acconts;
+using DinDin.Domain.Users;
+using DinDin.Services.Acconts;
 using DinDin.Services.Users;
+using DinDin.Tests.Acconts;
 using DinDin.Tests.Users;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +15,11 @@ namespace DinDin.Tests
         {
             services.AddScoped<UserService>();
             services.AddScoped<IUserRepository, MockUserRepository>();
-            services.AddScoped<IValidator<User>, UserValidator>();
+            services.AddScoped<IValidator<User>, ValidatorUser>();
+
+            services.AddScoped<AccontService>();
+            services.AddScoped<IAccontRepository, MockAccontRepository>();
+            services.AddScoped<IValidator<Accont>, ValidatorAccont>();
         }
     }
 }

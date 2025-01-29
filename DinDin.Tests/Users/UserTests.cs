@@ -1,4 +1,5 @@
 ﻿using DinDin.Domain.Users;
+using DinDin.Infra.Users;
 using DinDin.Services.Users;
 using Microsoft.Extensions.DependencyInjection;
 

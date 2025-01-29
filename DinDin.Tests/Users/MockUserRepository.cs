@@ -1,4 +1,5 @@
 ﻿using DinDin.Domain.Users;
+using DinDin.Infra.Users;
 
 namespace DinDin.Tests.Users
 {

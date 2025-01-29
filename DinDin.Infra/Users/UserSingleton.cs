@@ -1,4 +1,6 @@
-﻿namespace DinDin.Domain.Users
+﻿using DinDin.Domain.Users;
+
+namespace DinDin.Infra.Users
 {
     public sealed class UserSingleton : List<User>
     {

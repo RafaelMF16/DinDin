@@ -1,12 +1,20 @@
 ﻿using DinDin.Domain.Acconts;
+using DinDin.Infra.Acconts;
 
-namespace DinDin.Infra.Acconts
+namespace DinDin.Tests.Acconts
 {
-    public class AccontRepository : IAccontRepository
+    public class MockAccontRepository : IAccontRepository
     {
+        private readonly AccontSingleton _instance;
+
+        public MockAccontRepository()
+        {
+            _instance = AccontSingleton.Instance;
+        }
+
         public void Add(Accont accont)
         {
-            throw new NotImplementedException();
+            _instance.Add(accont);
         }
 
         public void Delete(int id)
