@@ -19,9 +19,10 @@ namespace DinDin.Infra.Acconts
             throw new NotImplementedException();
         }
 
-        public Accont Update(Accont accont)
-        {
-            throw new NotImplementedException();
-        }
+        // TO DO
+        //public Accont Update(Accont accont)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

@@ -19,17 +19,20 @@ namespace DinDin.Tests.Acconts
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            var accontThatWillBeDeleted = GetById(id);
+
+            _instance.Remove(accontThatWillBeDeleted);
         }
 
         public Accont GetById(int id)
         {
-            throw new NotImplementedException();
+            return _instance.Find(accont => accont.Id == id);
         }
 
-        public Accont Update(Accont accont)
-        {
-            throw new NotImplementedException();
-        }
+        // TO DO
+        //public Accont Update(Accont accont)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

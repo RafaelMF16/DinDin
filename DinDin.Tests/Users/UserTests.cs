@@ -48,9 +48,9 @@ namespace DinDin.Tests.Users
 
             const string errorMessageExpected = "The Name field is mandatory";
 
-            var errorMessage = Assert.Throws<FluentValidation.ValidationException>(() => _userService.Add(newUser));
+            var errorMessage = Assert.Throws<FluentValidation.ValidationException>(() => _userService.Add(newUser)).Errors.First().ErrorMessage;
 
-            Assert.Equal(errorMessageExpected, errorMessage.Errors.First().ErrorMessage);
+            Assert.Equal(errorMessageExpected, errorMessage);
         }
 
         [Theory]
@@ -305,13 +305,13 @@ namespace DinDin.Tests.Users
             Assert.Contains(UserSingleton.Instance, user => user == updatedUser);
         }
 
-        private void CreateUsersList()
+        private static void CreateUsersList()
         {
             var UsersSingletonList = UserSingleton.Instance;
 
             var UsersList = new List<User>
             {
-                new User
+                new()
                 {
                     Id = 1,
                     Name = "User",
@@ -319,7 +319,8 @@ namespace DinDin.Tests.Users
                     Password = "password",
                     CreationDate = DateTime.Parse("06/11/2024").ToUniversalTime()
                 },
-                new User
+
+                new()
                 {
                     Id = 2,
                     Name = "User02",
@@ -327,7 +328,8 @@ namespace DinDin.Tests.Users
                     Password = "password02",
                     CreationDate = DateTime.Parse("11/16/2023").ToUniversalTime()
                 },
-                new User
+
+                new()
                 {
                     Id = 3,
                     Name = "User03",

@@ -33,17 +33,26 @@ namespace DinDin.Services.Acconts
 
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _accontRepository.Delete(id);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
         }
 
         public Accont GetById(int id)
         {
-            throw new NotImplementedException();
+            return _accontRepository.GetById(id)
+                ?? throw new ArgumentNullException($"Not find accont with id: {id}");
         }
 
-        public Accont Update(Accont accont)
-        {
-            throw new NotImplementedException();
-        }
+        // TO DO
+        //public Accont Update(Accont accont)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

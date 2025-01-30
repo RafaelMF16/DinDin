@@ -19,7 +19,7 @@ namespace DinDin.Tests.Users
 
         public void Delete(int id)
         {
-            var userThatWillBeDeleted = _instance.Find(user => user.Id == id);
+            var userThatWillBeDeleted = GetById(id);
 
             _instance.Remove(userThatWillBeDeleted);
         }
