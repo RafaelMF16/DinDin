@@ -4,7 +4,9 @@
     {
         Accont GetById(int id);
         void Add(Accont accont);
-        Accont UpdateAccont(Accont accont);
-        void DeleteAccont(int id);
+
+        // TO DO
+        //Accont Update(Accont accont);
+        void Delete(int id);
     }
 }

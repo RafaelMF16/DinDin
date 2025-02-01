@@ -33,10 +33,8 @@ namespace DinDin.Services.Users
 
         public User GetById(int id)
         {
-            var user = _userRepository.GetById(id)
+            return _userRepository.GetById(id)
                 ?? throw new ArgumentNullException($"Not find user with id: {id}");
-
-            return user;
         }
 
         public void Delete(int id)

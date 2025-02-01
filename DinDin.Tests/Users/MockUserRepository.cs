@@ -1,4 +1,5 @@
 ﻿using DinDin.Domain.Users;
+using DinDin.Infra.Users;
 
 namespace DinDin.Tests.Users
 {
@@ -18,7 +19,7 @@ namespace DinDin.Tests.Users
 
         public void Delete(int id)
         {
-            var userThatWillBeDeleted = _instance.Find(user => user.Id == id);
+            var userThatWillBeDeleted = GetById(id);
 
             _instance.Remove(userThatWillBeDeleted);
         }

@@ -9,7 +9,7 @@ namespace DinDin.Infra.Acconts
             throw new NotImplementedException();
         }
 
-        public void DeleteAccont(int id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
@@ -19,9 +19,10 @@ namespace DinDin.Infra.Acconts
             throw new NotImplementedException();
         }
 
-        public Accont UpdateAccont(Accont accont)
-        {
-            throw new NotImplementedException();
-        }
+        // TO DO
+        //public Accont Update(Accont accont)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

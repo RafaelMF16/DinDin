@@ -3,11 +3,11 @@ using FluentValidation;
 
 namespace DinDin.Services.Users
 {
-    public class UserValidator : AbstractValidator<User>
+    public class ValidatorUser : AbstractValidator<User>
     {
         private readonly IUserRepository _userRepository;
 
-        public UserValidator(IUserRepository userRepository)
+        public ValidatorUser(IUserRepository userRepository)
         {
             _userRepository = userRepository;
 
