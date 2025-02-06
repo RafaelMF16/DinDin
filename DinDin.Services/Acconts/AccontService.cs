@@ -21,9 +21,9 @@ namespace DinDin.Services.Acconts
                 _validatorAccont.ValidateAndThrow(accont);
                 _accontRepository.Add(accont);
             }
-            catch(FluentValidation.ValidationException validationException)
+            catch(ValidationException validationException)
             {
-                throw new FluentValidation.ValidationException(validationException.Errors);
+                throw new ValidationException(validationException.Errors);
             }
             catch (Exception exception)
             {

@@ -1,9 +1,6 @@
 ﻿using DinDin.Domain.Acconts;
-using DinDin.Domain.Users;
 using DinDin.Infra.Acconts;
-using DinDin.Infra.Users;
 using DinDin.Services.Acconts;
-using DinDin.Services.Users;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DinDin.Tests.Acconts
@@ -24,8 +21,7 @@ namespace DinDin.Tests.Acconts
         {
             var newAccont = new Accont
             {
-                UserId = 1,
-                MonthlySummaries = []
+                UserId = 1
             };
 
             _accontService.Add(newAccont);
@@ -34,12 +30,9 @@ namespace DinDin.Tests.Acconts
         }
 
         [Fact]
-        public void When_trying_to_create_a_accont_with_a_user_id_of_null_or_empty_a_validation_error_must_be_returned()
+        public void When_trying_to_create_a_accont_with_a_user_id_of_null_a_validation_error_must_be_returned()
         {
-            var newAccont = new Accont
-            {
-                MonthlySummaries = []
-            };
+            var newAccont = new Accont();
 
             const string errorMessageExpected = "The UserId field is mandatory";
 
@@ -110,33 +103,30 @@ namespace DinDin.Tests.Acconts
 
         private void CreateAccontList()
         {
-            var AccontSingletonList = AccontSingleton.Instance;
+            var accontSingletonList = AccontSingleton.Instance;
 
             var AccontsList = new List<Accont>
             {
                 new()
                 {
                     Id = 1,
-                    UserId = 1,
-                    MonthlySummaries = []
+                    UserId = 1
                 },
 
                 new()
                 {
                     Id = 2,
-                    UserId = 2,
-                    MonthlySummaries = []
+                    UserId = 2
                 },
 
                 new()
                 {
                     Id = 3,
-                    UserId = 3,
-                    MonthlySummaries = []
+                    UserId = 3
                 },
             };
 
-            AccontSingletonList.AddRange(AccontsList);
+            accontSingletonList.AddRange(AccontsList);
         }
     }
 }
