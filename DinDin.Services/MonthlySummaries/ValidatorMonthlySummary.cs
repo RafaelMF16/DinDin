@@ -21,10 +21,18 @@ namespace DinDin.Services.MonthlySummaries
                 .NotNull().WithMessage("The TotalIncome field is mandatory");
 
             RuleFor(monthlySummary => monthlySummary.TotalExpense)
-                .NotEmpty().WithMessage("The TotalExpense field is mandatory");
+                .NotNull().WithMessage("The TotalExpense field is mandatory");
 
             RuleFor(monthlySummary => monthlySummary.Balance)
-                .NotEmpty().WithMessage("The Balance field is mandatory");
+                .NotNull().WithMessage("The Balance field is mandatory");
+
+            RuleFor(monthlySummary => monthlySummary)
+                .Must(monthlySummary => ValidateBalance(monthlySummary)).WithMessage("The balance should be the difference between total income and total expense");
+        }
+
+        private static bool ValidateBalance(MonthlySummary monthlySummary)
+        {
+            return monthlySummary.Balance == monthlySummary.TotalIncome - monthlySummary.TotalExpense;
         }
     }
 }

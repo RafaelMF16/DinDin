@@ -1,5 +1,4 @@
 ﻿using DinDin.Domain.MonthlySummaries;
-using DinDin.Infra.Acconts;
 using DinDin.Infra.MonthlySummaries;
 using DinDin.Services.MonthlySummaries;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,7 +32,26 @@ namespace DinDin.Tests.MonthlySummaries
         }
 
         [Fact]
-        public void should_be_able_to_get_all_monthly_summaries_when_calling_get_all()
+        public void The_balance_should_be_the_difference_between_total_income_and_total_expenses_when_creating_a_monthly_summary()
+        {
+            var newMonthlySummary = new MonthlySummary
+            {
+                Id = 1,
+                TotalExpense = 15,
+                TotalIncome = 20,
+            };
+
+            var expectedBalance = 5;
+
+            _monthlySummaryService.Add(newMonthlySummary);
+
+            var dataBaseList = MonthlySummarySingleton.Instance;
+
+            Assert.Equal(expectedBalance, dataBaseList.First().Balance);
+        }
+
+        [Fact]
+        public void Should_be_able_to_get_all_monthly_summaries_when_calling_get_all()
         {
             var monthlySummaryList = CreateMonthlySummaryList();
 
@@ -80,7 +98,7 @@ namespace DinDin.Tests.MonthlySummaries
 
             _monthlySummaryService.Delete(deletedUserId);
 
-            var dataBaseList = AccontSingleton.Instance;
+            var dataBaseList = MonthlySummarySingleton.Instance;
 
             Assert.DoesNotContain(dataBaseList, user => user.Id == deletedUserId);
         }
@@ -101,11 +119,45 @@ namespace DinDin.Tests.MonthlySummaries
             Assert.Equal(expectedListSize, dataBaseList.Count);
         }
 
-        private List<MonthlySummary> CreateMonthlySummaryList()
+        [Fact]
+        public void Must_update_the_total_expense_of_the_monthly_summary_with_id_one()
+        {
+            CreateMonthlySummaryList();
+
+            var updatedMonthlySummary = new MonthlySummary
+            {
+                Id = 1,
+                TotalExpense = 500,
+                TotalIncome = 500
+            };
+
+            _monthlySummaryService.Update(updatedMonthlySummary);
+
+            Assert.Contains(MonthlySummarySingleton.Instance, monthlySummary => monthlySummary == updatedMonthlySummary);
+        }
+
+        [Fact]
+        public void Must_update_the_total_income_of_the_monthly_summary_with_id_one()
+        {
+            CreateMonthlySummaryList();
+
+            var updatedMonthlySummary = new MonthlySummary
+            {
+                Id = 1,
+                TotalExpense = 300,
+                TotalIncome = 600
+            };
+
+            _monthlySummaryService.Update(updatedMonthlySummary);
+
+            Assert.Contains(MonthlySummarySingleton.Instance, monthlySummary => monthlySummary == updatedMonthlySummary);
+        }
+
+        private static List<MonthlySummary> CreateMonthlySummaryList()
         {
             var monthlySummarySingletonList = MonthlySummarySingleton.Instance;
 
-            var monthlySummaryList = new List<MonthlySummary> 
+            var monthlySummaryList = new List<MonthlySummary>
             {
                 new()
                 {

@@ -36,7 +36,9 @@ namespace DinDin.Tests.MonthlySummaries
 
         public void Update(MonthlySummary monthlySummary)
         {
-            throw new NotImplementedException();
+            var dataBaseMonthlySummary = GetById(monthlySummary.Id);
+
+            _instance[_instance.IndexOf(dataBaseMonthlySummary)] = monthlySummary;
         }
     }
 }

@@ -1,20 +1,24 @@
 ﻿using DinDin.Domain.MonthlySummaries;
+using FluentValidation;
 
 namespace DinDin.Services.MonthlySummaries
 {
     public class MonthlySummaryService
     {
         private readonly IMonthlySummaryRepository _monthlySummaryRepository;
+        private readonly IValidator<MonthlySummary> _monthlySummaryValidator;
 
-        public MonthlySummaryService(IMonthlySummaryRepository monthlySummaryRepository)
+        public MonthlySummaryService(IMonthlySummaryRepository monthlySummaryRepository, IValidator<MonthlySummary> monthlySummaryValidator)
         {
             _monthlySummaryRepository = monthlySummaryRepository;
+            _monthlySummaryValidator = monthlySummaryValidator;
         }
 
         public void Add(MonthlySummary monthlySummary)
         {
             try
             {
+                _monthlySummaryValidator.ValidateAndThrow(monthlySummary);
                 _monthlySummaryRepository.Add(monthlySummary);
             }
             catch (Exception exception)
@@ -48,7 +52,15 @@ namespace DinDin.Services.MonthlySummaries
 
         public void Update(MonthlySummary monthlySummary)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _monthlySummaryValidator.ValidateAndThrow(monthlySummary);
+                _monthlySummaryRepository.Update(monthlySummary);
+            }
+            catch (Exception exception)
+            {
+                throw new Exception(exception.Message);
+            }
         }
     }
 }

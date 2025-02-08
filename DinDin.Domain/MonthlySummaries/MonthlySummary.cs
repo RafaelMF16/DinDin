@@ -1,4 +1,4 @@
-﻿using System.Transactions;
+﻿using DinDin.Domain.Transactions;
 
 namespace DinDin.Domain.MonthlySummaries
 {

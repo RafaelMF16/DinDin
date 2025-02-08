@@ -26,6 +26,7 @@ namespace DinDin.Tests
 
             services.AddScoped<MonthlySummaryService>();
             services.AddScoped<IMonthlySummaryRepository, MockMonthlySummaryRepository>();
+            services.AddScoped<IValidator<MonthlySummary>, ValidatorMonthlySummary>();
         }
     }
 }
