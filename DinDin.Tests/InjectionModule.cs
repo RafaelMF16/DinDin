@@ -1,8 +1,11 @@
 ﻿using DinDin.Domain.Acconts;
+using DinDin.Domain.MonthlySummaries;
 using DinDin.Domain.Users;
 using DinDin.Services.Acconts;
+using DinDin.Services.MonthlySummaries;
 using DinDin.Services.Users;
 using DinDin.Tests.Acconts;
+using DinDin.Tests.MonthlySummaries;
 using DinDin.Tests.Users;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,6 +23,10 @@ namespace DinDin.Tests
             services.AddScoped<AccontService>();
             services.AddScoped<IAccontRepository, MockAccontRepository>();
             services.AddScoped<IValidator<Accont>, ValidatorAccont>();
+
+            services.AddScoped<MonthlySummaryService>();
+            services.AddScoped<IMonthlySummaryRepository, MockMonthlySummaryRepository>();
+            services.AddScoped<IValidator<MonthlySummary>, ValidatorMonthlySummary>();
         }
     }
 }

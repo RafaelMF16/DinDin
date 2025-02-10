@@ -1,30 +1,33 @@
 ﻿using DinDin.Domain.Constantes;
 using Raven.Client.Documents;
 
-public class DocumentStoreHolder
+namespace DinDin.Infra.RavenDB
 {
-    private static readonly Lazy<IDocumentStore> _store = new Lazy<IDocumentStore>(CreateDocumentStore);
-
-    private static IDocumentStore CreateDocumentStore()
+    public class DocumentStoreHolder
     {
-        var serverURL = Environment.GetEnvironmentVariable(ApplicationConstants.SERVER_URL_ENVIRONMENT_VARIABLE)
-            ?? throw new Exception($"Environment variable [{ApplicationConstants.SERVER_URL_ENVIRONMENT_VARIABLE}] not found");
+        private static readonly Lazy<IDocumentStore> _store = new(CreateDocumentStore);
 
-        var databaseName = Environment.GetEnvironmentVariable(ApplicationConstants.DATABASE_NAME_ENVIRONMENT_VARIABLE)
-            ?? throw new Exception($"Environment variable [{ApplicationConstants.DATABASE_NAME_ENVIRONMENT_VARIABLE}] not found");
-
-        IDocumentStore documentStore = new DocumentStore
+        private static IDocumentStore CreateDocumentStore()
         {
-            Urls = new[] { serverURL },
-            Database = databaseName
-        };
+            var serverURL = Environment.GetEnvironmentVariable(ApplicationConstants.SERVER_URL_ENVIRONMENT_VARIABLE)
+                ?? throw new Exception($"Environment variable [{ApplicationConstants.SERVER_URL_ENVIRONMENT_VARIABLE}] not found");
 
-        documentStore.Initialize();
-        return documentStore;
-    }
+            var databaseName = Environment.GetEnvironmentVariable(ApplicationConstants.DATABASE_NAME_ENVIRONMENT_VARIABLE)
+                ?? throw new Exception($"Environment variable [{ApplicationConstants.DATABASE_NAME_ENVIRONMENT_VARIABLE}] not found");
 
-    public static IDocumentStore Store
-    {
-        get { return _store.Value; }
+            var documentStore = new DocumentStore
+            {
+                Urls = [serverURL],
+                Database = databaseName
+            };
+
+            documentStore.Initialize();
+            return documentStore;
+        }
+
+        public static IDocumentStore Store
+        {
+            get { return _store.Value; }
+        }
     }
 }
