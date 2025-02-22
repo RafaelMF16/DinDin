@@ -8,5 +8,13 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  isLogin: boolean = true;
 
+  onClickInSignUp(): void{
+    this.isLogin = false;
+  }
+
+  onClickInSignIn(): void {
+    this.isLogin = true;
+  }
 }
