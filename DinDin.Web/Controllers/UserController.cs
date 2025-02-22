@@ -2,7 +2,9 @@
 
 namespace DinDin.Web.Controllers
 {
-    public class UserController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
     {
         
     }

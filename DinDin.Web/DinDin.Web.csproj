@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Ben.Demystifier" Version="0.4.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DinDin.Domain\DinDin.Domain.csproj" />
+    <ProjectReference Include="..\DinDin.Infra\DinDin.Infra.csproj" />
+    <ProjectReference Include="..\DinDin.Services\DinDin.Services.csproj" />
   </ItemGroup>
 
 </Project>
