@@ -7,17 +7,6 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent implements OnInit{
-  sumir: boolean = true;
-  
-  loginForms!: FormGroup;
+export class LoginComponent {
 
-  constructor(private formBuilder: FormBuilder){}
-
-  ngOnInit(): void {
-    this.loginForms = this.formBuilder.group({
-      email: [],
-      password: []
-    })
-  }
 }
