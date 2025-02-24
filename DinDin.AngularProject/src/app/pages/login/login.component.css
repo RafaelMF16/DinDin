@@ -23,7 +23,7 @@ body {
     position: relative;
 }
 
-.content::before {
+/* .content::before {
     content: "";
     position: absolute;
     background-color: #58af9b;
@@ -32,6 +32,18 @@ body {
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     left: 60%;
+} */
+
+.background-interactive {
+    position: absolute;
+    background-color: #58af9b;
+    width: 40%;
+    height: 100%;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    left: 60%;
+    z-index: 1;
+    border-right: 30%;
 }
 
 .title {
@@ -190,10 +202,14 @@ body {
     z-index: -1;
 }
 
-.isRegister .content::before {
+.isRegister .background-interactive {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
-    left: 0;
+    left: 0%;
+}
+
+.isLogin .content::before {
+    animation: teste 0.9s;
 }
