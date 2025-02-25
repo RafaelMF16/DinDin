@@ -23,29 +23,6 @@ body {
     position: relative;
 }
 
-/* .content::before {
-    content: "";
-    position: absolute;
-    background-color: #58af9b;
-    width: 40%;
-    height: 100%;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    left: 60%;
-} */
-
-.background-interactive {
-    position: absolute;
-    background-color: #58af9b;
-    width: 40%;
-    height: 100%;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    left: 60%;
-    z-index: 1;
-    border-right: 30%;
-}
-
 .title {
     font-size: 28px;
     font-weight: bold;
@@ -114,14 +91,9 @@ body {
     display: flex;
 }
 
-.first-content .second-column {
-    z-index: 11;
-}
-
 .first-column {
     text-align: center;
     width: 40%;
-    z-index: 10;
 }
 
 .second-column {
@@ -164,12 +136,6 @@ body {
 
 .second-content .first-column {
     order: 2;
-    z-index: -1;
-}
-
-.second-content .second-column {
-    order: 1;
-    z-index: -1;
 }
 
 .forgot-password {
@@ -200,16 +166,4 @@ body {
 .isRegister .second-content .first-column,
 .isRegister .second-content .second-column {
     z-index: -1;
-}
-
-.isRegister .background-interactive {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-    left: 0%;
-}
-
-.isLogin .content::before {
-    animation: teste 0.9s;
 }

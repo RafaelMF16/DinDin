@@ -1,7 +1,7 @@
 <body [ngClass]="{'isRegister' : !isLogin, 'isLogin' : isLogin}">
     <div class="container">
         <div class="content first-content">
-            <div class="background-interactive"></div>
+            <div [@backgroundSlide]="isLogin ? 'login' : 'register'"></div>
 
             <div class="first-column">
                 <h2 class="title title-primary">welcome back!</h2>
