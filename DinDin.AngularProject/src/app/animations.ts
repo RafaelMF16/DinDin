@@ -2,30 +2,15 @@ import { animate, keyframes, state, style, transition, trigger } from "@angular/
 
 export const slideContentTrigger = trigger('backgroundSlide', [
     state('login', style({
-        position: 'absolute',
-        backgroundColor: '#58af9b',
-        width: '40%',
-        height: '100%',
-        borderTopRightRadius: '15px',
-        borderBottomRightRadius: '15px',
         left: '60%',
-        zIndex: '1'
     })),
     state('register', style({
-        position: 'absolute',
-        backgroundColor: '#58af9b',
-        width: '40%',
-        height: '100%',
-        borderTopRightRadius: '0',
-        borderBottomRightRadius: '0',
         left: '0',
-        zIndex: '1',
-        borderTopLeftRadius: '15px',
-        borderBottomLeftRadius: '15px'
     })),
     transition('login => register', [
         animate('0.9s', keyframes([
             style({
+                zIndex: 2,
                 width: '40%',
                 left: '60%',
                 offset: 0
@@ -76,6 +61,7 @@ export const slideContentTrigger = trigger('backgroundSlide', [
                 offset: 0.9
             }),
             style({
+                zIndex: 1,
                 width: '40%',
                 left: '0',
                 offset: 1
@@ -85,6 +71,7 @@ export const slideContentTrigger = trigger('backgroundSlide', [
     transition('register => login', [
         animate('0.9s', keyframes([
             style({
+                zIndex: 2,
                 width: '40%',
                 left: '0',
                 offset: 0
@@ -135,6 +122,7 @@ export const slideContentTrigger = trigger('backgroundSlide', [
                 offset: 0.9
             }),
             style({
+                zIndex: 1,
                 width: '40%',
                 left: '60%',
                 offset: 1
