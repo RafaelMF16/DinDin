@@ -163,21 +163,21 @@ body {
     z-index: -1;
 }
 
+.isRegister .login-content .first-column,
+.isRegister .login-content .second-column {
+    z-index: -1;
+}
+
 .isLogin .login-content .first-column {
-    z-index: 2;
+    z-index: 1;
 }
 
 .isRegister .register-content .first-column {
-    z-index: 2;
+    z-index: 1;
 }
 
 .isRegister .register-content .second-column {
     z-index: 1;
-}
-
-.isRegister .login-content .first-column,
-.isRegister .login-content .second-column {
-    z-index: -1;
 }
 
 .isRegister .background-interactive {
@@ -217,6 +217,7 @@ body {
         border-bottom-right-radius: 15px;
         border-bottom-left-radius: 15px;
         border-top-right-radius: 0;     
+        border-top-left-radius: 0;     
     }
 }
 
