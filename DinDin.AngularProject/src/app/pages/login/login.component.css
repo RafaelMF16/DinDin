@@ -123,6 +123,10 @@ body {
     color: #58af9b;
 }
 
+.btn-disabled {
+    color: gray;
+}
+
 .form {
     display: flex;
     flex-direction: column;
@@ -186,6 +190,11 @@ body {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     left: 0;
+}
+
+.error-message {
+    font-size: 12px;
+    color: red;
 }
 
 /* SMALL SCREENS */
