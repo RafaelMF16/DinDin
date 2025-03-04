@@ -1,5 +1,6 @@
 ﻿using DinDin.Domain.Users;
 using DinDin.Infra.Users;
+using DinDin.Services.Auth;
 using DinDin.Services.Users;
 using FluentValidation;
 
@@ -14,6 +15,7 @@ namespace DinDin.Web
             builder.Services.AddSwaggerGen();
 
             builder.Services.AddScoped<UserService>();
+            builder.Services.AddScoped<AuthService>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IValidator<User>, ValidatorUser>();
         }

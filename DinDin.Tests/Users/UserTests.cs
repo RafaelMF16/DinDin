@@ -22,7 +22,7 @@ namespace DinDin.Tests.Users
             var newUser = new User 
             {
                 Name = "Test",
-                Login = "login",
+                Email = "login@email.com",
                 Password = "password",
                 CreationDate = DateTime.UtcNow
             };
@@ -39,9 +39,9 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = 1,
+                UserId = 1,
                 Name = name,
-                Login = "login",
+                Email = "login@email.com",
                 Password = "password",
                 CreationDate = DateTime.UtcNow
             };
@@ -60,9 +60,9 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = 1,
+                UserId = 1,
                 Name = name,
-                Login = "login",
+                Email = "login@email.com",
                 Password = "password",
                 CreationDate = DateTime.UtcNow
             };
@@ -77,18 +77,18 @@ namespace DinDin.Tests.Users
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        public void When_trying_to_create_a_user_with_a_login_of_null_or_empty_a_validation_error_must_be_returned(string? login)
+        public void When_trying_to_create_a_user_with_a_email_of_null_or_empty_a_validation_error_must_be_returned(string? email)
         {
             var newUser = new User
             {
-                Id = 1,
+                UserId = 1,
                 Name = "Rafael",
-                Login = login,
+                Email = email,
                 Password = "password",
                 CreationDate = DateTime.UtcNow
             };
 
-            const string errorMessageExpected = "The Login field is mandatory";
+            const string errorMessageExpected = "The Email field is mandatory";
 
             var errorMessage = Assert.Throws<FluentValidation.ValidationException>(() => _userService.Add(newUser));
 
@@ -96,20 +96,41 @@ namespace DinDin.Tests.Users
         }
 
         [Theory]
-        [InlineData("Intelligent System for Personal Finance Management and Control with Advanced and Fully Customizable Features")]
-        [InlineData("Comprehensive Financial Organization Platform for Users Focused on Income, Expenses, and Strategic Planning")]
-        public void When_trying_to_create_a_user_with_a_login_of_more_than_hundred_characters_a_validation_error_must_be_returned(string login)
+        [InlineData("IntelligentSystemforPersonalFinanceManagementandControlwithAdvancedandFullyCustomizableFeatures@email.com")]
+        [InlineData("ComprehensiveFinancialOrganizationPlatformforUsersFocusedonIncomeExpensesandStrategicPlanning@email.com")]
+        public void When_trying_to_create_a_user_with_a_email_of_more_than_hundred_characters_a_validation_error_must_be_returned(string email)
         {
             var newUser = new User
             {
-                Id = 1,
+                UserId = 1,
                 Name = "Rafael",
-                Login = login,
+                Email = email,
                 Password = "password",
                 CreationDate = DateTime.UtcNow
             };
 
-            const string errorMessageExpected = "The Login field can contain a maximum of 100 characters";
+            const string errorMessageExpected = "The Email field can contain a maximum of 100 characters";
+
+            var errorMessage = Assert.Throws<FluentValidation.ValidationException>(() => _userService.Add(newUser));
+
+            Assert.Equal(errorMessageExpected, errorMessage.Errors.First().ErrorMessage);
+        }
+
+        [Theory]
+        [InlineData("Email")]
+        [InlineData("EmailInvalid")]
+        public void When_trying_to_create_a_user_with_a_email_invalid_validation_error_must_be_returned(string email)
+        {
+            var newUser = new User
+            {
+                UserId = 1,
+                Name = "Rafael",
+                Email = email,
+                Password = "password",
+                CreationDate = DateTime.UtcNow
+            };
+
+            const string errorMessageExpected = "Email Invalid";
 
             var errorMessage = Assert.Throws<FluentValidation.ValidationException>(() => _userService.Add(newUser));
 
@@ -123,9 +144,9 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = 1,
+                UserId = 1,
                 Name = "Rafael",
-                Login = "login",
+                Email = "login@email.com",
                 Password = password,
                 CreationDate = DateTime.UtcNow
             };
@@ -146,9 +167,9 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = 1,
+                UserId = 1,
                 Name = "Test",
-                Login = "login",
+                Email = "login@email.com",
                 Password = password,
                 CreationDate = DateTime.UtcNow
             };
@@ -168,9 +189,9 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = 1,
+                UserId = 1,
                 Name = "Test",
-                Login = "login",
+                Email = "login@email.com",
                 Password = password,
                 CreationDate = DateTime.UtcNow
             };
@@ -191,7 +212,7 @@ namespace DinDin.Tests.Users
             var newUser = new User
             {
                 Name = "Test",
-                Login = "login",
+                Email = "login@email.com",
                 Password = "password",
                 CreationDate = DateTime.Parse(creationDate).ToUniversalTime()
             };
@@ -215,7 +236,7 @@ namespace DinDin.Tests.Users
 
             var dataBaseUser = _userService.GetById(id);
 
-            Assert.Equal(expectedId, dataBaseUser.Id);
+            Assert.Equal(expectedId, dataBaseUser.UserId);
         }
 
         [Theory]
@@ -244,7 +265,7 @@ namespace DinDin.Tests.Users
 
             var dataBaseList = UserSingleton.Instance;
 
-            Assert.DoesNotContain(dataBaseList, user => user.Id == deletedUserId);
+            Assert.DoesNotContain(dataBaseList, user => user.UserId == deletedUserId);
         }
 
         [Fact]
@@ -272,9 +293,9 @@ namespace DinDin.Tests.Users
 
             var updatedUser = new User
             {
-                Id = 1,
+                UserId = 1,
                 Name = "Updated User",
-                Login = "Login",
+                Email = "Login@email.com",
                 Password = "password",
                 CreationDate = DateTime.Parse("06/11/2024").ToUniversalTime()
             };
@@ -293,9 +314,9 @@ namespace DinDin.Tests.Users
 
             var updatedUser = new User
             {
-                Id = 1,
+                UserId = 1,
                 Name = "User",
-                Login = "Login",
+                Email = "Login@email.com",
                 Password = "wordpass",
                 CreationDate = DateTime.Parse("06/11/2024").ToUniversalTime()
             };
@@ -313,27 +334,27 @@ namespace DinDin.Tests.Users
             {
                 new()
                 {
-                    Id = 1,
+                    UserId = 1,
                     Name = "User",
-                    Login = "Login",
+                    Email = "Login@email.com",
                     Password = "password",
                     CreationDate = DateTime.Parse("06/11/2024").ToUniversalTime()
                 },
 
                 new()
                 {
-                    Id = 2,
+                    UserId = 2,
                     Name = "User02",
-                    Login = "Login02",
+                    Email = "Login02@email.com",
                     Password = "password02",
                     CreationDate = DateTime.Parse("11/16/2023").ToUniversalTime()
                 },
 
                 new()
                 {
-                    Id = 3,
+                    UserId = 3,
                     Name = "User03",
-                    Login = "Login03",
+                    Email = "Login03@email.com",
                     Password = "password03",
                     CreationDate = DateTime.UtcNow
                 }

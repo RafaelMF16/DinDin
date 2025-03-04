@@ -1,4 +1,6 @@
 ﻿using DinDin.Domain.Users;
+using DinDin.Infra.RavenDB;
+using Raven.Client.Documents.Session;
 
 namespace DinDin.Infra.Users
 {
@@ -6,7 +8,11 @@ namespace DinDin.Infra.Users
     {
         public void Add(User user)
         {
-            throw new NotImplementedException();
+            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
+            {
+                session.Store(user);
+                session.SaveChanges();
+            }
         }
 
         public void Delete(int id)

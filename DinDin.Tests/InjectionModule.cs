@@ -2,6 +2,7 @@
 using DinDin.Domain.MonthlySummaries;
 using DinDin.Domain.Users;
 using DinDin.Services.Acconts;
+using DinDin.Services.Auth;
 using DinDin.Services.MonthlySummaries;
 using DinDin.Services.Users;
 using DinDin.Tests.Acconts;
@@ -16,6 +17,8 @@ namespace DinDin.Tests
     {
         public static void AddServicesInScope(IServiceCollection services)
         {
+            services.AddScoped<AuthService>();
+
             services.AddScoped<UserService>();
             services.AddScoped<IUserRepository, MockUserRepository>();
             services.AddScoped<IValidator<User>, ValidatorUser>();

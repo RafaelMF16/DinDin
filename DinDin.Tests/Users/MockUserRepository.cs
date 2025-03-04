@@ -26,12 +26,12 @@ namespace DinDin.Tests.Users
 
         public User GetById(int id)
         {
-            return _instance.Find(user => user.Id == id);
+            return _instance.Find(user => user.UserId == id);
         }
 
         public void Update(User user)
         {
-            var dataBaseUser = GetById(user.Id);
+            var dataBaseUser = GetById(user.UserId);
 
             _instance[_instance.IndexOf(dataBaseUser)] = user;
         }
