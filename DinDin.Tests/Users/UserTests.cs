@@ -41,7 +41,7 @@ namespace DinDin.Tests.Users
             {
                 UserId = 1,
                 Name = name,
-                Email = "login",
+                Email = "login@email.com",
                 Password = "password",
                 CreationDate = DateTime.UtcNow
             };
@@ -62,7 +62,7 @@ namespace DinDin.Tests.Users
             {
                 UserId = 1,
                 Name = name,
-                Email = "login",
+                Email = "login@email.com",
                 Password = "password",
                 CreationDate = DateTime.UtcNow
             };
@@ -77,13 +77,13 @@ namespace DinDin.Tests.Users
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        public void When_trying_to_create_a_user_with_a_email_of_null_or_empty_a_validation_error_must_be_returned(string? login)
+        public void When_trying_to_create_a_user_with_a_email_of_null_or_empty_a_validation_error_must_be_returned(string? email)
         {
             var newUser = new User
             {
                 UserId = 1,
                 Name = "Rafael",
-                Email = login,
+                Email = email,
                 Password = "password",
                 CreationDate = DateTime.UtcNow
             };
@@ -98,13 +98,13 @@ namespace DinDin.Tests.Users
         [Theory]
         [InlineData("IntelligentSystemforPersonalFinanceManagementandControlwithAdvancedandFullyCustomizableFeatures@email.com")]
         [InlineData("ComprehensiveFinancialOrganizationPlatformforUsersFocusedonIncomeExpensesandStrategicPlanning@email.com")]
-        public void When_trying_to_create_a_user_with_a_email_of_more_than_hundred_characters_a_validation_error_must_be_returned(string login)
+        public void When_trying_to_create_a_user_with_a_email_of_more_than_hundred_characters_a_validation_error_must_be_returned(string email)
         {
             var newUser = new User
             {
                 UserId = 1,
                 Name = "Rafael",
-                Email = login,
+                Email = email,
                 Password = "password",
                 CreationDate = DateTime.UtcNow
             };
@@ -119,13 +119,13 @@ namespace DinDin.Tests.Users
         [Theory]
         [InlineData("Email")]
         [InlineData("EmailInvalid")]
-        public void When_trying_to_create_a_user_with_a_email_invalid_validation_error_must_be_returned(string login)
+        public void When_trying_to_create_a_user_with_a_email_invalid_validation_error_must_be_returned(string email)
         {
             var newUser = new User
             {
                 UserId = 1,
                 Name = "Rafael",
-                Email = login,
+                Email = email,
                 Password = "password",
                 CreationDate = DateTime.UtcNow
             };
