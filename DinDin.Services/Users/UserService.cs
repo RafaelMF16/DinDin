@@ -1,4 +1,5 @@
 ﻿using DinDin.Domain.Users;
+using DinDin.Services.Auth;
 using FluentValidation;
 
 namespace DinDin.Services.Users
@@ -7,11 +8,16 @@ namespace DinDin.Services.Users
     {
         private readonly IUserRepository _userRepository;
         private readonly IValidator<User> _userValidator;
+        private readonly AuthService _authService;
 
-        public UserService(IUserRepository userRepository, IValidator<User> userValidator)
+        public UserService(
+            IUserRepository userRepository, 
+            IValidator<User> userValidator,
+            AuthService authService)
         {
             _userRepository = userRepository;
             _userValidator = userValidator;
+            _authService = authService;
         }
 
         public void Add(User user)
@@ -19,6 +25,7 @@ namespace DinDin.Services.Users
             try
             {
                 _userValidator.ValidateAndThrow(user);
+                user.Password = _authService.HashPassword(user.Password);
                 _userRepository.Add(user);
             }
             catch (ValidationException validationException)

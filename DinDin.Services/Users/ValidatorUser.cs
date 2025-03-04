@@ -17,9 +17,10 @@ namespace DinDin.Services.Users
                 .NotEmpty().WithMessage("The Name field is mandatory")
                 .MaximumLength(100).WithMessage("The Name field can contain a maximum of 100 characters");
 
-            RuleFor(user => user.Login)
-                .NotEmpty().WithMessage("The Login field is mandatory")
-                .MaximumLength(100).WithMessage("The Login field can contain a maximum of 100 characters");
+            RuleFor(user => user.Email)
+                .NotEmpty().WithMessage("The Email field is mandatory")
+                .EmailAddress().WithMessage("Email Invalid")
+                .MaximumLength(100).WithMessage("The Email field can contain a maximum of 100 characters");
 
             RuleFor(user => user.Password)
                 .NotEmpty().WithMessage("The Password field is mandatory")
@@ -34,11 +35,11 @@ namespace DinDin.Services.Users
         {
             const int idNull = 0;
 
-            if (user.Id == idNull)
+            if (user.UserId == idNull)
                 return user.CreationDate.Date == DateTime.UtcNow.Date;
 
-            var dataBaseUser = _userRepository.GetById(user.Id)
-                ?? throw new ArgumentNullException($"Not find user with id: {user.Id}");
+            var dataBaseUser = _userRepository.GetById(user.UserId)
+                ?? throw new ArgumentNullException($"Not find user with id: {user.UserId}");
 
             return user.CreationDate.Date == dataBaseUser.CreationDate.Date;
         }
