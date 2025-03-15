@@ -1,4 +1,6 @@
 ﻿using DinDin.Domain.Users;
+using DinDin.Infra.RavenDB.Extensions;
+using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 
 namespace DinDin.Infra.Users
@@ -26,6 +28,11 @@ namespace DinDin.Infra.Users
         public User GetById(string id)
         {
             throw new NotImplementedException();
+        }
+
+        public Task<User> GetUserByEmail(string email)
+        {
+            return _session.Users().WithEmail(email).FirstOrDefaultAsync();
         }
 
         public void Update(User user)

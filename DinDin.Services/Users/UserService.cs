@@ -1,6 +1,12 @@
-﻿using DinDin.Domain.Users;
+﻿using DinDin.Domain.Constantes;
+using System.Text;
+using DinDin.Domain.Users;
 using DinDin.Services.Auth;
 using FluentValidation;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
+using System.Reflection.Metadata.Ecma335;
 
 namespace DinDin.Services.Users
 {
@@ -71,6 +77,33 @@ namespace DinDin.Services.Users
             {
                 throw new Exception(exception.Message);
             }
+        }
+
+        public async Task<string> AuthenticateUser(string email, string password)
+        {
+            var user = await _userRepository.GetUserByEmail(email);
+
+            if (user == null || !_authService.VerifyPassword(password, user.Password))
+                return null;
+
+            var secretKey = Environment.GetEnvironmentVariable(ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE)
+                ?? throw new Exception($"Environment variable [{ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE}] not found");
+
+            var encodedSecretKey = Encoding.ASCII.GetBytes(secretKey);
+            var tokenConfig = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new (ClaimTypes.NameIdentifier, user.Id!)
+                }),
+                Expires = DateTime.UtcNow.AddHours(2),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(encodedSecretKey), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenConfig);
+
+            return tokenHandler.WriteToken(token);
         }
     }
 }

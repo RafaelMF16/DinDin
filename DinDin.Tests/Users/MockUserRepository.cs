@@ -29,6 +29,11 @@ namespace DinDin.Tests.Users
             return _instance.Find(user => user.Id == id);
         }
 
+        public Task<User> GetUserByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(User user)
         {
             var dataBaseUser = GetById(user.Id!);

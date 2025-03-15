@@ -6,5 +6,6 @@
         Task Add(User user);
         void Update(User user);
         void Delete(string id);
+        Task<User> GetUserByEmail(string email);
     }
 }
