@@ -1,26 +1,29 @@
 ﻿using DinDin.Domain.Users;
-using DinDin.Infra.RavenDB;
 using Raven.Client.Documents.Session;
 
 namespace DinDin.Infra.Users
 {
     public class UserRepository : IUserRepository
     {
-        public void Add(User user)
+        private readonly IAsyncDocumentSession _session;
+
+        public UserRepository(IAsyncDocumentSession session)
         {
-            using (IDocumentSession session = DocumentStoreHolder.Store.OpenSession())
-            {
-                session.Store(user);
-                session.SaveChanges();
-            }
+            _session = session;
         }
 
-        public void Delete(int id)
+        public async Task Add(User user)
+        {
+            await _session.StoreAsync(user);
+            await _session.SaveChangesAsync();
+        }
+
+        public void Delete(string id)
         {
             throw new NotImplementedException();
         }
 
-        public User GetById(int id)
+        public User GetById(string id)
         {
             throw new NotImplementedException();
         }

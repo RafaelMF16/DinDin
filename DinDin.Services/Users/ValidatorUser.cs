@@ -33,13 +33,11 @@ namespace DinDin.Services.Users
 
         private bool ValidateUserCreationDate(User user)
         {
-            const int idNull = 0;
-
-            if (user.UserId == idNull)
+            if (string.IsNullOrEmpty(user.Id))
                 return user.CreationDate.Date == DateTime.UtcNow.Date;
 
-            var dataBaseUser = _userRepository.GetById(user.UserId)
-                ?? throw new ArgumentNullException($"Not find user with id: {user.UserId}");
+            var dataBaseUser = _userRepository.GetById(user.Id)
+                ?? throw new ArgumentNullException($"Not find user with id: {user.Id}");
 
             return user.CreationDate.Date == dataBaseUser.CreationDate.Date;
         }

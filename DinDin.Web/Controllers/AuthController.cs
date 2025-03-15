@@ -1,5 +1,6 @@
 ﻿using DinDin.Domain.Users;
 using DinDin.Services.Users;
+using DinDin.Web.DTOS;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DinDin.Web.Controllers
@@ -16,10 +17,17 @@ namespace DinDin.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Register([FromBody] User newUser)
+        public async Task<IActionResult> Register([FromBody] UserDto newUserDto)
         {
-            _userService.Add(newUser);
-            return Created();
+            var newUser = new User
+            {
+                Name = newUserDto.Name,
+                Email = newUserDto.Email,
+                Password = newUserDto.Password
+            };
+
+            await _userService.Add(newUser);
+            return Ok();
         }
     }
 }

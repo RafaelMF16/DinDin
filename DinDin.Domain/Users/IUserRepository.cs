@@ -2,9 +2,9 @@
 {
     public interface IUserRepository
     {
-        User GetById(int id);
-        void Add(User user);
+        User GetById(string id);
+        Task Add(User user);
         void Update(User user);
-        void Delete(int id);
+        void Delete(string id);
     }
 }

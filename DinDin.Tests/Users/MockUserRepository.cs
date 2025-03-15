@@ -12,26 +12,26 @@ namespace DinDin.Tests.Users
             _instance = UserSingleton.Instance;
         }
 
-        public void Add(User user)
+        public async Task Add(User user)
         {
             _instance.Add(user);
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             var userThatWillBeDeleted = GetById(id);
 
             _instance.Remove(userThatWillBeDeleted);
         }
 
-        public User GetById(int id)
+        public User GetById(string id)
         {
-            return _instance.Find(user => user.UserId == id);
+            return _instance.Find(user => user.Id == id);
         }
 
         public void Update(User user)
         {
-            var dataBaseUser = GetById(user.UserId);
+            var dataBaseUser = GetById(user.Id!);
 
             _instance[_instance.IndexOf(dataBaseUser)] = user;
         }

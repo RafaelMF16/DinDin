@@ -20,13 +20,13 @@ namespace DinDin.Services.Users
             _authService = authService;
         }
 
-        public void Add(User user)
+        public async Task Add(User user)
         {
             try
             {
                 _userValidator.ValidateAndThrow(user);
                 user.Password = _authService.HashPassword(user.Password);
-                _userRepository.Add(user);
+                await _userRepository.Add(user);
             }
             catch (ValidationException validationException)
             {
@@ -38,13 +38,13 @@ namespace DinDin.Services.Users
             }
         }
 
-        public User GetById(int id)
+        public User GetById(string id)
         {
             return _userRepository.GetById(id)
                 ?? throw new ArgumentNullException($"Not find user with id: {id}");
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             try
             {

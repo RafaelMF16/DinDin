@@ -7,7 +7,7 @@ namespace DinDin.Infra.RavenDB
     {
         private static readonly Lazy<IDocumentStore> _store = new(CreateDocumentStore);
 
-        private static IDocumentStore CreateDocumentStore()
+        private static DocumentStore CreateDocumentStore()
         {
             var serverURL = Environment.GetEnvironmentVariable(ApplicationConstants.SERVER_URL_ENVIRONMENT_VARIABLE)
                 ?? throw new Exception($"Environment variable [{ApplicationConstants.SERVER_URL_ENVIRONMENT_VARIABLE}] not found");
