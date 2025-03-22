@@ -9,16 +9,18 @@ using DinDin.Tests.Acconts;
 using DinDin.Tests.MonthlySummaries;
 using DinDin.Tests.Users;
 using FluentValidation;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DinDin.Tests
 {
     public static class InjectionModule
     {
-        public static void AddServicesInScope(IServiceCollection services)
+        public static void AddServicesInScope(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<AuthService>();
+            services.AddSingleton<IConfiguration>(configuration);
 
+            services.AddScoped<AuthService>();
             services.AddScoped<UserService>();
             services.AddScoped<IUserRepository, MockUserRepository>();
             services.AddScoped<IValidator<User>, ValidatorUser>();

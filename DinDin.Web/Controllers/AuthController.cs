@@ -16,8 +16,8 @@ namespace DinDin.Web.Controllers
             _userService = userService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Register([FromBody] UserDto newUserDto)
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] RegisterDto newUserDto)
         {
             var newUser = new User
             {
@@ -28,6 +28,16 @@ namespace DinDin.Web.Controllers
 
             await _userService.Add(newUser);
             return Ok();
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
+        {
+            var token = await _userService.AuthenticateUser(loginDto.Email, loginDto.Password);
+            if (token == null)
+                return Unauthorized(new { message = "Incorrect email or password" });
+
+            return Ok(new { Token = token});
         }
     }
 }

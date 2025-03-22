@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DinDin.Tests
 {
@@ -8,8 +9,10 @@ namespace DinDin.Tests
 
         public BaseTest()
         {
+            var configuration = new ConfigurationBuilder()
+                .AddEnvironmentVariables().Build();
             var services = new ServiceCollection();
-            InjectionModule.AddServicesInScope(services);
+            InjectionModule.AddServicesInScope(services, configuration);
             ServiceProvider = services.BuildServiceProvider();
         }
         public void Dispose()
