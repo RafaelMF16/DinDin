@@ -53,6 +53,10 @@ namespace DinDin.Web
                     ClockSkew = TimeSpan.Zero
                 };
             });
+
+            builder.Configuration
+                .AddJsonFile(ApplicationConstants.APP_SETTINGS_NAME, optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables();
         }
     }
 }

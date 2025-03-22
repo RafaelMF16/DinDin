@@ -20,6 +20,7 @@ namespace DinDin.Services.Users
             RuleFor(user => user.Email)
                 .NotEmpty().WithMessage("The Email field is mandatory")
                 .EmailAddress().WithMessage("Email Invalid")
+                .MustAsync(ValidateIfEmailHasAlreadyBeenRegistered).WithMessage("Email has already regitered")
                 .MaximumLength(100).WithMessage("The Email field can contain a maximum of 100 characters");
 
             RuleFor(user => user.Password)
@@ -29,6 +30,12 @@ namespace DinDin.Services.Users
 
             RuleFor(user => user)
                 .Must(user => ValidateUserCreationDate(user)).WithMessage("The Creation Date not is valid");
+        }
+
+        private async Task<bool> ValidateIfEmailHasAlreadyBeenRegistered(string email, CancellationToken cancellationToken)
+        {
+            var user = await _userRepository.GetUserByEmail(email);
+            return user == null;
         }
 
         private bool ValidateUserCreationDate(User user)

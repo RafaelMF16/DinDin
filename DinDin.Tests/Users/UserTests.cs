@@ -3,6 +3,8 @@ using DinDin.Infra.Users;
 using DinDin.Services.Users;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json.Linq;
+using Raven.Client.Documents.Operations.ETL.ElasticSearch;
 
 namespace DinDin.Tests.Users
 {
@@ -225,6 +227,26 @@ namespace DinDin.Tests.Users
             Assert.Equal(errorMessageExpected, validationException.Errors.First().ErrorMessage);
         }
 
+        [Fact]
+        public async Task When_trying_to_create_a_user_with_a_email_already_been_registered_must_return_a_validation_error()
+        {
+            CreateUsersList();
+
+            var newUser = new User
+            {
+                Name = "Test",
+                Email = "Login@email.com",
+                Password = "password",
+                CreationDate = DateTime.UtcNow
+            };
+
+            const string errorMessageExpected = "Email has already regitered";
+
+            var validationException = await Assert.ThrowsAsync<ValidationException>(() => _userService.Add(newUser));
+
+            Assert.Equal(errorMessageExpected, validationException.Errors.First().ErrorMessage);
+        }
+
         [Theory]
         [InlineData("User-1")]
         [InlineData("User-2")]
@@ -241,9 +263,9 @@ namespace DinDin.Tests.Users
         }
 
         [Theory]
-        [InlineData("User-4")]
         [InlineData("User-5")]
         [InlineData("User-6")]
+        [InlineData("User-7")]
         public void Get_by_id_must_throw_exception_if_id_is_null(string id)
         {
             CreateUsersList();
@@ -327,6 +349,43 @@ namespace DinDin.Tests.Users
             Assert.Contains(UserSingleton.Instance, user => user == updatedUser);
         }
 
+        [Fact]
+        public async Task Must_return_token_when_authenticating_user()
+        {
+            CreateUsersList();
+            const string email = "Login04@email.com";
+            const string password = "12345678";
+
+            var token = await _userService.AuthenticateUser(email, password);
+
+            Assert.NotNull(token);
+            Assert.IsType<string>(token);
+        }
+
+        [Fact]
+        public async Task Must_return_null_when_try_authenticating_user_not_registered()
+        {
+            CreateUsersList();
+            const string email = "NotRegistered@email.com";
+            const string password = "12345678";
+
+            var token = await _userService.AuthenticateUser(email, password);
+
+            Assert.Null(token);
+        }
+
+        [Fact]
+        public async Task Must_return_null_when_try_authenticating_user_with_incorrect_password()
+        {
+            CreateUsersList();
+            const string email = "Login04@email.com";
+            const string password = "incorrectPassword";
+
+            var token = await _userService.AuthenticateUser(email, password);
+
+            Assert.Null(token);
+        }
+
         private static void CreateUsersList()
         {
             var UsersSingletonList = UserSingleton.Instance;
@@ -357,6 +416,15 @@ namespace DinDin.Tests.Users
                     Name = "User03",
                     Email = "Login03@email.com",
                     Password = "password03",
+                    CreationDate = DateTime.UtcNow
+                },
+
+                new()
+                {
+                    Id = "User-4",
+                    Name = "User04",
+                    Email = "Login04@email.com",
+                    Password = "$2a$12$YtdqEcInr9hcUwFLpH3.EuKnbVaGIpxY68OFOZ7IHSMLyMet/pvCS",
                     CreationDate = DateTime.UtcNow
                 }
             };
