@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { slideContentTrigger } from '../../animations';
+import { HttpService } from '../../services/httpService/http-service.service';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -15,18 +17,18 @@ export class LoginComponent implements OnInit {
   registerForm!: FormGroup;
   isLogin: boolean = true;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private httpService: HttpService) { }
   
   ngOnInit(): void {
     this.initializeForms();
   }
 
-  initializeForms(): void {
+  private initializeForms(): void {
     this.initializeLoginForms();
     this.initializeRegisterForms();
   }
 
-  initializeLoginForms(): void {
+  private initializeLoginForms(): void {
     this.loginForm = this.formBuilder.group({
       email: ['', Validators.compose([
         Validators.required,
@@ -41,7 +43,7 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  initializeRegisterForms(): void {
+  private initializeRegisterForms(): void {
     this.registerForm = this.formBuilder.group({
       name: ['', Validators.compose([
         Validators.required,
@@ -66,5 +68,17 @@ export class LoginComponent implements OnInit {
 
   onClickInSignIn(): void {
     this.isLogin = true;
+  }
+
+  aoClicarEmCadastro(): void {
+    this.httpService.makeRegister(this.registerForm.value)
+      .pipe(catchError(error => {
+        console.error(error);
+        return throwError(() => new Error('Algo deu errado!'));
+      })
+    )
+    .subscribe((response) => {
+      console.log(response);
+    });
   }
 }

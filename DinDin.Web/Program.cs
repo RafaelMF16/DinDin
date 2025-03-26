@@ -1,3 +1,4 @@
+using DinDin.Domain.Constantes;
 using DinDin.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseProblemDetailsExceptionHandler(app.Services.GetRequiredService<ILoggerFactory>());
+
+app.UseCors(ApplicationConstants.CORS_POLICY_NAME);
 
 app.UseHttpsRedirection();
 

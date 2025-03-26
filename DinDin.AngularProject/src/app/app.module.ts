@@ -6,8 +6,9 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
-import {ReactiveFormsModule} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideHttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule
   ],
   providers: [
-    provideRouter(routes)
+    provideRouter(routes),
+    provideHttpClient()
   ],
   bootstrap: [AppComponent]
 })

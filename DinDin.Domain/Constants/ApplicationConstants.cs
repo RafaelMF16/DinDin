@@ -7,5 +7,7 @@
         public const short WORK_FACTOR = 12;
         public const string SECRET_KEY_ENVIRONMENT_VARIABLE = "secretKey";
         public const string APP_SETTINGS_NAME = "appsettings.json";
+        public const string CORS_POLICY_NAME = "MyPolicy";
+        public const string FRONT_END_URL = "http://localhost:57053";
     }
 }
