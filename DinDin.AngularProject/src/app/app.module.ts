@@ -9,6 +9,8 @@ import { routes } from './app.routes';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
+import { AppConfig } from './config/app-config';
+import { environment } from '../environments/environments';
 
 @NgModule({
   declarations: [
@@ -27,4 +29,8 @@ import { provideHttpClient } from '@angular/common/http';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    AppConfig.apiBaseUrl = environment.apiBaseUrl
+  }
+}
