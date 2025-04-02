@@ -57,6 +57,15 @@ namespace DinDin.Web
             builder.Configuration
                 .AddJsonFile(ApplicationConstants.APP_SETTINGS_NAME, optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: ApplicationConstants.CORS_POLICY_NAME, policy =>
+                {
+                    policy.WithOrigins(ApplicationConstants.FRONT_END_URL).AllowAnyHeader().AllowAnyMethod();
+                });
+            });
+            
         }
     }
 }
