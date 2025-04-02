@@ -1,119 +1,130 @@
-<body [ngClass]="{'isRegister' : !isLogin, 'isLogin' : isLogin}">
-    <div class="container-fluid login-container">
-        <div class="content register-content">
-            <!-- <div [@backgroundSlide]="isLogin ? 'login' : 'register'"></div> -->
-            <div class="background-interactive"></div>
+<app-all-page-container [ngClass]="{'isRegister' : !isLogin, 'isLogin' : isLogin}">
+    <div class="content register-content">
+        <!-- <div [@backgroundSlide]="isLogin ? 'login' : 'register'"></div> -->
+        <div class="background-interactive"></div>
 
-            <div class="first-column">
-                <h2 class="title title-primary">welcome back!</h2>
-                <p class="description description-primary">To keep connected with us</p>
-                <p class="description description-primary">please login with your personal info</p>
-                <button (click)="onClickInSignIn()" class="btn btn-primary">sign in</button>
-            </div> 
+        <div class="first-column">
+            <h2 class="title title-primary">welcome back!</h2>
+            <p class="description description-primary">To keep connected with us</p>
+            <p class="description description-primary">please login with your personal info</p>
+            <button (click)="onClickInSignIn()" class="btn btn-primary">sign in</button>
+        </div>
 
-            <div class="second-column">
-                <h2 class="title tittle-secondary">create account</h2>
-                <p class="description description-secondary">or use your email for registration:</p>
-                <form class="form" [formGroup]="registerForm">
-                    <label class="label-input" for="">
-                        <i class="fa-solid fa-user icon-modify"></i>
-                        <input type="text" placeholder="Name" formControlName="name">
-                    </label>
+        <div class="second-column">
+            <h2 class="title tittle-secondary">create account</h2>
+            <p class="description description-secondary">or use your email for registration:</p>
+            <app-forms-container [formGroup]="registerForm">
+                <app-label-input>
+                    <i class="fa-solid fa-user icon-modify"></i>
+                    <input type="text" placeholder="Name" formControlName="name">
+                </app-label-input>
 
-                    <div class="error-message" *ngIf="registerForm.get('name')?.errors && registerForm.get('name')?.touched">
-                        The name field is mandatory!
-                    </div> <!-- End Name -->
-                    
-                    <label class="label-input" for="">
-                        <i class="fa-solid fa-envelope icon-modify"></i>
-                        <input type="email" placeholder="Email" formControlName="email">
-                    </label>
+                <div class="error-message"
+                    *ngIf="registerForm.get('name')?.errors && registerForm.get('name')?.touched">
+                    The name field is mandatory!
+                </div> <!-- End Name -->
 
-                    <div class="error-message" *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched">
-                        The email field is mandatory!
-                    </div>
+                <app-label-input>
+                    <i class="fa-solid fa-envelope icon-modify"></i>
+                    <input type="email" placeholder="Email" formControlName="email">
+                </app-label-input>
 
-                    <div class="error-message" *ngIf="registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.touched">
-                        Email invalid!
-                    </div> <!-- End Email -->
+                <div class="error-message"
+                    *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched">
+                    The email field is mandatory!
+                </div>
 
-                    <label class="label-input" for="">
-                        <i class="fa-solid fa-lock icon-modify"></i>
-                        <input type="password" placeholder="Password" formControlName="password">
-                    </label>
+                <div class="error-message"
+                    *ngIf="registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.touched">
+                    Email invalid!
+                </div> <!-- End Email -->
 
-                    <div class="error-message" *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched">
-                        The password field is mandatory!
-                    </div>
+                <app-label-input>
+                    <i class="fa-solid fa-lock icon-modify"></i>
+                    <input type="password" placeholder="Password" formControlName="password">
+                </app-label-input>
 
-                    <div class="error-message" *ngIf="registerForm.get('password')?.errors?.['minlength'] && registerForm.get('password')?.touched">
-                        The Password field must contain at least 8 characters!
-                    </div>
+                <div class="error-message"
+                    *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched">
+                    The password field is mandatory!
+                </div>
 
-                    <div class="error-message" *ngIf="registerForm.get('password')?.errors?.['maxlength'] && registerForm.get('password')?.touched">
-                        The Password field must contain a maximum of 50 characters!
-                    </div> <!-- End Password -->
+                <div class="error-message"
+                    *ngIf="registerForm.get('password')?.errors?.['minlength'] && registerForm.get('password')?.touched">
+                    The Password field must contain at least 8 characters!
+                </div>
 
-                    <button (click)="aoClicarEmCadastro()" class="btn" [disabled]="!registerForm.valid" [ngClass]="{'btn-secondary' : registerForm.valid, 'btn-disabled' : !registerForm.valid}">
-                        sign up
-                    </button>
-                </form> 
-            </div> 
-        </div> 
+                <div class="error-message"
+                    *ngIf="registerForm.get('password')?.errors?.['maxlength'] && registerForm.get('password')?.touched">
+                    The Password field must contain a maximum of 50 characters!
+                </div> <!-- End Password -->
 
-        <div class="content login-content">
-            <div class="first-column">
-                <h2 class="title title-primary">hello, friend!</h2>
-                <p class="description description-primary">Enter your personal details</p>
-                <p class="description description-primary">and start journey with us</p>
-                <button (click)="onClickInSignUp()" class="btn btn-primary">sign up</button>
-            </div> 
-
-            <div class="second-column">
-                <h2 class="title tittle-secondary">sign in to developer</h2>
-                <p class="description description-secondary">or use your email account:</p>
-                <form class="form" [formGroup]="loginForm">
-                    <label class="label-input" for="">
-                        <i class="fa-solid fa-envelope icon-modify"></i>
-                        <input type="email" placeholder="Email" formControlName="email">
-                    </label>
-
-                    <div class="error-message" *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched">
-                        The email field is mandatory!
-                    </div>
-
-                    <div class="error-message" *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched">
-                        Email invalid!
-                    </div> <!-- End Email -->
-
-                    <label class="label-input" for="">
-                        <i class="fa-solid fa-lock icon-modify"></i>
-                        <input type="password" placeholder="Passaword" formControlName="password">
-                    </label>
-
-                    <div class="error-message" *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched">
-                        The password field is mandatory!
-                    </div>
-
-                    <div class="error-message" *ngIf="loginForm.get('password')?.errors?.['minlength'] && loginForm.get('password')?.touched">
-                        The Password field must contain at least 8 characters!
-                    </div>
-
-                    <div class="error-message" *ngIf="loginForm.get('password')?.errors?.['maxlength'] && loginForm.get('password')?.touched">
-                        The Password field must contain a maximum of 50 characters!
-                    </div> <!-- End Password -->
-
-                    <div>
-                        <a class="forgot-password" href="#">
-                            Forgot your password?
-                        </a>
-                    </div>
-
-                    <button class="btn" [disabled]="!loginForm.valid" [ngClass]="{'btn-secondary' : loginForm.valid, 'btn-disabled' : !loginForm.valid}">
-                        sign in
-                    </button>
-                </form> 
-            </div> 
-        </div> 
+                <button (click)="aoClicarEmCadastro()" class="btn" [disabled]="!registerForm.valid"
+                    [ngClass]="{'btn-secondary' : registerForm.valid, 'btn-disabled' : !registerForm.valid}">
+                    sign up
+                </button>
+            </app-forms-container>
+        </div>
     </div>
-</body>
+
+    <div class="content login-content">
+        <div class="first-column">
+            <h2 class="title title-primary">hello, friend!</h2>
+            <p class="description description-primary">Enter your personal details</p>
+            <p class="description description-primary">and start journey with us</p>
+            <button (click)="onClickInSignUp()" class="btn btn-primary">sign up</button>
+        </div>
+
+        <div class="second-column">
+            <h2 class="title tittle-secondary">sign in to developer</h2>
+            <p class="description description-secondary">or use your email account:</p>
+            <app-forms-container [formGroup]="loginForm">
+                <app-label-input>
+                    <i class="fa-solid fa-envelope icon-modify"></i>
+                    <input type="email" placeholder="Email" formControlName="email">
+                </app-label-input>
+
+                <div class="error-message"
+                    *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched">
+                    The email field is mandatory!
+                </div>
+
+                <div class="error-message"
+                    *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched">
+                    Email invalid!
+                </div> <!-- End Email -->
+
+                <app-label-input>
+                    <i class="fa-solid fa-lock icon-modify"></i>
+                    <input type="password" placeholder="Passaword" formControlName="password">
+                </app-label-input>
+
+                <div class="error-message"
+                    *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched">
+                    The password field is mandatory!
+                </div>
+
+                <div class="error-message"
+                    *ngIf="loginForm.get('password')?.errors?.['minlength'] && loginForm.get('password')?.touched">
+                    The Password field must contain at least 8 characters!
+                </div>
+
+                <div class="error-message"
+                    *ngIf="loginForm.get('password')?.errors?.['maxlength'] && loginForm.get('password')?.touched">
+                    The Password field must contain a maximum of 50 characters!
+                </div> <!-- End Password -->
+
+                <div>
+                    <a class="forgot-password" href="#">
+                        Forgot your password?
+                    </a>
+                </div>
+
+                <button class="btn" [disabled]="!loginForm.valid"
+                    [ngClass]="{'btn-secondary' : loginForm.valid, 'btn-disabled' : !loginForm.valid}">
+                    sign in
+                </button>
+            </app-forms-container>
+        </div>
+    </div>
+</app-all-page-container>

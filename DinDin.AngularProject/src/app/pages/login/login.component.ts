@@ -12,13 +12,13 @@ import { AuthService } from '../../core/services/authService/auth.service';
   animations: [slideContentTrigger]
 })
 export class LoginComponent implements OnInit {
-  
+
   loginForm!: FormGroup;
   registerForm!: FormGroup;
   isLogin: boolean = true;
 
   constructor(private formBuilder: FormBuilder, private authService: AuthService) { }
-  
+
   ngOnInit(): void {
     this.initializeForms();
   }
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
         Validators.pattern(/(.|\s)*\S(.|\s)*/)
       ])],
       email: ['', Validators.compose([
-        Validators.required, 
+        Validators.required,
         Validators.email,
         Validators.pattern(/(.|\s)*\S(.|\s)*/)
       ])],
@@ -76,9 +76,9 @@ export class LoginComponent implements OnInit {
         console.error(error);
         return throwError(() => new Error('Algo deu errado!'));
       })
-    )
-    .subscribe((response) => {
-      console.log(response);
-    });
+      )
+      .subscribe((response) => {
+        console.log(response);
+      });
   }
 }
