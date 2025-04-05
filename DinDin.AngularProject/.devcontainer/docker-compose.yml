@@ -8,7 +8,5 @@ services:
     volumes:
       - ..:/workspace:cached
     command: sleep infinity
-    depends_on:
-      - ravendb
     ports:
       -"57053:57053"

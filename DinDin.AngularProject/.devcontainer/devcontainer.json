@@ -20,15 +20,12 @@
             ]
         }
     },
-    "forwardPorts": [57053, 8080],
+    "forwardPorts": [57053],
     "portsAttributes": {
         "57053": {
             "label": "Angular App",
             "onAutoForward": "notify"
         }
-    },
-    "remoteEnv": {
-        "RAVEN_URL": "http://localhost:8080"
     },
     "mounts": ["source=${localWorkspaceFolder},target=/workspace,type=bind"],
     "remoteUser": "node",
