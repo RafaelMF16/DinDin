@@ -14,6 +14,9 @@ import { environment } from '../environments/environments';
 import { AllPageContainerComponent } from './components/all-page-container/all-page-container.component';
 import { FormsContainerComponent } from './components/forms-container/forms-container.component';
 import { LabelInputComponent } from './components/label-input/label-input.component';
+import { MonthlySummariesListComponent } from './pages/monthly-summaries-list/monthly-summaries-list.component';
+import { MonthlySummariesContainerComponent } from './components/monthly-summaries-container/monthly-summaries-container.component';
+import { MonthlySummaryCardComponent } from './components/monthly-summary-card/monthly-summary-card.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,9 @@ import { LabelInputComponent } from './components/label-input/label-input.compon
     AllPageContainerComponent,
     FormsContainerComponent,
     LabelInputComponent,
+    MonthlySummariesListComponent,
+    MonthlySummariesContainerComponent,
+    MonthlySummaryCardComponent,
   ],
   imports: [
     BrowserModule,
