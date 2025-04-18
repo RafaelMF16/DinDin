@@ -3,9 +3,9 @@
     public interface IMonthlySummaryRepository
     {
         List<MonthlySummary> GetAll();
-        MonthlySummary GetById(int id);
-        void Add(MonthlySummary monthlySummary);
+        MonthlySummary GetById(string id);
+        Task Add(MonthlySummary monthlySummary);
         void Update(MonthlySummary monthlySummary);
-        void Delete(int id);
+        void Delete(string id);
     }
 }

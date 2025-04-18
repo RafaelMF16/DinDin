@@ -1,15 +1,24 @@
 ﻿using DinDin.Domain.MonthlySummaries;
+using Raven.Client.Documents.Session;
 
 namespace DinDin.Infra.MonthlySummaries
 {
     public class MonthlySummaryRepository : IMonthlySummaryRepository
     {
-        public void Add(MonthlySummary monthlySummary)
+        private readonly IAsyncDocumentSession _session;
+
+        public MonthlySummaryRepository(IAsyncDocumentSession session)
         {
-            throw new NotImplementedException();
+            _session = session;
         }
 
-        public void Delete(int id)
+        public async Task Add(MonthlySummary monthlySummary)
+        {
+            await _session.StoreAsync(monthlySummary);
+            await _session.SaveChangesAsync();
+        }
+
+        public void Delete(string id)
         {
             throw new NotImplementedException();
         }
@@ -19,7 +28,7 @@ namespace DinDin.Infra.MonthlySummaries
             throw new NotImplementedException();
         }
 
-        public MonthlySummary GetById(int id)
+        public MonthlySummary GetById(string id)
         {
             throw new NotImplementedException();
         }

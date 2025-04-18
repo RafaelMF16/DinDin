@@ -14,12 +14,12 @@ namespace DinDin.Services.MonthlySummaries
             _monthlySummaryValidator = monthlySummaryValidator;
         }
 
-        public void Add(MonthlySummary monthlySummary)
+        public async Task Add(MonthlySummary monthlySummary)
         {
             try
             {
-                _monthlySummaryValidator.ValidateAndThrow(monthlySummary);
-                _monthlySummaryRepository.Add(monthlySummary);
+                await _monthlySummaryValidator.ValidateAndThrowAsync(monthlySummary);
+                await _monthlySummaryRepository.Add(monthlySummary);
             }
             catch (Exception exception)
             {
@@ -27,7 +27,7 @@ namespace DinDin.Services.MonthlySummaries
             }
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace DinDin.Services.MonthlySummaries
             return _monthlySummaryRepository.GetAll();
         }
 
-        public MonthlySummary GetById(int id)
+        public MonthlySummary GetById(string id)
         {
             return _monthlySummaryRepository.GetById(id)
                 ?? throw new ArgumentNullException($"Not find monthly summary with id: {id}");

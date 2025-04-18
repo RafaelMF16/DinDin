@@ -12,12 +12,12 @@ namespace DinDin.Tests.MonthlySummaries
             _instance = MonthlySummarySingleton.Instance;
         }
 
-        public void Add(MonthlySummary monthlySummary)
+        public async Task Add(MonthlySummary monthlySummary)
         {
             _instance.Add(monthlySummary);
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             var monthlySummaryThatWillBeDeleted = GetById(id);
 
@@ -29,7 +29,7 @@ namespace DinDin.Tests.MonthlySummaries
             return _instance;
         }
 
-        public MonthlySummary GetById(int id)
+        public MonthlySummary GetById(string id)
         {
             return _instance.Find(monthlySummary => monthlySummary.Id == id);
         }

@@ -1,14 +1,13 @@
 <app-monthly-summaries-container>
-        <app-monthly-summary-card></app-monthly-summary-card>
-        <app-monthly-summary-card></app-monthly-summary-card>
-        <app-monthly-summary-card></app-monthly-summary-card>
-        <app-monthly-summary-card></app-monthly-summary-card>
-        <app-monthly-summary-card></app-monthly-summary-card>
-        <app-monthly-summary-card></app-monthly-summary-card>
-        <app-monthly-summary-card></app-monthly-summary-card>
-        <app-monthly-summary-card></app-monthly-summary-card>
-        <app-monthly-summary-card></app-monthly-summary-card>
-        <app-monthly-summary-card></app-monthly-summary-card>
-        <app-monthly-summary-card></app-monthly-summary-card>
-        <app-monthly-summary-card></app-monthly-summary-card>
+        @for (item of items; track item) {
+                <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.titulo }}</h5>
+                            <p class="card-text">Renda Total: {{ item.rendaTotal }}</p>
+                            <p class="card-text">Total Gasto: {{ item.totalGasto }}</p>
+                            <p class="card-text">Saldo: {{ item.saldo }}</p>
+                        </div>
+                </div>
+        }
+        
 </app-monthly-summaries-container>
