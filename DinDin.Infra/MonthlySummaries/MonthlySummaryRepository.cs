@@ -1,4 +1,7 @@
 ﻿using DinDin.Domain.MonthlySummaries;
+using DinDin.Infra.RavenDB.Extensions;
+using DinDin.Infra.Users;
+using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 
 namespace DinDin.Infra.MonthlySummaries
@@ -18,24 +21,33 @@ namespace DinDin.Infra.MonthlySummaries
             await _session.SaveChangesAsync();
         }
 
-        public void Delete(string id)
+        public async Task Delete(string id)
         {
-            throw new NotImplementedException();
+
+
+             _session.Delete(id);
+            await _session.SaveChangesAsync();
         }
 
-        public List<MonthlySummary> GetAll()
+        public async Task<List<MonthlySummary>> GetAll()
         {
-            throw new NotImplementedException();
+            return await _session.MonthlySummaryes().ToListAsync();
         }
 
-        public MonthlySummary GetById(string id)
+        public async Task<MonthlySummary> GetById(string id)
         {
-            throw new NotImplementedException();
+            return await _session.MonthlySummaryes().WithId(id).FirstOrDefaultAsync();
         }
 
-        public void Update(MonthlySummary monthlySummary)
+        public async Task Update(MonthlySummary monthlySummary)
         {
-            throw new NotImplementedException();
+            var monthlySummaryUpdate = await _session.LoadAsync<MonthlySummary>(monthlySummary.Id);
+            monthlySummaryUpdate.Month = monthlySummary.Month;
+            monthlySummaryUpdate.Year = monthlySummary.Year;
+            monthlySummaryUpdate.TotalIncome = monthlySummary.TotalIncome;
+            monthlySummaryUpdate.TotalExpense = monthlySummary.TotalExpense;
+
+            await _session.SaveChangesAsync();
         }
     }
 }
