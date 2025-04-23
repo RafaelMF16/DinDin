@@ -1,8 +1,20 @@
-<div class="card" style="width: 18rem;">
-    <img class="card-img-top" src=".../100px180/" alt="Imagem de capa do card">
-    <div class="card-body">
-        <h5 class="card-title">Título do card</h5>
-        <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
-        <a href="#" class="btn btn-primary">Visitar</a>
-    </div>
+<div class="card monthlySummary-card" [@hoverCard]="hoverState" (mouseenter)="hoverState = 'hover'" (mouseleave)="hoverState = 'neutral'">
+    <h5 class="fw-bold mb-3">{{ titulo }}</h5>
+
+    <p class="text-success fw-semibold">
+        Renda Total: {{ rendaTotal | currency:'BRL' }}
+    </p>
+
+    <p class="text-danger fw-semibold">
+        Total Gasto: {{ totalGasto | currency:'BRL' }}
+    </p>
+
+    <hr>
+
+    <p class="fw-bold">
+        Saldo:
+        <span [ngClass]="{ 'text-success': saldo >= 0, 'text-danger': saldo < 0 }">
+            {{ saldo | currency:'BRL' }}
+        </span>
+    </p>
 </div>

@@ -19,7 +19,7 @@ namespace DinDin.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMonthlySummary([FromBody] MonthlySummaryDto monthlySummaryDto)
         {
-            var newMonthlySummary = new MonthlySummary 
+            var newMonthlySummary = new MonthlySummary
             {
                 Month = monthlySummaryDto.Month,
                 Year = monthlySummaryDto.Year,

@@ -1,5 +1,19 @@
 import { animate, keyframes, state, style, transition, trigger } from "@angular/animations";
 
+export const hoverCardTrigger = trigger('hoverCard', [
+    state('neutral', style({
+        boxShadow: 'none'
+    })),
+    state('hover', style({
+        transform: 'scale(1.03)',
+        boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+        borderColor: 'black'
+    })),
+    transition('neutral <=> hover', [
+        animate('0.3s ease-in-out')
+    ])
+]);
+
 export const slideContentTrigger = trigger('backgroundSlide', [
     state('login', style({
         left: '60%',

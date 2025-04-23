@@ -1,0 +1,10 @@
+.flex-header {
+    gap: 5px;
+}
+
+.monthlySummary-card {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    cursor: pointer;
+}

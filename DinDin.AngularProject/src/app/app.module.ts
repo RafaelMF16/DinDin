@@ -17,6 +17,7 @@ import { LabelInputComponent } from './components/label-input/label-input.compon
 import { MonthlySummariesListComponent } from './pages/monthly-summaries-list/monthly-summaries-list.component';
 import { MonthlySummariesContainerComponent } from './components/monthly-summaries-container/monthly-summaries-container.component';
 import { MonthlySummaryCardComponent } from './components/monthly-summary-card/monthly-summary-card.component';
+import { SuccessModalComponent } from './components/success-modal/success-modal.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { MonthlySummaryCardComponent } from './components/monthly-summary-card/m
     MonthlySummariesListComponent,
     MonthlySummariesContainerComponent,
     MonthlySummaryCardComponent,
+    SuccessModalComponent
   ],
   imports: [
     BrowserModule,
