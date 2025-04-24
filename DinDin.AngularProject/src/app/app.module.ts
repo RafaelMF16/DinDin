@@ -17,7 +17,8 @@ import { LabelInputComponent } from './components/label-input/label-input.compon
 import { MonthlySummariesListComponent } from './pages/monthly-summaries-list/monthly-summaries-list.component';
 import { MonthlySummariesContainerComponent } from './components/monthly-summaries-container/monthly-summaries-container.component';
 import { MonthlySummaryCardComponent } from './components/monthly-summary-card/monthly-summary-card.component';
-import { SuccessModalComponent } from './components/success-modal/success-modal.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
@@ -28,14 +29,15 @@ import { SuccessModalComponent } from './components/success-modal/success-modal.
     LabelInputComponent,
     MonthlySummariesListComponent,
     MonthlySummariesContainerComponent,
-    MonthlySummaryCardComponent,
-    SuccessModalComponent
+    MonthlySummaryCardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatDividerModule,
+    MatCardModule
   ],
   providers: [
     provideRouter(routes),

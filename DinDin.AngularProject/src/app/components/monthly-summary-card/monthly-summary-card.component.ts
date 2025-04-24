@@ -6,7 +6,10 @@ import { hoverCardTrigger } from '../../animations';
   standalone: false,
   templateUrl: './monthly-summary-card.component.html',
   styleUrl: './monthly-summary-card.component.css',
-  animations: [hoverCardTrigger]
+  animations: [
+    hoverCardTrigger,
+    
+  ]
 })
 export class MonthlySummaryCardComponent {
   @Input() titulo!: string;

@@ -1,10 +1,12 @@
-.flex-header {
-    gap: 5px;
+.monthly-summary-card {
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #ffff;
+    cursor: pointer;
+    border: 2px solid rgba(0, 0, 0, 0.12);
 }
 
-.monthlySummary-card {
-    background-color: #ffffff;
-    padding: 1.5rem;
-    border-radius: 10px;
-    cursor: pointer;
+.card-title {
+    font-weight: bold;
+    font-size: 1.2rem;
 }
