@@ -39,9 +39,9 @@ namespace DinDin.Services.MonthlySummaries
             }
         }
 
-        public async Task<List<MonthlySummary>> GetAll()
+        public async Task<List<MonthlySummary>> GetAllWithUserId(string id)
         {
-            return await _monthlySummaryRepository.GetAll();
+            return await _monthlySummaryRepository.GetAllWithUserId(id);
         }
 
         public async Task<MonthlySummary> GetById(string id)

@@ -1,5 +1,4 @@
-﻿using DinDin.Domain.MonthlySummaries;
-using DinDin.Domain.Users;
+﻿using DinDin.Domain.Users;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Linq;
 
@@ -11,11 +10,5 @@ namespace DinDin.Infra.Users
         {
             return query.Where(user => user.Email == email);
         }
-
-        public static IRavenQueryable<MonthlySummary> WithId(this IRavenQueryable<MonthlySummary> query, string id)
-        {
-            return query.Where(monthlySummary => monthlySummary.Id == id);
-        }
-
     }
 }

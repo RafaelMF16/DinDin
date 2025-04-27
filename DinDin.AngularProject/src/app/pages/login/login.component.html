@@ -1,135 +1,182 @@
 <app-all-page-container [ngClass]="{ isRegister: !isLogin, isLogin: isLogin }">
-    <div class="content register-content">
-        <!-- <div [@backgroundSlide]="isLogin ? 'login' : 'register'"></div> -->
-        <div class="background-interactive"></div>
+  <div class="content register-content">
+    <!-- <div [@backgroundSlide]="isLogin ? 'login' : 'register'"></div> -->
+    <div class="background-interactive"></div>
 
-        <div class="first-column">
-            <h2 class="title title-primary">você voltou!</h2>
-            <p class="description description-primary">
-                faça login com suas informações pessoais
-            </p>
-            <button (click)="onClickInSignIn()" class="btn btn-primary">
-                entrar
-            </button>
-        </div>
+    <div class="first-column">
+      <h2 class="title title-primary">você voltou!</h2>
+      <p class="description description-primary">
+        faça login com suas informações pessoais
+      </p>
+      <button (click)="onClickInSignIn()" class="btn btn-primary">
+        entrar
+      </button>
+    </div>
 
-        <div class="second-column">
-            <h2 class="title tittle-secondary">criar conta</h2>
-            <app-forms-container [formGroup]="registerForm">
-                <app-label-input>
-                    <i class="fa-solid fa-user icon-modify"></i>
-                    <input type="text" placeholder="Nome" formControlName="name" />
-                </app-label-input>
+    <div class="second-column">
+      <h2 class="title tittle-secondary">criar conta</h2>
+      <app-forms-container [formGroup]="registerForm">
+        <app-label-input>
+          <i class="fa-solid fa-user icon-modify"></i>
+          <input type="text" placeholder="Nome" formControlName="name" />
+        </app-label-input>
 
-                <div class="error-message" *ngIf="
+        <div
+          class="error-message"
+          *ngIf="
             registerForm.get('name')?.errors &&
             registerForm.get('name')?.touched
-          ">
-                    O campo nome é obrigatório!
-                </div>
-                <!-- End Name -->
-
-                <app-label-input>
-                    <i class="fa-solid fa-envelope icon-modify"></i>
-                    <input type="email" placeholder="Email" formControlName="email" />
-                </app-label-input>
-
-                <div class="error-message"
-                    *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched">
-                    O campo email é obrigatório!
-                </div>
-
-                <div class="error-message"
-                    *ngIf="registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.touched">
-                    Email inválido!
-                </div>
-                <!-- End Email -->
-
-                <app-label-input>
-                    <i class="fa-solid fa-lock icon-modify"></i>
-                    <input type="password" placeholder="Senha" formControlName="password" />
-                </app-label-input>
-
-                <div class="error-message"
-                    *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched">
-                    O campo senha é obrigatório!
-                </div>
-
-                <div class="error-message"
-                    *ngIf="registerForm.get('password')?.errors?.['minlength'] && registerForm.get('password')?.touched">
-                    A senha deve conter no mínimo 8 caracteres!
-                </div>
-
-                <div class="error-message"
-                    *ngIf="registerForm.get('password')?.errors?.['maxlength'] && registerForm.get('password')?.touched">
-                    A senha deve conter no máximo 50 caracteres!
-                </div>
-                <!-- End Password -->
-
-                <button (click)="onClickMakeRegister()" class="btn" [disabled]="!registerForm.valid" [ngClass]="{'btn-secondary': registerForm.valid, 'btn-disabled': !registerForm.valid}">
-                    inscrever-se
-                </button>
-            </app-forms-container>
+          "
+        >
+          O campo nome é obrigatório!
         </div>
+        <!-- End Name -->
+
+        <app-label-input>
+          <i class="fa-solid fa-envelope icon-modify"></i>
+          <input type="email" placeholder="Email" formControlName="email" />
+        </app-label-input>
+
+        <div
+          class="error-message"
+          *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched"
+        >
+          O campo email é obrigatório!
+        </div>
+
+        <div
+          class="error-message"
+          *ngIf="registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.touched"
+        >
+          Email inválido!
+        </div>
+        <!-- End Email -->
+
+        <app-label-input>
+          <i class="fa-solid fa-lock icon-modify"></i>
+          <input
+            type="password"
+            placeholder="Senha"
+            formControlName="password"
+          />
+        </app-label-input>
+
+        <div
+          class="error-message"
+          *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched"
+        >
+          O campo senha é obrigatório!
+        </div>
+
+        <div
+          class="error-message"
+          *ngIf="registerForm.get('password')?.errors?.['minlength'] && registerForm.get('password')?.touched"
+        >
+          A senha deve conter no mínimo 8 caracteres!
+        </div>
+
+        <div
+          class="error-message"
+          *ngIf="registerForm.get('password')?.errors?.['maxlength'] && registerForm.get('password')?.touched"
+        >
+          A senha deve conter no máximo 50 caracteres!
+        </div>
+        <!-- End Password -->
+
+        <button
+          (click)="onClickMakeRegister()"
+          class="btn"
+          [disabled]="!registerForm.valid"
+          [ngClass]="{
+            'btn-secondary': registerForm.valid,
+            'btn-disabled': !registerForm.valid
+          }"
+        >
+          inscrever-se
+        </button>
+      </app-forms-container>
+    </div>
+  </div>
+
+  <div class="content login-content">
+    <div class="first-column">
+      <h2 class="title title-primary">Crie sua conta!</h2>
+      <p class="description description-primary">Insira seus dados pessoais</p>
+      <button (click)="onClickInSignUp()" class="btn btn-primary">
+        inscrever-se
+      </button>
     </div>
 
-    <div class="content login-content">
-        <div class="first-column">
-            <h2 class="title title-primary">Crie sua conta!</h2>
-            <p class="description description-primary">Insira seus dados pessoais</p>
-            <button (click)="onClickInSignUp()" class="btn btn-primary">
-                inscrever-se
-            </button>
+    <div class="second-column">
+      <h2 class="title tittle-secondary">faça login</h2>
+      <app-forms-container [formGroup]="loginForm">
+        <app-label-input>
+          <i class="fa-solid fa-envelope icon-modify"></i>
+          <input type="email" placeholder="Email" formControlName="email" />
+        </app-label-input>
+
+        <div
+          class="error-message"
+          *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched"
+        >
+          O campo email é obrigatório!
         </div>
 
-        <div class="second-column">
-            <h2 class="title tittle-secondary">faça login</h2>
-            <app-forms-container [formGroup]="loginForm">
-                <app-label-input>
-                    <i class="fa-solid fa-envelope icon-modify"></i>
-                    <input type="email" placeholder="Email" formControlName="email" />
-                </app-label-input>
-
-                <div class="error-message"
-                    *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched">
-                    O campo email é obrigatório!
-                </div>
-
-                <div class="error-message"
-                    *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched">
-                    Email inválido!
-                </div>
-                <!-- End Email -->
-
-                <app-label-input>
-                    <i class="fa-solid fa-lock icon-modify"></i>
-                    <input type="password" placeholder="Senha" formControlName="password" />
-                </app-label-input>
-
-                <div class="error-message"
-                    *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched">
-                    O campo senha é obrigatório!
-                </div>
-
-                <div class="error-message"
-                    *ngIf="loginForm.get('password')?.errors?.['minlength'] && loginForm.get('password')?.touched">
-                    A senha deve conter no mínimo 8 caracteres!
-                </div>
-
-                <div class="error-message"
-                    *ngIf="loginForm.get('password')?.errors?.['maxlength'] && loginForm.get('password')?.touched">
-                    A senha deve conter no máximo 50 caracteres!
-                </div>
-                <!-- End Password -->
-
-                <div>
-                    <a class="forgot-password" href="#"> Esqueceu sua senha? </a>   
-                </div>
-
-                <button (click)="onClickMakeLogin()" class="btn" [disabled]="!loginForm.valid" [ngClass]="{'btn-secondary': loginForm.valid, 'btn-disabled': !loginForm.valid}">
-                    Entrar
-                </button>
-            </app-forms-container>
+        <div
+          class="error-message"
+          *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched"
+        >
+          Email inválido!
         </div>
+        <!-- End Email -->
+
+        <app-label-input>
+          <i class="fa-solid fa-lock icon-modify"></i>
+          <input
+            type="password"
+            placeholder="Senha"
+            formControlName="password"
+          />
+        </app-label-input>
+
+        <div
+          class="error-message"
+          *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched"
+        >
+          O campo senha é obrigatório!
+        </div>
+
+        <div
+          class="error-message"
+          *ngIf="loginForm.get('password')?.errors?.['minlength'] && loginForm.get('password')?.touched"
+        >
+          A senha deve conter no mínimo 8 caracteres!
+        </div>
+
+        <div
+          class="error-message"
+          *ngIf="loginForm.get('password')?.errors?.['maxlength'] && loginForm.get('password')?.touched"
+        >
+          A senha deve conter no máximo 50 caracteres!
+        </div>
+        <!-- End Password -->
+
+        <!-- <div>
+          <a class="forgot-password" href="#"> Esqueceu sua senha? </a>
+        </div> -->
+
+        <button
+          (click)="onClickMakeLogin()"
+          class="btn"
+          [disabled]="!loginForm.valid"
+          [ngClass]="{
+            'btn-secondary': loginForm.valid,
+            'btn-disabled': !loginForm.valid
+          }"
+        >
+          Entrar
+        </button>
+      </app-forms-container>
     </div>
+  </div>
 </app-all-page-container>

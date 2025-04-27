@@ -19,6 +19,13 @@ import { MonthlySummariesContainerComponent } from './components/monthly-summari
 import { MonthlySummaryCardComponent } from './components/monthly-summary-card/monthly-summary-card.component';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCardModule } from '@angular/material/card';
+import { HeaderComponent } from './components/header/header.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ErrorModalComponent } from './components/error-modal/error-modal.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +36,9 @@ import { MatCardModule } from '@angular/material/card';
     LabelInputComponent,
     MonthlySummariesListComponent,
     MonthlySummariesContainerComponent,
-    MonthlySummaryCardComponent
+    MonthlySummaryCardComponent,
+    HeaderComponent,
+    ErrorModalComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +46,12 @@ import { MatCardModule } from '@angular/material/card';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatDividerModule,
-    MatCardModule
+    MatCardModule,
+    MatButtonModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatToolbarModule,
+    MatDialogModule
   ],
   providers: [
     provideRouter(routes),

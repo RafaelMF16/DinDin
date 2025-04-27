@@ -55,7 +55,7 @@ namespace DinDin.Tests.MonthlySummaries
         {
             var monthlySummaryList = CreateMonthlySummaryList();
 
-            var dataBaseList = _monthlySummaryService.GetAll();
+            var dataBaseList = _monthlySummaryService.GetAllWithUserId();
 
             Assert.Equivalent(monthlySummaryList, dataBaseList);
         }

@@ -4,7 +4,9 @@ import { slideContentTrigger } from '../../animations';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../../core/services/authService/auth.service';
 import { Router } from '@angular/router';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorModalComponent } from '../../components/error-modal/error-modal.component';
 
 @Component({
   selector: 'app-login',
@@ -22,6 +24,8 @@ export class LoginComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
+
+  readonly dialog = inject(MatDialog)
 
   constructor(
     private formBuilder: FormBuilder,
@@ -87,10 +91,14 @@ export class LoginComponent implements OnInit {
 
   onClickInSignUp(): void {
     this.isLogin = false;
+    this.loginForm.reset();
+    this.loginForm.markAsUntouched();
   }
 
   onClickInSignIn(): void {
     this.isLogin = true;
+    this.registerForm.reset();
+    this.registerForm.markAsUntouched();
   }
 
   onClickMakeRegister(): void {
@@ -98,7 +106,7 @@ export class LoginComponent implements OnInit {
       .createUser(this.registerForm.value)
       .pipe(
         catchError((error) => {
-          console.error(error);
+          this.openErrorModal("Algo deu errado!");
           return throwError(() => new Error('Algo deu errado!'));
         })
       )
@@ -114,7 +122,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginForm.value)
       .pipe(
         catchError((error) => {
-          console.log(error);
+          this.openErrorModal("Algo deu errado!");
           return throwError(() => new Error('Algo deu errado!'));
         })
       ).subscribe((response) => {
@@ -133,6 +141,16 @@ export class LoginComponent implements OnInit {
       duration: 4000,
       horizontalPosition: 'center',
       verticalPosition: 'top'
+    });
+  }
+
+  openErrorModal(message: string): void {
+    const modalWidth = '300px'
+    const errorModal = this.dialog.open(ErrorModalComponent, {
+      width: modalWidth,
+      data: {
+        error: message
+      }
     });
   }
 }

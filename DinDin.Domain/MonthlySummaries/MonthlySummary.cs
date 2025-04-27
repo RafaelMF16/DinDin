@@ -9,6 +9,7 @@ namespace DinDin.Domain.MonthlySummaries
         public int Year { get; set; } = DateTime.UtcNow.Year;
         public decimal TotalIncome { get; set; }
         public decimal TotalExpense { get; set; }
+        public string UserId { get; set; }
         public decimal Balance => TotalIncome - TotalExpense;
         public List<Transaction> Transactions { get; set; } = [];
     }

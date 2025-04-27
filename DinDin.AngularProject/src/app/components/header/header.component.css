@@ -1,0 +1,15 @@
+.header {
+    background-color: #58af9b;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+}
+
+.menu-button {
+    transition: background-color .5s ease;
+}
+
+.menu-button:hover {
+    background-color: #ffff;
+}

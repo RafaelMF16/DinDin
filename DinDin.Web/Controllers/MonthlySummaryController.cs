@@ -32,11 +32,11 @@ namespace DinDin.Web.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("get-all-with-user-id/{id}")]
+        public async Task<IActionResult> GetAll([FromRoute] string id)
         {
-            var listMonthly = await _monthlySummaryService.GetAll();
-            return Ok(listMonthly);
+            var monthlySummariesList = await _monthlySummaryService.GetAllWithUserId(id);
+            return Ok(monthlySummariesList);
         }
 
         [HttpGet("{id}")]

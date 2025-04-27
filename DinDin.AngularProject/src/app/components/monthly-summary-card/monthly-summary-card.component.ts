@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { hoverCardTrigger } from '../../animations';
 
 @Component({
@@ -11,13 +11,38 @@ import { hoverCardTrigger } from '../../animations';
     
   ]
 })
-export class MonthlySummaryCardComponent {
-  @Input() titulo!: string;
-  @Input() rendaTotal!: number;
-  @Input() totalGasto!: number;
-  @Input() saldo!: number;
+export class MonthlySummaryCardComponent implements OnInit{
+  @Input() month!: number;
+  @Input() totalIncome!: number;
+  @Input() totalExpense!: number;
+  @Input() balance!: number;
 
-  hoverState: string = 'neutral'
+  hoverState: string = 'neutral';
+  monthName: string = '';
+
+  private monthList: string[] = [
+    'Janeiro',
+    'Fevereiro',
+    'Março',
+    'Abril',
+    'Maio',
+    'Junho',
+    'Julho',
+    'Agosto',
+    'Setembro',
+    'Outubro',
+    'Novembro',
+    'Dezembro',
+  ]
+
+  ngOnInit(): void {
+    this.getMonthName();
+  }
+
+  getMonthName(): void {
+    const listIndexCorrection: number = 1;
+    this.monthName = this.monthList[this.month - listIndexCorrection]
+  }
 
   onClickInCard() {
     console.log("clicou")
