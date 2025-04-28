@@ -5,7 +5,6 @@ import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../../core/services/authService/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -18,13 +17,10 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   registerForm!: FormGroup;
   isLogin: boolean = true;
-  modalIsVisible: boolean = false;
 
   private authService = inject(AuthService);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
-
-  readonly dialog = inject(MatDialog)
 
   constructor(
     private formBuilder: FormBuilder,
@@ -131,7 +127,7 @@ export class LoginComponent implements OnInit {
         const keyName = "token";
         localStorage.setItem(keyName, response?.token);
 
-        this.router.navigate(['/list']);
+        this.router.navigate(['/monthly-summaries']);
       });
   }
 

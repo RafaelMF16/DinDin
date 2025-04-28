@@ -2,6 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { MonthlySummaryService } from './service/monthly-summary.service';
 import { catchError, throwError } from 'rxjs';
 import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-monthly-summaries-list',
@@ -13,11 +14,11 @@ export class MonthlySummariesListComponent implements OnInit {
 
   private monthlySummaryService = inject(MonthlySummaryService);
 
+  private snackBar = inject(MatSnackBar);
+
   monthlySummariesList: MonthlySummary[] = [];
-  isLoading: boolean = false;
 
   ngOnInit(): void {
-    this.isLoading = true;
     this.loadMonthlySummaries();
   }
 
@@ -25,12 +26,19 @@ export class MonthlySummariesListComponent implements OnInit {
     this.monthlySummaryService.getAllByUserId()
       .pipe(
         catchError((error) => {
-          console.log(error);
-          return throwError(() => new Error('Algo deu errado!'));
+          this.openSnackBar("Erro");
+          return throwError(() => new Error());
         })
       ).subscribe((response) => {
         this.monthlySummariesList = response;
-        this.isLoading = false;
       });
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Fechar', {
+      duration: 4000,
+      horizontalPosition: 'center',
+      verticalPosition: 'top'
+    });
   }
 }

@@ -7,8 +7,7 @@ import { hoverCardTrigger } from '../../animations';
   templateUrl: './monthly-summary-card.component.html',
   styleUrl: './monthly-summary-card.component.css',
   animations: [
-    hoverCardTrigger,
-    
+    hoverCardTrigger
   ]
 })
 export class MonthlySummaryCardComponent implements OnInit{
@@ -42,9 +41,5 @@ export class MonthlySummaryCardComponent implements OnInit{
   getMonthName(): void {
     const listIndexCorrection: number = 1;
     this.monthName = this.monthList[this.month - listIndexCorrection]
-  }
-
-  onClickInCard() {
-    console.log("clicou")
   }
 }
