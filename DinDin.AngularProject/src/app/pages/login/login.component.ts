@@ -6,7 +6,6 @@ import { AuthService } from '../../core/services/authService/auth.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { ErrorModalComponent } from '../../components/error-modal/error-modal.component';
 
 @Component({
   selector: 'app-login',
@@ -106,8 +105,8 @@ export class LoginComponent implements OnInit {
       .createUser(this.registerForm.value)
       .pipe(
         catchError((error) => {
-          this.openErrorModal("Algo deu errado!");
-          return throwError(() => new Error('Algo deu errado!'));
+          this.openSnackBar("Erro");
+          return throwError(() => new Error());
         })
       )
       .subscribe(() => {
@@ -122,8 +121,8 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginForm.value)
       .pipe(
         catchError((error) => {
-          this.openErrorModal("Algo deu errado!");
-          return throwError(() => new Error('Algo deu errado!'));
+          this.openSnackBar("Erro");
+          return throwError(() => new Error());
         })
       ).subscribe((response) => {
         const successLoginMessage = "Login Realizado!";
@@ -141,16 +140,6 @@ export class LoginComponent implements OnInit {
       duration: 4000,
       horizontalPosition: 'center',
       verticalPosition: 'top'
-    });
-  }
-
-  openErrorModal(message: string): void {
-    const modalWidth = '300px'
-    const errorModal = this.dialog.open(ErrorModalComponent, {
-      width: modalWidth,
-      data: {
-        error: message
-      }
     });
   }
 }

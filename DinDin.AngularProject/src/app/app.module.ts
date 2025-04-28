@@ -25,7 +25,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ErrorModalComponent } from './components/error-modal/error-modal.component';
 
 @NgModule({
   declarations: [
@@ -37,8 +36,7 @@ import { ErrorModalComponent } from './components/error-modal/error-modal.compon
     MonthlySummariesListComponent,
     MonthlySummariesContainerComponent,
     MonthlySummaryCardComponent,
-    HeaderComponent,
-    ErrorModalComponent
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
