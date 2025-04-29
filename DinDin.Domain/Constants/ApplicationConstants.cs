@@ -9,5 +9,6 @@
         public const string APP_SETTINGS_NAME = "appsettings.json";
         public const string CORS_POLICY_NAME = "MyPolicy";
         public const string FRONT_END_URL = "http://localhost:57053";
+        public const char ID_SEPARATION_PATTERN = '-';
     }
 }

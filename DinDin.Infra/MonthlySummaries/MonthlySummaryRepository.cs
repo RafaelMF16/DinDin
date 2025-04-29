@@ -1,32 +1,50 @@
 ﻿using DinDin.Domain.MonthlySummaries;
+using DinDin.Infra.RavenDB.Extensions;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 
 namespace DinDin.Infra.MonthlySummaries
 {
     public class MonthlySummaryRepository : IMonthlySummaryRepository
     {
-        public void Add(MonthlySummary monthlySummary)
+        private readonly IAsyncDocumentSession _session;
+
+        public MonthlySummaryRepository(IAsyncDocumentSession session)
         {
-            throw new NotImplementedException();
+            _session = session;
         }
 
-        public void Delete(int id)
+        public async Task Add(MonthlySummary monthlySummary)
         {
-            throw new NotImplementedException();
+            await _session.StoreAsync(monthlySummary);
+            await _session.SaveChangesAsync();
         }
 
-        public List<MonthlySummary> GetAll()
+        public async Task Delete(string id)
         {
-            throw new NotImplementedException();
+            _session.Delete(id);
+            await _session.SaveChangesAsync();
         }
 
-        public MonthlySummary GetById(int id)
+        public async Task<List<MonthlySummary>> GetAllWithUserId(string id)
         {
-            throw new NotImplementedException();
+            return await _session.MonthlySummaries().WithUserId(id).OrderBy(monthlySummary => monthlySummary.Month).ToListAsync();
         }
 
-        public void Update(MonthlySummary monthlySummary)
+        public async Task<MonthlySummary> GetById(string id)
         {
-            throw new NotImplementedException();
+            return await _session.GetById<MonthlySummary>(id);
+        }
+
+        public async Task Update(MonthlySummary updatedMonthlySummary)
+        {
+            var monthlySummary = await _session.GetById<MonthlySummary>(updatedMonthlySummary.Id);
+            monthlySummary.Month = updatedMonthlySummary.Month;
+            monthlySummary.Year = updatedMonthlySummary.Year;
+            monthlySummary.TotalIncome = updatedMonthlySummary.TotalIncome;
+            monthlySummary.TotalExpense = updatedMonthlySummary.TotalExpense;
+
+            await _session.SaveChangesAsync();
         }
     }
 }

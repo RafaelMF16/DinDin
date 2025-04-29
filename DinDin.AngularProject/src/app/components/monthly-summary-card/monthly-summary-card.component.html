@@ -1,0 +1,33 @@
+<mat-card
+  class="monthly-summary-card mat-elevation-z2"
+  [@hoverCard]="hoverState"
+  (mouseenter)="hoverState = 'hover'"
+  (mouseleave)="hoverState = 'neutral'"
+>
+  <mat-card-header>
+    <mat-card-title>
+      <span class="card-title">{{ monthName }}</span>
+    </mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <p class="text-success fw-semibold">
+      Renda Total: {{ totalIncome | currency : "BRL" }}
+    </p>
+
+    <p class="text-danger fw-semibold">
+      Total Gasto: {{ totalExpense | currency : "BRL" }}
+    </p>
+
+    <mat-divider class="my-2"></mat-divider>
+
+    <p class="fw-bold">
+      Saldo:
+      <span
+        [ngClass]="{ 'text-success': balance >= 0, 'text-danger': balance < 0 }"
+      >
+        {{ balance | currency : "BRL" }}
+      </span>
+    </p>
+  </mat-card-content>
+</mat-card>

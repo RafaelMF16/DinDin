@@ -7,7 +7,6 @@ using DinDin.Services.Auth;
 using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using static Raven.Client.Constants;
 
 namespace DinDin.Services.Users
 {

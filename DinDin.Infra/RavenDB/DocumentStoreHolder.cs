@@ -21,6 +21,8 @@ namespace DinDin.Infra.RavenDB
                 Database = databaseName
             };
 
+            documentStore.Conventions.IdentityPartsSeparator = ApplicationConstants.ID_SEPARATION_PATTERN;
+
             documentStore.Initialize();
             return documentStore;
         }

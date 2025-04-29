@@ -1,0 +1,25 @@
+<app-header></app-header>
+
+<mat-toolbar class="toolbar">
+  <span class="spacer"></span>
+  <button class="btn add-button">
+    <i class="fa-solid fa-plus"></i>
+  </button>
+</mat-toolbar>
+
+@if (monthlySummariesList.length == 0) {
+        <div class="text-center h4 empty-list-text">
+                <p class="informating-text">Você ainda não possui resumos mensais.</p>
+        </div>
+} @else {
+        <app-monthly-summaries-container>
+                @for (monthlySummary of monthlySummariesList; track monthlySummary) {
+                        <app-monthly-summary-card
+                        [month]="monthlySummary.month"
+                        [totalIncome]="monthlySummary.totalIncome"
+                        [totalExpense]="monthlySummary.totalExpense"
+                        [balance]="monthlySummary.balance"
+                        />
+                }
+        </app-monthly-summaries-container>
+}

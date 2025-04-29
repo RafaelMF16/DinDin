@@ -14,4 +14,8 @@ export class HttpService {
   post<T>(endpoint: string, body: any, headers?: HttpHeaders): Observable<T> {
     return this.http.post<T>(`${this.baseUrl}/${endpoint}`, body, { headers });
   }
+
+  get<T>(endpoint: string): Observable<T> {
+    return this.http.get<T>(`${this.baseUrl}/${endpoint}`);
+  }
 }
