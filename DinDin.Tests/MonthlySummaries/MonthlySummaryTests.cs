@@ -51,11 +51,12 @@ namespace DinDin.Tests.MonthlySummaries
         }
 
         [Fact]
-        public void Should_be_able_to_get_all_monthly_summaries_when_calling_get_all()
+        public async Task Should_be_able_to_get_all_monthly_summaries_with_user_id_when_calling_get_all()
         {
             var monthlySummaryList = CreateMonthlySummaryList();
 
-            var dataBaseList = _monthlySummaryService.GetAllWithUserId();
+            const string userId = "1";
+            var dataBaseList = await _monthlySummaryService.GetAllWithUserId(userId);
 
             Assert.Equivalent(monthlySummaryList, dataBaseList);
         }
@@ -64,12 +65,12 @@ namespace DinDin.Tests.MonthlySummaries
         [InlineData("1")]
         [InlineData("2")]
         [InlineData("3")]
-        public void Get_by_id_must_return_monthly_summary_with_id_expected(string id)
+        public async Task Get_by_id_must_return_monthly_summary_with_id_expected(string id)
         {
             CreateMonthlySummaryList();
             var expectedId = id;
 
-            var dataBaseUser = _monthlySummaryService.GetById(id);
+            var dataBaseUser = await _monthlySummaryService.GetById(id);
 
             Assert.Equal(expectedId, dataBaseUser.Id);
         }
@@ -78,13 +79,13 @@ namespace DinDin.Tests.MonthlySummaries
         [InlineData("4")]
         [InlineData("5")]
         [InlineData("6")]
-        public void Get_by_id_must_throw_exception_if_id_is_null(string id)
+        public async Task Get_by_id_must_throw_exception_if_id_is_null(string id)
         {
             CreateMonthlySummaryList();
 
             var errorMessageExpected = $"Not find monthly summary with id: {id}";
 
-            var exception = Assert.Throws<ArgumentNullException>(() => _monthlySummaryService.GetById(id));
+            var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => _monthlySummaryService.GetById(id));
 
             Assert.Equal(errorMessageExpected, exception.ParamName);
         }
@@ -163,21 +164,24 @@ namespace DinDin.Tests.MonthlySummaries
                 {
                     Id = "1",
                     TotalExpense = 300,
-                    TotalIncome = 500
+                    TotalIncome = 500,
+                    UserId = "1",
                 },
 
                 new()
                 {
                     Id = "2",
                     TotalExpense = 200,
-                    TotalIncome = 300
+                    TotalIncome = 300,
+                    UserId = "1",
                 },
 
                 new()
                 {
                     Id = "3",
                     TotalExpense = 100,
-                    TotalIncome = 700
+                    TotalIncome = 700,
+                    UserId = "1",
                 }
             };
 
