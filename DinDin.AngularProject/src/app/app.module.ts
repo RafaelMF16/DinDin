@@ -22,8 +22,16 @@ import { HeaderComponent } from './components/header/header.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
-import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AddTransactionDialogComponent } from './components/add-transaction-dialog/add-transaction-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -35,7 +43,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MonthlySummariesListComponent,
     MonthlySummariesContainerComponent,
     MonthlySummaryCardComponent,
-    HeaderComponent
+    HeaderComponent,
+    AddTransactionDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -48,11 +57,21 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatIconModule,
     MatTooltipModule,
     MatToolbarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [
     provideRouter(routes),
-    provideHttpClient()
+    provideHttpClient(),
+    { 
+      provide: MAT_DATE_LOCALE, 
+      useValue: 'pt-BR' 
+    }
   ],
   bootstrap: [AppComponent]
 })

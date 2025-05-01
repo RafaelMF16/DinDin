@@ -3,6 +3,8 @@ import { MonthlySummaryService } from './service/monthly-summary.service';
 import { catchError, throwError } from 'rxjs';
 import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { AddTransactionDialogComponent } from '../../components/add-transaction-dialog/add-transaction-dialog.component';
 
 @Component({
   selector: 'app-monthly-summaries-list',
@@ -15,6 +17,9 @@ export class MonthlySummariesListComponent implements OnInit {
   private monthlySummaryService = inject(MonthlySummaryService);
 
   private snackBar = inject(MatSnackBar);
+
+  readonly addTransactionDialog = inject(MatDialog);
+
 
   monthlySummariesList: MonthlySummary[] = [];
 
@@ -39,6 +44,13 @@ export class MonthlySummariesListComponent implements OnInit {
       duration: 4000,
       horizontalPosition: 'center',
       verticalPosition: 'top'
+    });
+  }
+
+  onClickInAdd(): void {
+    this.addTransactionDialog.open(AddTransactionDialogComponent, {
+      height: '55vh',
+      width: '800px'
     });
   }
 }
