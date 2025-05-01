@@ -1,0 +1,66 @@
+.btn-save {
+    width: 80px;
+    background-color: #58af9b;
+    color: #ffff;
+}
+
+.btn-cancel {
+    margin-left: 10px;
+    border: 1px solid black;
+}
+
+.btn-common {
+    transition: transform 0.3s ease;
+}
+
+.btn-common:hover {
+    transform: scale(1.05);
+}
+
+.form-field-area {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.form-field {
+    width: 50%;
+}
+
+.amount-form-field {
+    width: 48%;
+}
+
+.category-form-field {
+    width: 48%;
+}
+
+.date-form-field {
+    width: 48%;
+    height: min-content;
+}
+
+.description-form-field {
+    width: 100%;
+    height: 150px;
+}
+
+.amont-input {
+    text-align: right;
+}
+
+.text-area-input {
+    resize: none;
+}
+
+.checkbox-area {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+input.amont-input::-webkit-outer-spin-button,
+input.amont-input::-webkit-inner-spin-button {
+    display: none;
+}
