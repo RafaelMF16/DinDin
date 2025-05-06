@@ -12,9 +12,6 @@ export class AddTransactionDialogComponent implements OnInit {
   readonly addTransactionDialog = inject(MatDialogRef<AddTransactionDialogComponent>);
 
   transactionForm!: FormGroup;
-  isIncome: boolean = true;
-  isExpense: boolean = false;
-  errorMessage = signal('');
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -31,31 +28,31 @@ export class AddTransactionDialogComponent implements OnInit {
       amont: [
         0,
         Validators.compose([
-          Validators.required,
+          Validators.required
         ])
       ],
       category: [
         '',
         Validators.compose([
-          Validators.required,
+          Validators.required
         ])
       ],
       transactionDate: [
         '',
         Validators.compose([
-          Validators.required,
+          Validators.required
         ])
       ],
       type: [
         '',
         Validators.compose([
-          Validators.required,
+          Validators.required
         ])
       ],
       description: [
         '',
         Validators.compose([
-          Validators.required,
+          Validators.required
         ])
       ]
     })
@@ -65,8 +62,8 @@ export class AddTransactionDialogComponent implements OnInit {
     this.addTransactionDialog.close();
   }
 
-  updateErrorMessage(): void {
-
+  mostrarForms(): void {
+    console.log(this.transactionForm.value)
   }
 
   categories: string[] = [

@@ -9,15 +9,25 @@
                 </mat-label>
                 <input matInput type="number" class="amont-input" placeholder="0" formControlName="amont" />
                 <span matTextPrefix>$&nbsp;</span>
+                @if (transactionForm.get('amont')?.errors?.['required'] && transactionForm.get('amont')?.touched) {
+                <mat-error>
+                    O campo valor é obrigatório!
+                </mat-error>
+                }
             </mat-form-field>
 
             <mat-form-field class="form-field">
                 <mat-label>Categoria</mat-label>
                 <mat-select required formControlName="category">
                     @for (category of categories; track category) {
-                    <mat-option [value]="category"> {{ category }}</mat-option>
+                        <mat-option [value]="category"> {{ category }}</mat-option>
                     }
                 </mat-select>
+                @if (transactionForm.get('category')?.errors?.['required'] && transactionForm.get('category')?.touched) {
+                    <mat-error>
+                        O campo categoria é obrigatório!
+                    </mat-error>
+                }
             </mat-form-field>
 
             <mat-form-field class="form-field" appearance="fill">
@@ -25,30 +35,31 @@
                 <input matInput required [matDatepicker]="picker" formControlName="transactionDate">
                 <mat-datepicker-toggle matIconSuffix [for]="picker" />
                 <mat-datepicker #picker />
+                @if (transactionForm.get('transactionDate')?.errors?.['required'] && transactionForm.get('transactionDate')?.touched) {
+                    <mat-error>
+                        O campo data é obrigatório!
+                    </mat-error>
+                }
             </mat-form-field>
 
-            <div class="checkbox-area">
+            <mat-radio-group formControlName="type" class="checkbox-area">
                 <h6>Tipo:</h6>
-                <mat-checkbox class="example-ripple-checkbox" value="isExpense">
-                    Despesa
-                </mat-checkbox>
+                <mat-radio-button value="despesa">Despesa</mat-radio-button>
+                <mat-radio-button value="renda">Renda</mat-radio-button>
+                @if (transactionForm.get('type')?.errors?.['required'] && transactionForm.get('type')?.touched) {
+                    <mat-error>
+                        O campo tipo é obrigatório!
+                    </mat-error>
+                }
+            </mat-radio-group>
 
-                <mat-checkbox class="example-ripple-checkbox" value="isIncome">
-                    Renda
-                </mat-checkbox>
-            </div>
-
-            <mat-form-field class="description-form-field" appearance="outline" >
+            <mat-form-field class="description-form-field" appearance="outline">
                 <mat-label>Descrição</mat-label>
-                <textarea 
-                    matInput required 
-                    class="text-area-input" 
-                    formControlName="description" 
-                    (blur)="updateErrorMessage()">
+                <textarea matInput required class="text-area-input" formControlName="description">
                 </textarea>
                 @if (transactionForm.get('description')?.errors?.['required'] && transactionForm.get('description')?.touched) {
                     <mat-error>
-                        {{ errorMessage }}
+                        O campo descrição é obrigatório!
                     </mat-error>
                 }
             </mat-form-field>
@@ -57,7 +68,7 @@
 </mat-dialog-content>
 <mat-divider class="my-1"></mat-divider>
 <mat-dialog-actions>
-    <button class="btn btn-sm btn-save btn-common">
+    <button class="btn btn-sm btn-save btn-common" (click)="mostrarForms()">
         Salvar
     </button>
     <button (click)="onClickCancel()" class="btn btn-sm btn-cancel btn-common">
