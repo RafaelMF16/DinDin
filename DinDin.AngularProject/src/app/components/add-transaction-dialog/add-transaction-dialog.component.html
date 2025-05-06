@@ -13,7 +13,7 @@
 
             <mat-form-field class="form-field">
                 <mat-label>Categoria</mat-label>
-                <mat-select formControlName="category">
+                <mat-select required formControlName="category">
                     @for (category of categories; track category) {
                     <mat-option [value]="category"> {{ category }}</mat-option>
                     }
@@ -22,7 +22,7 @@
 
             <mat-form-field class="form-field" appearance="fill">
                 <mat-label>Escolha uma data</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="transactionDate">
+                <input matInput required [matDatepicker]="picker" formControlName="transactionDate">
                 <mat-datepicker-toggle matIconSuffix [for]="picker" />
                 <mat-datepicker #picker />
             </mat-form-field>
@@ -40,14 +40,24 @@
 
             <mat-form-field class="description-form-field" appearance="outline" >
                 <mat-label>Descrição</mat-label>
-                <textarea matInput class="text-area-input" formControlName="description"></textarea>
+                <textarea 
+                    matInput required 
+                    class="text-area-input" 
+                    formControlName="description" 
+                    (blur)="updateErrorMessage()">
+                </textarea>
+                @if (transactionForm.get('description')?.errors?.['required'] && transactionForm.get('description')?.touched) {
+                    <mat-error>
+                        {{ errorMessage }}
+                    </mat-error>
+                }
             </mat-form-field>
         </form>
     </app-forms-container>
 </mat-dialog-content>
 <mat-divider class="my-1"></mat-divider>
 <mat-dialog-actions>
-    <button class="btn btn-sm btn-save btn-common" (click)="teste()">
+    <button class="btn btn-sm btn-save btn-common">
         Salvar
     </button>
     <button (click)="onClickCancel()" class="btn btn-sm btn-cancel btn-common">

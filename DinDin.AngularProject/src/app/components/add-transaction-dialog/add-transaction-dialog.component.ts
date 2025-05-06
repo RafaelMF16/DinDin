@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -14,6 +14,7 @@ export class AddTransactionDialogComponent implements OnInit {
   transactionForm!: FormGroup;
   isIncome: boolean = true;
   isExpense: boolean = false;
+  errorMessage = signal('');
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -64,8 +65,8 @@ export class AddTransactionDialogComponent implements OnInit {
     this.addTransactionDialog.close();
   }
 
-  teste(): void {
-    console.log(this.transactionForm.value)
+  updateErrorMessage(): void {
+
   }
 
   categories: string[] = [
