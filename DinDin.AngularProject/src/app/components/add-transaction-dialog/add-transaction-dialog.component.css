@@ -17,27 +17,8 @@
     transform: scale(1.05);
 }
 
-.form-field-area {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-}
-
 .form-field {
-    width: 50%;
-}
-
-.amount-form-field {
-    width: 48%;
-}
-
-.category-form-field {
-    width: 48%;
-}
-
-.date-form-field {
-    width: 48%;
-    height: min-content;
+    width: 100%;
 }
 
 .description-form-field {

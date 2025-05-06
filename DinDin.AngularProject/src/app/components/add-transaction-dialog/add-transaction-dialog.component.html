@@ -2,61 +2,52 @@
 <mat-divider class="my-1"></mat-divider>
 <mat-dialog-content>
     <app-forms-container>
-        <form>
-            <div class="form-field-area">
-                <mat-form-field class="amount-form-field" floatLabel="always">
-                    <mat-label>
-                        Valor
-                    </mat-label>
-                    <input matInput type="number" class="amont-input" placeholder="0" />
-                    <span matTextPrefix>$&nbsp;</span>
-                </mat-form-field>
+        <form [formGroup]="transactionForm">
+            <mat-form-field class="form-field" floatLabel="always">
+                <mat-label>
+                    Valor
+                </mat-label>
+                <input matInput type="number" class="amont-input" placeholder="0" formControlName="amont" />
+                <span matTextPrefix>$&nbsp;</span>
+            </mat-form-field>
 
-                <mat-form-field class="category-form-field">
-                    <mat-label>Categoria</mat-label>
-                    <mat-select>
-                        @for (category of categories; track category) {
-                        <mat-option [value]="category"> {{ category }}</mat-option>
-                        }
-                    </mat-select>
-                </mat-form-field>
+            <mat-form-field class="form-field">
+                <mat-label>Categoria</mat-label>
+                <mat-select formControlName="category">
+                    @for (category of categories; track category) {
+                    <mat-option [value]="category"> {{ category }}</mat-option>
+                    }
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Escolha uma data</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="transactionDate">
+                <mat-datepicker-toggle matIconSuffix [for]="picker" />
+                <mat-datepicker #picker />
+            </mat-form-field>
+
+            <div class="checkbox-area">
+                <h6>Tipo:</h6>
+                <mat-checkbox class="example-ripple-checkbox" value="isExpense">
+                    Despesa
+                </mat-checkbox>
+
+                <mat-checkbox class="example-ripple-checkbox" value="isIncome">
+                    Renda
+                </mat-checkbox>
             </div>
 
-            <div class="form-field-area">
-
-                <mat-form-field class="date-form-field">
-                    <mat-label>Escolha uma data</mat-label>
-                    <input matInput [matDatepicker]="picker" [formControl]="dataEscolhida">
-                    <mat-datepicker-toggle matIconSuffix [for]="picker" />
-                    <mat-datepicker #picker />
-                </mat-form-field>
-
-                <div class="checkbox-area">
-                    <h6>Tipo:</h6>
-                    <mat-checkbox class="example-ripple-checkbox">
-                        Despesa
-                    </mat-checkbox>
-        
-                    <mat-checkbox class="example-ripple-checkbox">
-                        Renda
-                    </mat-checkbox>
-                </div>
-            </div>
-
-            
-
-            <div class="form-field-area">
-                <mat-form-field class="description-form-field" appearance="outline">
-                    <mat-label>Descrição</mat-label>
-                    <textarea matInput class="text-area-input"></textarea>
-                </mat-form-field>
-            </div>
+            <mat-form-field class="description-form-field" appearance="outline" >
+                <mat-label>Descrição</mat-label>
+                <textarea matInput class="text-area-input" formControlName="description"></textarea>
+            </mat-form-field>
         </form>
     </app-forms-container>
 </mat-dialog-content>
 <mat-divider class="my-1"></mat-divider>
 <mat-dialog-actions>
-    <button class="btn btn-sm btn-save btn-common">
+    <button class="btn btn-sm btn-save btn-common" (click)="teste()">
         Salvar
     </button>
     <button (click)="onClickCancel()" class="btn btn-sm btn-cancel btn-common">

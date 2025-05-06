@@ -49,8 +49,8 @@ export class MonthlySummariesListComponent implements OnInit {
 
   onClickInAdd(): void {
     this.addTransactionDialog.open(AddTransactionDialogComponent, {
-      height: '55vh',
-      width: '800px'
+      height: '75vh',
+      width: '400px'
     });
   }
 }
