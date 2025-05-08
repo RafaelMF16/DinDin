@@ -1,12 +1,16 @@
 ﻿using DinDin.Domain.Transactions;
+using Raven.Client.Documents.Session;
 
 namespace DinDin.Infra.Transactions
 {
-    public class TransactionRepository : ITransactionRepository
+    public class TransactionRepository(IAsyncDocumentSession session) : ITransactionRepository
     {
-        public void Add(Transaction transaction)
+        private readonly IAsyncDocumentSession _session = session;
+
+        public async Task Add(Transaction transaction)
         {
-            throw new NotImplementedException();
+            await _session.StoreAsync(transaction);
+            await _session.SaveChangesAsync();
         }
 
         public void Delete(int id)

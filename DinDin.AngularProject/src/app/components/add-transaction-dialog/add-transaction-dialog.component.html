@@ -68,7 +68,14 @@
 </mat-dialog-content>
 <mat-divider class="my-1"></mat-divider>
 <mat-dialog-actions>
-    <button class="btn btn-sm btn-save btn-common" (click)="mostrarForms()">
+    <button 
+        [disabled]="!transactionForm.valid"
+        [ngClass]="{
+            'btn-save': transactionForm.valid, 
+            'btn-disabled': !transactionForm.valid
+        }" 
+        class="btn btn-sm btn-common" 
+        (click)="onClickInSave()">
         Salvar
     </button>
     <button (click)="onClickCancel()" class="btn btn-sm btn-cancel btn-common">

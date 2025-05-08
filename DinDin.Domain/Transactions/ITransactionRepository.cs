@@ -4,7 +4,7 @@
     {
         List<Transaction> GetAll(FilterTransaction? filter = null);
         Transaction GetById(int id);
-        void Add(Transaction transaction);
+        Task Add(Transaction transaction);
         void Update (Transaction transaction);
         void Delete (int id);
     }
