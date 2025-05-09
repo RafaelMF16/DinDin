@@ -1,15 +1,12 @@
 ﻿using System.Text;
 using DinDin.Domain.Constantes;
 using DinDin.Domain.MonthlySummaries;
-using DinDin.Domain.Transactions;
 using DinDin.Domain.Users;
 using DinDin.Infra.MonthlySummaries;
 using DinDin.Infra.RavenDB;
-using DinDin.Infra.Transactions;
 using DinDin.Infra.Users;
 using DinDin.Services.Auth;
 using DinDin.Services.MonthlySummaries;
-using DinDin.Services.Transactions;
 using DinDin.Services.Users;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -35,9 +32,6 @@ namespace DinDin.Web
             builder.Services.AddScoped<MonthlySummaryService>();
             builder.Services.AddScoped<IMonthlySummaryRepository, MonthlySummaryRepository>();
             builder.Services.AddScoped<IValidator<MonthlySummary>, ValidatorMonthlySummary>();
-
-            builder.Services.AddScoped<TransactionService>();
-            builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 
             builder.Services.AddSingleton<IDocumentStore>(_ => DocumentStoreHolder.Store);
             builder.Services.AddScoped<IAsyncDocumentSession>(provider =>

@@ -10,7 +10,7 @@ export class TransactionService {
   private httpService = inject(HttpService);
 
   addTransaction(transaction: any): Observable<any> {
-    const endpoint = "Transaction";
+    const endpoint = "MonthlySummary/add-transaction";
     return this.httpService.post<any>(endpoint, transaction);
   }
 }

@@ -1,4 +1,5 @@
 ﻿using DinDin.Domain.MonthlySummaries;
+using DinDin.Domain.Transactions;
 using DinDin.Services.MonthlySummaries;
 using DinDin.Web.DTOS;
 using Microsoft.AspNetCore.Mvc;
@@ -7,14 +8,9 @@ namespace DinDin.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class MonthlySummaryController : ControllerBase
+    public class MonthlySummaryController(MonthlySummaryService monthlySummaryService) : ControllerBase
     {
-        private readonly MonthlySummaryService _monthlySummaryService;
-
-        public MonthlySummaryController(MonthlySummaryService monthlySummaryService)
-        {
-            _monthlySummaryService = monthlySummaryService;
-        }
+        private readonly MonthlySummaryService _monthlySummaryService = monthlySummaryService;
 
         [HttpPost]
         public async Task<IActionResult> CreateMonthlySummary([FromBody] MonthlySummaryDto monthlySummaryDto)
@@ -29,6 +25,13 @@ namespace DinDin.Web.Controllers
 
             await _monthlySummaryService.Add(newMonthlySummary);
 
+            return Ok();
+        }
+
+        [HttpPost("add-transaction")]
+        public async Task<IActionResult> AddTransaction([FromBody] Transaction transaction)
+        {
+            await _monthlySummaryService.AddTransaction(transaction);
             return Ok();
         }
 

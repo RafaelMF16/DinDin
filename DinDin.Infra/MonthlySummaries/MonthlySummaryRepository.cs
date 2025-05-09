@@ -1,4 +1,5 @@
 ﻿using DinDin.Domain.MonthlySummaries;
+using DinDin.Domain.Transactions;
 using DinDin.Infra.RavenDB.Extensions;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
@@ -20,6 +21,23 @@ namespace DinDin.Infra.MonthlySummaries
             await _session.SaveChangesAsync();
         }
 
+        public void AddTransactionInMonthlySummary(MonthlySummary monthlySummary, Transaction transaction)
+        {
+            monthlySummary.Transactions.Add(transaction);
+            AddAmontInMonthlySummary(monthlySummary, transaction);
+
+            _session.SaveChangesAsync();
+        }
+
+        private static void AddAmontInMonthlySummary(MonthlySummary monthlySummary, Transaction transaction)
+        {
+            const string expense = "despesa";
+            if (transaction.Type == expense)
+                monthlySummary.TotalExpense += transaction.Amont;
+            else
+                monthlySummary.TotalIncome += transaction.Amont;
+        }
+
         public async Task Delete(string id)
         {
             _session.Delete(id);
@@ -34,6 +52,19 @@ namespace DinDin.Infra.MonthlySummaries
         public async Task<MonthlySummary> GetById(string id)
         {
             return await _session.GetById<MonthlySummary>(id);
+        }
+
+        public async Task<MonthlySummary> GetByMonthAndYear(Transaction transaction)
+        {
+            var monthlySummary = await _session.MonthlySummaries().WithMonth(transaction.TransactionDate).WithYear(transaction.TransactionDate).FirstOrDefaultAsync();
+            if (monthlySummary is null)
+            {
+                monthlySummary = new MonthlySummary { Month = transaction.TransactionDate.Month, Year = transaction.TransactionDate.Year };
+                await _session.StoreAsync(monthlySummary);
+                await _session.SaveChangesAsync();
+            }
+
+            return monthlySummary;
         }
 
         public async Task Update(MonthlySummary updatedMonthlySummary)

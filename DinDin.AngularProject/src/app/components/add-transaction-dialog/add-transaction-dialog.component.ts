@@ -64,6 +64,10 @@ export class AddTransactionDialogComponent implements OnInit {
   }
 
   onClickCancel(): void {
+    this.closeModal();
+  }
+
+  closeModal(): void {
     this.addTransactionDialog.close();
   }
 
@@ -81,6 +85,7 @@ export class AddTransactionDialogComponent implements OnInit {
       ).subscribe(() => {
         const successMessage = "Transação cadastrada com sucesso!"
         this.openSnackBar(successMessage);
+        this.closeModal();
       });
   }
 
