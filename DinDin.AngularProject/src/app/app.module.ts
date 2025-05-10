@@ -33,6 +33,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatRadioModule} from '@angular/material/radio';
+import { MonthlySummaryDetailsComponent } from './pages/monthly-summary-details/monthly-summary-details.component';
+import {MatListModule} from '@angular/material/list';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -45,7 +48,8 @@ import {MatRadioModule} from '@angular/material/radio';
     MonthlySummariesContainerComponent,
     MonthlySummaryCardComponent,
     HeaderComponent,
-    AddTransactionDialogComponent
+    AddTransactionDialogComponent,
+    MonthlySummaryDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -65,7 +69,9 @@ import {MatRadioModule} from '@angular/material/radio';
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatRadioModule
+    MatRadioModule,
+    MatListModule,
+    MatExpansionModule
   ],
   providers: [
     provideRouter(routes),

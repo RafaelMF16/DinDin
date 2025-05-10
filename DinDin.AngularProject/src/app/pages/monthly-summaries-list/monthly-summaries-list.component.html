@@ -13,12 +13,16 @@
         </div>
 } @else {
         <app-monthly-summaries-container>
-                @for (monthlySummary of monthlySummariesList; track monthlySummary) {
-                        <app-monthly-summary-card 
+                @for (monthlySummary of monthlySummariesList; track monthlySummary.id) {
+                        <app-monthly-summary-card
+                                (cardClick)="onClickInCard($event)"
+                                [id] = "monthlySummary.id"
                                 [month]="monthlySummary.month" 
                                 [totalIncome]="monthlySummary.totalIncome"
                                 [totalExpense]="monthlySummary.totalExpense"
-                                [balance]="monthlySummary.balance" />
+                                [balance]="monthlySummary.balance"
+                        >
+                        </app-monthly-summary-card>
                 }
         </app-monthly-summaries-container>
 }

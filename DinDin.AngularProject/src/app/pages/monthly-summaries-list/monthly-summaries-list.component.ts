@@ -5,6 +5,7 @@ import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTransactionDialogComponent } from '../../components/add-transaction-dialog/add-transaction-dialog.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-monthly-summaries-list',
@@ -15,9 +16,8 @@ import { AddTransactionDialogComponent } from '../../components/add-transaction-
 export class MonthlySummariesListComponent implements OnInit {
 
   private monthlySummaryService = inject(MonthlySummaryService);
-
   private snackBar = inject(MatSnackBar);
-
+  private router = inject(Router);
   readonly addTransactionDialog = inject(MatDialog);
 
 
@@ -56,5 +56,13 @@ export class MonthlySummariesListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(() => {
       this.loadMonthlySummaries();
     });
+  }
+
+  onClickInCard(id: string): void {
+    this.goToMonthlySummaryDetails(id);
+  }
+
+  goToMonthlySummaryDetails(id: string): void {
+    this.router.navigate(['/monthly-summary', id]);
   }
 }
