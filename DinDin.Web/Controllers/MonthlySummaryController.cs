@@ -29,9 +29,18 @@ namespace DinDin.Web.Controllers
         }
 
         [HttpPost("add-transaction")]
-        public async Task<IActionResult> AddTransaction([FromBody] Transaction transaction)
+        public async Task<IActionResult> AddTransaction([FromBody] TransactionDto transactionDto)
         {
-            await _monthlySummaryService.AddTransaction(transaction);
+            var transaction = new Transaction
+            {
+                Type = transactionDto.Type,
+                Category = transactionDto.Category,
+                Amont = transactionDto.Amont,
+                Description = transactionDto.Description,
+                TransactionDate = transactionDto.TransactionDate
+            };
+
+            await _monthlySummaryService.AddTransaction(transaction, transactionDto.UserId);
             return Ok();
         }
 

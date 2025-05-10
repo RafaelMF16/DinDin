@@ -54,12 +54,12 @@ namespace DinDin.Infra.MonthlySummaries
             return await _session.GetById<MonthlySummary>(id);
         }
 
-        public async Task<MonthlySummary> GetByMonthAndYear(Transaction transaction)
+        public async Task<MonthlySummary> GetByMonthAndYear(Transaction transaction, string userId)
         {
-            var monthlySummary = await _session.MonthlySummaries().WithMonth(transaction.TransactionDate).WithYear(transaction.TransactionDate).FirstOrDefaultAsync();
+            var monthlySummary = await _session.MonthlySummaries().WithUserId(userId).WithMonth(transaction.TransactionDate).WithYear(transaction.TransactionDate).FirstOrDefaultAsync();
             if (monthlySummary is null)
             {
-                monthlySummary = new MonthlySummary { Month = transaction.TransactionDate.Month, Year = transaction.TransactionDate.Year };
+                monthlySummary = new MonthlySummary { Month = transaction.TransactionDate.Month, Year = transaction.TransactionDate.Year, UserId = userId };
                 await _session.StoreAsync(monthlySummary);
                 await _session.SaveChangesAsync();
             }

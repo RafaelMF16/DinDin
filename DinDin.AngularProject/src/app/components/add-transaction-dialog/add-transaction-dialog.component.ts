@@ -59,6 +59,9 @@ export class AddTransactionDialogComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])
+      ],
+      userId: [
+        ''
       ]
     })
   }
@@ -76,7 +79,7 @@ export class AddTransactionDialogComponent implements OnInit {
   }
 
   addTransaction(): void {
-    this.transactionService.addTransaction(this.transactionForm.value)
+    this.transactionService.addTransaction(this.transactionForm)
       .pipe(
         catchError(() => {
           this.openSnackBar("Erro");

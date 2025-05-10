@@ -51,9 +51,9 @@ namespace DinDin.Services.MonthlySummaries
                 ?? throw new ArgumentNullException($"Not find monthly summary with id: {id}");
         }
 
-        public async Task AddTransaction(Transaction transaction)
+        public async Task AddTransaction(Transaction transaction, string userId)
         {
-            var monthlySummary = await _monthlySummaryRepository.GetByMonthAndYear(transaction);
+            var monthlySummary = await _monthlySummaryRepository.GetByMonthAndYear(transaction, userId);
 
             _monthlySummaryRepository.AddTransactionInMonthlySummary(monthlySummary, transaction);
         }
