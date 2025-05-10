@@ -2,7 +2,6 @@
 {
     public class Transaction
     {
-        public int Id { get; set; }
         public string Type { get; set; }
         public string Category { get; set; }
         public decimal Amont { get; set; }

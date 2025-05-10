@@ -1,5 +1,4 @@
 .btn-save {
-    width: 80px;
     background-color: #58af9b;
     color: #ffff;
 }
@@ -10,6 +9,7 @@
 }
 
 .btn-common {
+    width: 80px;
     transition: transform 0.3s ease;
 }
 
@@ -17,32 +17,19 @@
     transform: scale(1.05);
 }
 
-.form-field-area {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+.btn-disabled {
+    color: gray;
 }
 
 .form-field {
-    width: 50%;
-}
-
-.amount-form-field {
-    width: 48%;
-}
-
-.category-form-field {
-    width: 48%;
-}
-
-.date-form-field {
-    width: 48%;
-    height: min-content;
+    width: 100%;
+    margin-bottom: 15px;
 }
 
 .description-form-field {
     width: 100%;
     height: 150px;
+    margin-bottom: 15px;
 }
 
 .amont-input {

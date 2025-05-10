@@ -1,4 +1,5 @@
 ﻿using DinDin.Domain.MonthlySummaries;
+using DinDin.Domain.Transactions;
 using FluentValidation;
 
 namespace DinDin.Services.MonthlySummaries
@@ -48,6 +49,13 @@ namespace DinDin.Services.MonthlySummaries
         {
             return await _monthlySummaryRepository.GetById(id)
                 ?? throw new ArgumentNullException($"Not find monthly summary with id: {id}");
+        }
+
+        public async Task AddTransaction(Transaction transaction, string userId)
+        {
+            var monthlySummary = await _monthlySummaryRepository.GetByMonthAndYear(transaction, userId);
+
+            _monthlySummaryRepository.AddTransactionInMonthlySummary(monthlySummary, transaction);
         }
 
         public async Task Update(MonthlySummary monthlySummary)

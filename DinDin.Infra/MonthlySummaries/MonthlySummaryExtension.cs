@@ -10,5 +10,15 @@ namespace DinDin.Infra.MonthlySummaries
         {
             return query.Where(monthlySummary => monthlySummary.UserId == id);
         }
+
+        public static IRavenQueryable<MonthlySummary> WithMonth(this IRavenQueryable<MonthlySummary> query, DateTime transactionDate)
+        {
+            return query.Where(monthlySummary => monthlySummary.Month == transactionDate.Month);
+        }
+
+        public static IRavenQueryable<MonthlySummary> WithYear(this IRavenQueryable<MonthlySummary> query, DateTime transactionDate)
+        {
+            return query.Where(monthlySummary => monthlySummary.Year == transactionDate.Year);
+        }
     }
 }

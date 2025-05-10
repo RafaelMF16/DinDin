@@ -2,61 +2,80 @@
 <mat-divider class="my-1"></mat-divider>
 <mat-dialog-content>
     <app-forms-container>
-        <form>
-            <div class="form-field-area">
-                <mat-form-field class="amount-form-field" floatLabel="always">
-                    <mat-label>
-                        Valor
-                    </mat-label>
-                    <input matInput type="number" class="amont-input" placeholder="0" />
-                    <span matTextPrefix>$&nbsp;</span>
-                </mat-form-field>
+        <form [formGroup]="transactionForm">
+            <mat-form-field class="form-field" floatLabel="always">
+                <mat-label>
+                    Valor
+                </mat-label>
+                <input matInput type="number" class="amont-input" placeholder="0" formControlName="amont" />
+                <span matTextPrefix>$&nbsp;</span>
+                @if (transactionForm.get('amont')?.errors?.['required'] && transactionForm.get('amont')?.touched) {
+                <mat-error>
+                    O campo valor é obrigatório!
+                </mat-error>
+                }
+            </mat-form-field>
 
-                <mat-form-field class="category-form-field">
-                    <mat-label>Categoria</mat-label>
-                    <mat-select>
-                        @for (category of categories; track category) {
+            <mat-form-field class="form-field">
+                <mat-label>Categoria</mat-label>
+                <mat-select required formControlName="category">
+                    @for (category of categories; track category) {
                         <mat-option [value]="category"> {{ category }}</mat-option>
-                        }
-                    </mat-select>
-                </mat-form-field>
-            </div>
+                    }
+                </mat-select>
+                @if (transactionForm.get('category')?.errors?.['required'] && transactionForm.get('category')?.touched) {
+                    <mat-error>
+                        O campo categoria é obrigatório!
+                    </mat-error>
+                }
+            </mat-form-field>
 
-            <div class="form-field-area">
+            <mat-form-field class="form-field" appearance="fill">
+                <mat-label>Escolha uma data</mat-label>
+                <input matInput required [matDatepicker]="picker" formControlName="transactionDate">
+                <mat-datepicker-toggle matIconSuffix [for]="picker" />
+                <mat-datepicker #picker />
+                @if (transactionForm.get('transactionDate')?.errors?.['required'] && transactionForm.get('transactionDate')?.touched) {
+                    <mat-error>
+                        O campo data é obrigatório!
+                    </mat-error>
+                }
+            </mat-form-field>
 
-                <mat-form-field class="date-form-field">
-                    <mat-label>Escolha uma data</mat-label>
-                    <input matInput [matDatepicker]="picker" [formControl]="dataEscolhida">
-                    <mat-datepicker-toggle matIconSuffix [for]="picker" />
-                    <mat-datepicker #picker />
-                </mat-form-field>
+            <mat-radio-group formControlName="type" class="checkbox-area">
+                <h6>Tipo:</h6>
+                <mat-radio-button value="despesa">Despesa</mat-radio-button>
+                <mat-radio-button value="renda">Renda</mat-radio-button>
+                @if (transactionForm.get('type')?.errors?.['required'] && transactionForm.get('type')?.touched) {
+                    <mat-error>
+                        O campo tipo é obrigatório!
+                    </mat-error>
+                }
+            </mat-radio-group>
 
-                <div class="checkbox-area">
-                    <h6>Tipo:</h6>
-                    <mat-checkbox class="example-ripple-checkbox">
-                        Despesa
-                    </mat-checkbox>
-        
-                    <mat-checkbox class="example-ripple-checkbox">
-                        Renda
-                    </mat-checkbox>
-                </div>
-            </div>
-
-            
-
-            <div class="form-field-area">
-                <mat-form-field class="description-form-field" appearance="outline">
-                    <mat-label>Descrição</mat-label>
-                    <textarea matInput class="text-area-input"></textarea>
-                </mat-form-field>
-            </div>
+            <mat-form-field class="description-form-field" appearance="outline">
+                <mat-label>Descrição</mat-label>
+                <textarea matInput required class="text-area-input" formControlName="description">
+                </textarea>
+                @if (transactionForm.get('description')?.errors?.['required'] && transactionForm.get('description')?.touched) {
+                    <mat-error>
+                        O campo descrição é obrigatório!
+                    </mat-error>
+                }
+            </mat-form-field>
         </form>
     </app-forms-container>
 </mat-dialog-content>
 <mat-divider class="my-1"></mat-divider>
 <mat-dialog-actions>
-    <button class="btn btn-sm btn-save btn-common">
+    <button 
+        [disabled]="!transactionForm.valid"
+        [ngClass]="{
+            'btn-save': transactionForm.valid, 
+            'btn-disabled': !transactionForm.valid
+        }" 
+        class="btn btn-sm btn-common" 
+        (click)="onClickInSave()">
         Salvar
     </button>
     <button (click)="onClickCancel()" class="btn btn-sm btn-cancel btn-common">
