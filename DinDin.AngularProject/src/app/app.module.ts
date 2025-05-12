@@ -36,6 +36,10 @@ import {MatRadioModule} from '@angular/material/radio';
 import { MonthlySummaryDetailsComponent } from './pages/monthly-summary-details/monthly-summary-details.component';
 import {MatListModule} from '@angular/material/list';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { DetailsContainerComponent } from './components/details-container/details-container.component';
+import { MonthlySummaryDetailsCardComponent } from './components/monthly-summary-details-card/monthly-summary-details-card.component';
+import { MonthlySummaryDetailsToolbarComponent } from './components/monthly-summary-details-toolbar/monthly-summary-details-toolbar.component';
+import { TransactionPanelComponent } from './components/transaction-panel/transaction-panel.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +53,11 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MonthlySummaryCardComponent,
     HeaderComponent,
     AddTransactionDialogComponent,
-    MonthlySummaryDetailsComponent
+    MonthlySummaryDetailsComponent,
+    DetailsContainerComponent,
+    MonthlySummaryDetailsCardComponent,
+    MonthlySummaryDetailsToolbarComponent,
+    TransactionPanelComponent
   ],
   imports: [
     BrowserModule,
