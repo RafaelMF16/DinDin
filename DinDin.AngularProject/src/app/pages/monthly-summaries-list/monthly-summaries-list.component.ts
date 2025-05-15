@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MonthlySummaryService } from './service/monthly-summary.service';
+import { MonthlySummaryService } from '../../shared/services/monthySummaryService/monthly-summary.service';
 import { catchError, throwError } from 'rxjs';
 import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTransactionDialogComponent } from '../../components/add-transaction-dialog/add-transaction-dialog.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-monthly-summaries-list',

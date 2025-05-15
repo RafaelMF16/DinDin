@@ -35,7 +35,7 @@ export class MonthlySummaryCardComponent implements OnInit{
     'Outubro',
     'Novembro',
     'Dezembro',
-  ]
+  ];
 
   ngOnInit(): void {
     this.getMonthName();

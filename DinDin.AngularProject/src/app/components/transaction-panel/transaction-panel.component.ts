@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-transaction-panel',
@@ -8,4 +9,19 @@ import { Component } from '@angular/core';
 })
 export class TransactionPanelComponent {
 
+  private datePipe = inject(DatePipe);
+
+  @Input() type!: string;
+  @Input() category!: string;
+  @Input() amont!: number;
+  @Input() description!: string;
+
+  @Input()
+  set transactionDate(value: string) {
+    const datePattern = 'dd/MMM/yyyy'
+    this._transactionDate = this.datePipe.transform(value, datePattern)!;
+
+  }
+
+  _transactionDate!: string;
 }

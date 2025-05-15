@@ -40,6 +40,7 @@ import { DetailsContainerComponent } from './components/details-container/detail
 import { MonthlySummaryDetailsCardComponent } from './components/monthly-summary-details-card/monthly-summary-details-card.component';
 import { MonthlySummaryDetailsToolbarComponent } from './components/monthly-summary-details-toolbar/monthly-summary-details-toolbar.component';
 import { TransactionPanelComponent } from './components/transaction-panel/transaction-panel.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -87,7 +88,8 @@ import { TransactionPanelComponent } from './components/transaction-panel/transa
     { 
       provide: MAT_DATE_LOCALE, 
       useValue: 'pt-BR' 
-    }
+    },
+    [DatePipe]
   ],
   bootstrap: [AppComponent]
 })

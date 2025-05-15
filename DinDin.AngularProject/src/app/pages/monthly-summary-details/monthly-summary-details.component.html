@@ -2,16 +2,31 @@
 
 <app-details-container>
   <div class="back-button">
-    <button class="btn nav-back-button">
+    <button class="btn nav-back-button" (click)="onClickInNavBack()">
       <i class="fa-solid fa-arrow-left"></i>
       Voltar
     </button>
   </div>
-  <app-monthly-summary-details-card></app-monthly-summary-details-card>
+  <app-monthly-summary-details-card
+    [month]="monthlySummary.month"
+    [year]="monthlySummary.year"
+    [totalIncome]="monthlySummary.totalIncome"
+    [totalExpense]="monthlySummary.totalExpense"
+    [balance]="monthlySummary.balance"
+  />
   <div>
     <app-monthly-summary-details-toolbar></app-monthly-summary-details-toolbar>
     <mat-accordion>
-      <app-transaction-panel />
+      @for (transaction of monthlySummary.transactions; track transaction) {
+        <app-transaction-panel 
+          [type]="transaction.type"
+          [category]="transaction.category"
+          [amont]="transaction.amont"
+          [description]="transaction.description"
+          [transactionDate]="transaction.transactionDate"
+        >
+        </app-transaction-panel>
+      }
     </mat-accordion>
   </div>
 </app-details-container>

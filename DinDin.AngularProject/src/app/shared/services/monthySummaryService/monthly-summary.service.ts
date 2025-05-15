@@ -24,4 +24,9 @@ export class MonthlySummaryService {
     
     return this.httpService.get(endpoint);
   }
+
+  getById(id: string): Observable<any> {
+    let endpoint = `MonthlySummary/${id}`;
+    return this.httpService.get(endpoint);
+  }
 }
