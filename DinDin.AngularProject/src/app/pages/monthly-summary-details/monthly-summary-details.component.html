@@ -15,9 +15,9 @@
     [balance]="monthlySummary.balance"
   />
   <div>
-    <app-monthly-summary-details-toolbar></app-monthly-summary-details-toolbar>
+    <app-monthly-summary-details-toolbar/>
     <mat-accordion>
-      @for (transaction of monthlySummary.transactions; track transaction) {
+      @for (transaction of monthlySummary.transactions; track transaction.type) {
         <app-transaction-panel 
           [type]="transaction.type"
           [category]="transaction.category"

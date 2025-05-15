@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './monthly-summary-details-toolbar.component.css'
 })
 export class MonthlySummaryDetailsToolbarComponent {
-
+  
 }

@@ -2,20 +2,6 @@
     flex: 1 2 auto;
 }
 
-.add-button {
-    transition: background-color .5s ease;
-}
-
-.add-button:hover {
-    background-color: #58af9b;
-}
-
-.filters {
-    display: flex;
-    gap: 16px;
-    align-items: center;
-}
-
 .transactions-toolbar {
     display: flex;
     justify-content: space-between;

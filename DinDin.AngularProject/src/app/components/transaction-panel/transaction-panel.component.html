@@ -1,6 +1,6 @@
 <mat-expansion-panel>
     <mat-expansion-panel-header>
-        <mat-panel-title>{{ type }}</mat-panel-title>
+        <mat-panel-title>{{ description }}</mat-panel-title>
         <mat-panel-description>
             <span 
                 [ngClass]="{ 'text-success': type == 'renda', 'text-danger': type == 'despesa' }">
@@ -14,10 +14,4 @@
     <p><strong>Categoria:</strong>
         {{ category }}
     </p>
-    <p><strong>Descrição:</strong>
-        {{ description }}
-    </p>
-    <button mat-icon-button color="warn">
-        <mat-icon>delete</mat-icon>
-    </button>
 </mat-expansion-panel>

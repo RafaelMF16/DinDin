@@ -4,7 +4,6 @@ import { MonthlySummaryService } from '../../shared/services/monthySummaryServic
 import { catchError, throwError } from 'rxjs';
 import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Transaction } from '../../interfaces/transaction.interface';
 
 @Component({
   selector: 'app-monthly-summary-details',
@@ -20,10 +19,11 @@ export class MonthlySummaryDetailsComponent implements OnInit {
   private router = inject(Router);
 
   monthlySummary: MonthlySummary = {} as MonthlySummary;
+  private id: string = '';
 
   ngOnInit(): void {
-    const id = this.getIdByRoute();
-    this.loadMonthlySummary(id);
+    this.getIdByRoute();
+    this.loadMonthlySummary(this.id);
   }
 
   loadMonthlySummary(id: string): void {
@@ -38,15 +38,9 @@ export class MonthlySummaryDetailsComponent implements OnInit {
       });
   }
 
-  getIdByRoute(): string {
+  getIdByRoute(): void {
     const idParameter = "id";
-    const id = this.route.snapshot.paramMap.get(idParameter);
-
-    if (!!id)
-      return id;
-
-    const emptyString = '';
-    return emptyString;
+    this.id = this.route.snapshot.paramMap.get(idParameter)!;
   }
 
   openSnackBar(message: string) {
