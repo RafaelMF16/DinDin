@@ -8,16 +8,12 @@
     </button>
   </div>
   <app-monthly-summary-details-card
-    [month]="monthlySummary.month"
-    [year]="monthlySummary.year"
-    [totalIncome]="monthlySummary.totalIncome"
-    [totalExpense]="monthlySummary.totalExpense"
-    [balance]="monthlySummary.balance"
+    [monthlySummary]="monthlySummary!"
   />
   <div>
     <app-monthly-summary-details-toolbar/>
     <mat-accordion>
-      @for (transaction of monthlySummary.transactions; track transaction.type) {
+      @for (transaction of monthlySummary?.transactions; track transaction.type) {
         <app-transaction-panel 
           [type]="transaction.type"
           [category]="transaction.category"

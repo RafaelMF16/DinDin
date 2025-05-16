@@ -1,7 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MonthlySummaryService } from '../../shared/services/monthySummaryService/monthly-summary.service';
-import { catchError, throwError } from 'rxjs';
+import { catchError, Subscription, throwError } from 'rxjs';
 import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -11,14 +11,14 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './monthly-summary-details.component.html',
   styleUrl: './monthly-summary-details.component.css'
 })
-export class MonthlySummaryDetailsComponent implements OnInit {
-
+export class MonthlySummaryDetailsComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private monthlySummaryService = inject(MonthlySummaryService);
   private snackBar = inject(MatSnackBar);
   private router = inject(Router);
 
-  monthlySummary: MonthlySummary = {} as MonthlySummary;
+  private subscription: Subscription = new Subscription();
+  monthlySummary?: MonthlySummary;
   private id: string = '';
 
   ngOnInit(): void {
@@ -26,8 +26,12 @@ export class MonthlySummaryDetailsComponent implements OnInit {
     this.loadMonthlySummary(this.id);
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   loadMonthlySummary(id: string): void {
-    this.monthlySummaryService.getById(id)
+    this.subscription = this.monthlySummaryService.getById(id)
       .pipe(
         catchError(() => {
           this.openSnackBar("Erro");

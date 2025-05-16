@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
 
 @Component({
   selector: 'app-monthly-summary-details-card',
@@ -8,19 +9,8 @@ import { Component, Input } from '@angular/core';
 })
 export class MonthlySummaryDetailsCardComponent {
 
-  @Input() year!: number;
-  @Input() totalIncome!: number;
-  @Input() totalExpense!: number;
-  @Input() balance!: number;
+  @Input() monthlySummary!: MonthlySummary
 
-  @Input()
-  set month(value: number) {
-    this._month = value;
-    const indexCorrection = 1;
-    this.monthName = this.monthList[value - indexCorrection];
-  }
-
-  private _month!: number;
   monthName: string = '';
 
   private monthList: string[] = [
