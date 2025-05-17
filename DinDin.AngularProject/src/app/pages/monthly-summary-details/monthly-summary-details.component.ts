@@ -1,9 +1,9 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MonthlySummaryService } from '../../shared/services/monthySummaryService/monthly-summary.service';
 import { catchError, Subscription, throwError } from 'rxjs';
 import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MonthlySummaryService } from '../../services/monthlySummaryService/monthly-summary.service';
+import { ToastService } from '../../services/toastService/toast.service';
 
 @Component({
   selector: 'app-monthly-summary-details',
@@ -14,8 +14,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class MonthlySummaryDetailsComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private monthlySummaryService = inject(MonthlySummaryService);
-  private snackBar = inject(MatSnackBar);
   private router = inject(Router);
+  private toastService = inject(ToastService);
 
   private subscription: Subscription = new Subscription();
   monthlySummary?: MonthlySummary;
@@ -34,7 +34,7 @@ export class MonthlySummaryDetailsComponent implements OnInit, OnDestroy {
     this.subscription = this.monthlySummaryService.getById(id)
       .pipe(
         catchError(() => {
-          this.openSnackBar("Erro");
+          this.toastService.openSnackBar("Não foi possível carregar o resumo mensal!");
           return throwError(() => new Error());
         })
       ).subscribe((response) => {
@@ -45,14 +45,6 @@ export class MonthlySummaryDetailsComponent implements OnInit, OnDestroy {
   getIdByRoute(): void {
     const idParameter = "id";
     this.id = this.route.snapshot.paramMap.get(idParameter)!;
-  }
-
-  openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top'
-    });
   }
 
   onClickInNavBack(): void {

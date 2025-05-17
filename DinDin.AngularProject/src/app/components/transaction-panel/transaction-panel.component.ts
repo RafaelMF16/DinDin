@@ -1,5 +1,6 @@
-import { Component, inject, Input } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { Transaction } from '../../interfaces/transaction.interface';
+import { FormatterService } from '../../services/formatterService/formatter.service';
 
 @Component({
   selector: 'app-transaction-panel',
@@ -7,21 +8,13 @@ import { DatePipe } from '@angular/common';
   templateUrl: './transaction-panel.component.html',
   styleUrl: './transaction-panel.component.css'
 })
-export class TransactionPanelComponent {
+export class TransactionPanelComponent implements OnInit {
 
-  private datePipe = inject(DatePipe);
+  private formatterService = inject(FormatterService);
 
-  @Input() type!: string;
-  @Input() category!: string;
-  @Input() amont!: number;
-  @Input() description!: string;
+  @Input() transaction!: Transaction;
 
-  @Input()
-  set transactionDate(value: string) {
-    const datePattern = 'dd/MMM/yyyy'
-    this._transactionDate = this.datePipe.transform(value, datePattern)!;
-
+  ngOnInit(): void {
+    this.transaction.transactionDate = this.formatterService.formatteDate(this.transaction.transactionDate);
   }
-
-  _transactionDate!: string;
 }

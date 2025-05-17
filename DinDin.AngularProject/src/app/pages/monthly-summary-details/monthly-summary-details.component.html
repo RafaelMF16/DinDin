@@ -8,21 +8,18 @@
     </button>
   </div>
   <app-monthly-summary-details-card
-    [monthlySummary]="monthlySummary!"
+    [monthlySummary]="monthlySummary"
+    [month]="monthlySummary?.month"
   />
-  <div>
+  
     <app-monthly-summary-details-toolbar/>
-    <mat-accordion>
-      @for (transaction of monthlySummary?.transactions; track transaction.type) {
+    <mat-accordion class="transaction-list">
+      @for (transaction of monthlySummary?.transactions; track transaction) {
         <app-transaction-panel 
-          [type]="transaction.type"
-          [category]="transaction.category"
-          [amont]="transaction.amont"
-          [description]="transaction.description"
-          [transactionDate]="transaction.transactionDate"
+          [transaction]="transaction"
         >
         </app-transaction-panel>
       }
     </mat-accordion>
-  </div>
+
 </app-details-container>

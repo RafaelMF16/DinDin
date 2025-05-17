@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
+import { FormatterService } from '../../services/formatterService/formatter.service';
 
 @Component({
   selector: 'app-monthly-summary-details-card',
@@ -9,22 +10,12 @@ import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
 })
 export class MonthlySummaryDetailsCardComponent {
 
-  @Input() monthlySummary!: MonthlySummary
+  private formatterService = inject(FormatterService);
 
-  monthName: string = '';
+  _monthName!: string;
 
-  private monthList: string[] = [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro',
-  ];
+  @Input() monthlySummary?: MonthlySummary
+  @Input() set month(value: number) {
+    this._monthName = this.formatterService.formatteMonth(value);
+  }
 }

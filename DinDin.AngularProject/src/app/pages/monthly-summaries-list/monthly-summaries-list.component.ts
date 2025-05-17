@@ -1,11 +1,11 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { MonthlySummaryService } from '../../shared/services/monthySummaryService/monthly-summary.service';
 import { catchError, throwError } from 'rxjs';
 import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTransactionDialogComponent } from '../../components/add-transaction-dialog/add-transaction-dialog.component';
 import { Router } from '@angular/router';
+import { MonthlySummaryService } from '../../services/monthlySummaryService/monthly-summary.service';
+import { ToastService } from '../../services/toastService/toast.service';
 
 @Component({
   selector: 'app-monthly-summaries-list',
@@ -16,12 +16,13 @@ import { Router } from '@angular/router';
 export class MonthlySummariesListComponent implements OnInit {
 
   private monthlySummaryService = inject(MonthlySummaryService);
-  private snackBar = inject(MatSnackBar);
   private router = inject(Router);
+  private toastService = inject(ToastService);
+
   readonly addTransactionDialog = inject(MatDialog);
 
 
-  monthlySummariesList: MonthlySummary[] = [];
+  monthlySummariesList?: MonthlySummary[];
 
   ngOnInit(): void {
     this.loadMonthlySummaries();
@@ -31,20 +32,12 @@ export class MonthlySummariesListComponent implements OnInit {
     this.monthlySummaryService.getAllByUserId()
       .pipe(
         catchError((error) => {
-          this.openSnackBar("Erro");
+          this.toastService.openSnackBar("Não foi possível carregar os resumos mensais!");
           return throwError(() => new Error());
         })
       ).subscribe((response) => {
         this.monthlySummariesList = response;
       });
-  }
-
-  openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top'
-    });
   }
 
   onClickInAdd(): void {

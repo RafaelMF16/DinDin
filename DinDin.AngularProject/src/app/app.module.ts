@@ -7,7 +7,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { AppConfig } from './config/app-config';
 import { environment } from '../environments/environments';
 import { AllPageContainerComponent } from './components/all-page-container/all-page-container.component';
@@ -41,6 +41,7 @@ import { MonthlySummaryDetailsCardComponent } from './components/monthly-summary
 import { MonthlySummaryDetailsToolbarComponent } from './components/monthly-summary-details-toolbar/monthly-summary-details-toolbar.component';
 import { TransactionPanelComponent } from './components/transaction-panel/transaction-panel.component';
 import { DatePipe } from '@angular/common';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { DatePipe } from '@angular/common';
     TransactionPanelComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
@@ -84,12 +86,16 @@ import { DatePipe } from '@angular/common';
   ],
   providers: [
     provideRouter(routes),
-    provideHttpClient(),
     { 
       provide: MAT_DATE_LOCALE, 
-      useValue: 'pt-BR' 
+      useValue: 'pt-BR'
     },
-    [DatePipe]
+    DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

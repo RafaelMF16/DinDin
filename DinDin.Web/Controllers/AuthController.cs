@@ -1,6 +1,7 @@
 ﻿using DinDin.Domain.Users;
 using DinDin.Services.Users;
 using DinDin.Web.DTOS;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DinDin.Web.Controllers

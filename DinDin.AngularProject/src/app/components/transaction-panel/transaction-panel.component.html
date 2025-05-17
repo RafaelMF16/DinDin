@@ -1,17 +1,17 @@
 <mat-expansion-panel>
     <mat-expansion-panel-header>
-        <mat-panel-title>{{ description }}</mat-panel-title>
+        <mat-panel-title>{{ transaction.description }}</mat-panel-title>
         <mat-panel-description>
             <span 
-                [ngClass]="{ 'text-success': type == 'renda', 'text-danger': type == 'despesa' }">
-                {{ amont | currency : "BRL" }}
+                [ngClass]="{ 'text-success': transaction.type == 'renda', 'text-danger': transaction.type == 'despesa' }">
+                {{ transaction.amont | currency : "BRL" }}
             </span>
         </mat-panel-description>
     </mat-expansion-panel-header>
     <p><strong>Data:</strong>
-        {{ _transactionDate }}
+        {{ transaction.transactionDate }}
     </p>
     <p><strong>Categoria:</strong>
-        {{ category }}
+        {{ transaction.category }}
     </p>
 </mat-expansion-panel>

@@ -1,28 +1,32 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpService } from '../../../core/services/httpService/http.service';
 import { Observable } from 'rxjs';
-import { FormGroup } from '@angular/forms';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { HttpService } from '../../core/services/httpService/http.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
-export class TransactionService {
+export class MonthlySummaryService {
 
   private httpService = inject(HttpService);
   private jwtHelper = new JwtHelperService();
 
-  addTransaction(transaction: FormGroup): Observable<any> {
+  getAllByUserId(): Observable<any> {
+    let endpoint = "";
     const tokenKeyName = "token";
     const token = localStorage.getItem(tokenKeyName);
     if (!!token) {
       const decodedToken = this.jwtHelper.decodeToken(token);
       let userId = decodedToken?.nameid;
-      
-      const userIdControlName = "userId"
-      transaction.get(userIdControlName)?.setValue(userId);
+      endpoint = `MonthlySummary/get-all-with-user-id/${userId}`;
     }
-    const endpoint = "MonthlySummary/add-transaction";
-    return this.httpService.post<any>(endpoint, transaction.value);
+    
+    return this.httpService.get(endpoint);
+  }
+
+  getById(id: string): Observable<any> {
+    let endpoint = `MonthlySummary/${id}`;
+    return this.httpService.get(endpoint);
   }
 }
