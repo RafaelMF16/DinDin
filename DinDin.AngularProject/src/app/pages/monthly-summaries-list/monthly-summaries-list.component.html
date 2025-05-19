@@ -16,11 +16,7 @@
                 @for (monthlySummary of monthlySummariesList; track monthlySummary.id) {
                         <app-monthly-summary-card
                                 (cardClick)="onClickInCard($event)"
-                                [id] = "monthlySummary.id"
-                                [month]="monthlySummary.month" 
-                                [totalIncome]="monthlySummary.totalIncome"
-                                [totalExpense]="monthlySummary.totalExpense"
-                                [balance]="monthlySummary.balance"
+                                [monthlySummary]="monthlySummary"
                         >
                         </app-monthly-summary-card>
                 }

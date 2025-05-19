@@ -1,5 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { hoverCardTrigger } from '../../animations';
+import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
+import { FormatterService } from '../../services/formatterService/formatter.service';
 
 @Component({
   selector: 'app-monthly-summary-card',
@@ -10,43 +12,21 @@ import { hoverCardTrigger } from '../../animations';
     hoverCardTrigger
   ]
 })
-export class MonthlySummaryCardComponent implements OnInit{
-  @Input() month!: number;
-  @Input() totalIncome!: number;
-  @Input() totalExpense!: number;
-  @Input() balance!: number;
-  @Input() id!: string;
+export class MonthlySummaryCardComponent implements OnInit {
+  @Input() monthlySummary!: MonthlySummary;
 
   @Output() cardClick = new EventEmitter<string>();
+
+  private formatterService = inject(FormatterService);
 
   hoverState: string = 'neutral';
   monthName: string = '';
 
-  private monthList: string[] = [
-    'Janeiro',
-    'Fevereiro',
-    'Março',
-    'Abril',
-    'Maio',
-    'Junho',
-    'Julho',
-    'Agosto',
-    'Setembro',
-    'Outubro',
-    'Novembro',
-    'Dezembro',
-  ];
-
   ngOnInit(): void {
-    this.getMonthName();
-  }
-
-  getMonthName(): void {
-    const listIndexCorrection: number = 1;
-    this.monthName = this.monthList[this.month - listIndexCorrection]
+    this.monthName = this.formatterService.formatteMonth(this.monthlySummary.month);
   }
 
   onClickInCard(): void {
-    this.cardClick.emit(this.id);
+    this.cardClick.emit(this.monthlySummary.id);
   }
 }

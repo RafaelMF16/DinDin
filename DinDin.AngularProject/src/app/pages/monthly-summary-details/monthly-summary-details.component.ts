@@ -17,7 +17,7 @@ export class MonthlySummaryDetailsComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private toastService = inject(ToastService);
 
-  private subscription: Subscription = new Subscription();
+  private subscription?: Subscription;
   monthlySummary?: MonthlySummary;
   private id: string = '';
 
@@ -27,7 +27,7 @@ export class MonthlySummaryDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 
   loadMonthlySummary(id: string): void {
