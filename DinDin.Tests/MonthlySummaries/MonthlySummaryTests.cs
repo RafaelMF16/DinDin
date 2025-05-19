@@ -1,4 +1,5 @@
 ﻿using DinDin.Domain.MonthlySummaries;
+using DinDin.Domain.Transactions;
 using DinDin.Infra.MonthlySummaries;
 using DinDin.Services.MonthlySummaries;
 using Microsoft.Extensions.DependencyInjection;
@@ -91,13 +92,13 @@ namespace DinDin.Tests.MonthlySummaries
         }
 
         [Fact]
-        public void Delete_should_delete_monthly_summary_with_id_one()
+        public async Task Delete_should_delete_monthly_summary_with_id_one()
         {
             CreateMonthlySummaryList();
 
             const string deletedUserId = "1";
 
-            _monthlySummaryService.Delete(deletedUserId);
+            await _monthlySummaryService.Delete(deletedUserId);
 
             var dataBaseList = MonthlySummarySingleton.Instance;
 
@@ -105,13 +106,13 @@ namespace DinDin.Tests.MonthlySummaries
         }
 
         [Fact]
-        public void Delete_not_must_delete_monthly_summary_with_id_four()
+        public async Task Delete_not_must_delete_monthly_summary_with_id_four()
         {
             CreateMonthlySummaryList();
 
             const string deletedUserId = "4";
 
-            _monthlySummaryService.Delete(deletedUserId);
+            await _monthlySummaryService.Delete(deletedUserId);
 
             var dataBaseList = MonthlySummarySingleton.Instance;
 
@@ -121,7 +122,7 @@ namespace DinDin.Tests.MonthlySummaries
         }
 
         [Fact]
-        public void Must_update_the_total_expense_of_the_monthly_summary_with_id_one()
+        public async Task Must_update_the_total_expense_of_the_monthly_summary_with_id_one()
         {
             CreateMonthlySummaryList();
 
@@ -132,13 +133,13 @@ namespace DinDin.Tests.MonthlySummaries
                 TotalIncome = 500
             };
 
-            _monthlySummaryService.Update(updatedMonthlySummary);
+            await _monthlySummaryService.Update(updatedMonthlySummary);
 
             Assert.Contains(MonthlySummarySingleton.Instance, monthlySummary => monthlySummary == updatedMonthlySummary);
         }
 
         [Fact]
-        public void Must_update_the_total_income_of_the_monthly_summary_with_id_one()
+        public async Task Must_update_the_total_income_of_the_monthly_summary_with_id_one()
         {
             CreateMonthlySummaryList();
 
@@ -149,9 +150,54 @@ namespace DinDin.Tests.MonthlySummaries
                 TotalIncome = 600
             };
 
-            _monthlySummaryService.Update(updatedMonthlySummary);
+            await _monthlySummaryService.Update(updatedMonthlySummary);
 
             Assert.Contains(MonthlySummarySingleton.Instance, monthlySummary => monthlySummary == updatedMonthlySummary);
+        }
+
+        [Fact]
+        public async Task Must_add_transaction_in_monthly_summary()
+        {
+            CreateMonthlySummaryList();
+
+            var newTransaction = new Transaction
+            {
+                Type = "Despesa",
+                Category = "Alimentação",
+                Description = "Test",
+                Amont = 100,
+                TransactionDate = DateTime.Now,
+            };
+
+            const string userId = "1";
+            await _monthlySummaryService.AddTransaction(newTransaction, userId);
+
+            Assert.Contains(MonthlySummarySingleton.Instance, monthlySummary => monthlySummary.Transactions.FirstOrDefault() == newTransaction);
+        }
+
+        [Fact]
+        public async Task Must_add_amont_of_new_transaction_in_month_summary_balance()
+        {
+            CreateMonthlySummaryList();
+
+            var newTransaction = new Transaction
+            {
+                Type = "Despesa",
+                Category = "Alimentação",
+                Description = "Test",
+                Amont = 100,
+                TransactionDate = DateTime.Now,
+            };
+
+            var expectedAmont = 300;
+
+            const string userId = "1";
+            await _monthlySummaryService.AddTransaction(newTransaction, userId);
+
+            const string id = "1";
+            var monthlySummary = await _monthlySummaryService.GetById(id);
+
+            Assert.Equal(expectedAmont, monthlySummary.Balance);
         }
 
         private static List<MonthlySummary> CreateMonthlySummaryList()
