@@ -12,9 +12,10 @@ namespace DinDin.Tests.Users
             _instance = UserSingleton.Instance;
         }
 
-        public async Task Add(User user)
+        public Task Add(User user)
         {
             _instance.Add(user);
+            return Task.CompletedTask;
         }
 
         public void Delete(string id)
@@ -29,7 +30,7 @@ namespace DinDin.Tests.Users
             return _instance.Find(user => user.Id == id);
         }
 
-        public Task<User?> GetUserByEmail(string email)
+        public Task<User> GetUserByEmail(string email)
         {
             var user = _instance.Find(user => user.Email == email);
             return Task.FromResult(user);

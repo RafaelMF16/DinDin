@@ -1,4 +1,5 @@
 ﻿using DinDin.Domain.MonthlySummaries;
+using DinDin.Domain.Transactions;
 using DinDin.Infra.MonthlySummaries;
 
 namespace DinDin.Tests.MonthlySummaries
@@ -12,9 +13,25 @@ namespace DinDin.Tests.MonthlySummaries
             _instance = MonthlySummarySingleton.Instance;
         }
 
-        public async Task Add(MonthlySummary monthlySummary)
+        public Task Add(MonthlySummary monthlySummary)
         {
             _instance.Add(monthlySummary);
+            return Task.CompletedTask;
+        }
+
+        public void AddTransactionInMonthlySummary(MonthlySummary monthlySummary, Transaction transaction)
+        {
+            monthlySummary.Transactions.Add(transaction);
+            AddAmontInMonthlySummary(monthlySummary, transaction);
+        }
+
+        private static void AddAmontInMonthlySummary(MonthlySummary monthlySummary, Transaction transaction)
+        {
+            const string expense = "despesa";
+            if (transaction.Type == expense)
+                monthlySummary.TotalExpense += transaction.Amont;
+            else
+                monthlySummary.TotalIncome += transaction.Amont;
         }
 
         public async Task Delete(string id)
@@ -24,16 +41,24 @@ namespace DinDin.Tests.MonthlySummaries
             _instance.Remove(monthlySummaryThatWillBeDeleted);
         }
 
-        public async Task<List<MonthlySummary>> GetAllWithUserId(string id)
+        public Task<List<MonthlySummary>> GetAllWithUserId(string id)
         {
             var monthlySummary = _instance.Where(monthlySummary => monthlySummary.UserId == id).ToList();
-            return await Task.FromResult(monthlySummary);
+            return Task.FromResult(monthlySummary);
         }
 
-        public async Task<MonthlySummary> GetById(string id)
+        public Task<MonthlySummary> GetById(string id)
         {
-            var monthlySummary = _instance.Find(monthlySummary => monthlySummary.Id == id);
-            return await Task.FromResult(monthlySummary);
+            var monthlySummary = _instance.FirstOrDefault(monthlySummary => monthlySummary.Id == id);
+            return Task.FromResult(monthlySummary);
+        }
+
+        public Task<MonthlySummary> GetByMonthAndYear(Transaction transaction, string userId)
+        {
+            var monthlySummary = _instance.Where(monthlySummary => monthlySummary.UserId == userId)
+                .FirstOrDefault(monthlySummary => monthlySummary.Month == transaction.TransactionDate.Month && monthlySummary.Year == transaction.TransactionDate.Year);
+
+            return Task.FromResult(monthlySummary);
         }
 
         public async Task Update(MonthlySummary monthlySummary)

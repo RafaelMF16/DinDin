@@ -7,7 +7,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient } from '@angular/common/http';
 import { AppConfig } from './config/app-config';
 import { environment } from '../environments/environments';
 import { AllPageContainerComponent } from './components/all-page-container/all-page-container.component';
@@ -33,6 +33,15 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatRadioModule} from '@angular/material/radio';
+import { MonthlySummaryDetailsComponent } from './pages/monthly-summary-details/monthly-summary-details.component';
+import {MatListModule} from '@angular/material/list';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { DetailsContainerComponent } from './components/details-container/details-container.component';
+import { MonthlySummaryDetailsCardComponent } from './components/monthly-summary-details-card/monthly-summary-details-card.component';
+import { MonthlySummaryDetailsToolbarComponent } from './components/monthly-summary-details-toolbar/monthly-summary-details-toolbar.component';
+import { TransactionPanelComponent } from './components/transaction-panel/transaction-panel.component';
+import { DatePipe } from '@angular/common';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -45,9 +54,15 @@ import {MatRadioModule} from '@angular/material/radio';
     MonthlySummariesContainerComponent,
     MonthlySummaryCardComponent,
     HeaderComponent,
-    AddTransactionDialogComponent
+    AddTransactionDialogComponent,
+    MonthlySummaryDetailsComponent,
+    DetailsContainerComponent,
+    MonthlySummaryDetailsCardComponent,
+    MonthlySummaryDetailsToolbarComponent,
+    TransactionPanelComponent
   ],
   imports: [
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
@@ -65,14 +80,21 @@ import {MatRadioModule} from '@angular/material/radio';
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatRadioModule
+    MatRadioModule,
+    MatListModule,
+    MatExpansionModule
   ],
   providers: [
     provideRouter(routes),
-    provideHttpClient(),
     { 
       provide: MAT_DATE_LOCALE, 
-      useValue: 'pt-BR' 
+      useValue: 'pt-BR'
+    },
+    DatePipe,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]

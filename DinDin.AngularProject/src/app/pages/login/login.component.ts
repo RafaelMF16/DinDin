@@ -4,7 +4,7 @@ import { slideContentTrigger } from '../../animations';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../../core/services/authService/auth.service';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { ToastService } from '../../services/toastService/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   private authService = inject(AuthService);
   private router = inject(Router);
-  private snackBar = inject(MatSnackBar);
+  private toastService = inject(ToastService);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -100,14 +100,14 @@ export class LoginComponent implements OnInit {
     this.authService
       .createUser(this.registerForm.value)
       .pipe(
-        catchError((error) => {
-          this.openSnackBar("Erro");
+        catchError(() => {
+          this.toastService.openSnackBar("Não foi possível realizar cadastro!");
           return throwError(() => new Error());
         })
       )
       .subscribe(() => {
         const successRegisterMessage = "Cadastro Realizado!";
-        this.openSnackBar(successRegisterMessage);
+        this.toastService.openSnackBar(successRegisterMessage);
         
         this.isLogin = true;
       });
@@ -116,27 +116,19 @@ export class LoginComponent implements OnInit {
   onClickMakeLogin(): void {
     this.authService.login(this.loginForm.value)
       .pipe(
-        catchError((error) => {
-          this.openSnackBar("Erro");
+        catchError(() => {
+          this.toastService.openSnackBar("Não foi possível realizar login!");
           return throwError(() => new Error());
         })
       ).subscribe((response) => {
         const successLoginMessage = "Login Realizado!";
-        this.openSnackBar(successLoginMessage);
+        this.toastService.openSnackBar(successLoginMessage);
 
         const keyName = "token";
         localStorage.setItem(keyName, response?.token);
 
         this.router.navigate(['/monthly-summaries']);
       });
-  }
-
-  openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top'
-    });
   }
 }
   

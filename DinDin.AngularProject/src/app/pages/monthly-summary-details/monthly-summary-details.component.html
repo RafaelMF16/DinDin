@@ -1,0 +1,25 @@
+<app-header></app-header>
+
+<app-details-container>
+  <div class="back-button">
+    <button class="btn nav-back-button" (click)="onClickInNavBack()">
+      <i class="fa-solid fa-arrow-left"></i>
+      Voltar
+    </button>
+  </div>
+  <app-monthly-summary-details-card
+    [monthlySummary]="monthlySummary"
+    [month]="monthlySummary!.month"
+  />
+  
+    <app-monthly-summary-details-toolbar/>
+    <mat-accordion class="transaction-list">
+      @for (transaction of monthlySummary?.transactions; track transaction) {
+        <app-transaction-panel 
+          [transaction]="transaction"
+        >
+        </app-transaction-panel>
+      }
+    </mat-accordion>
+
+</app-details-container>

@@ -7,18 +7,18 @@
         </button>
 </mat-toolbar>
 
-@if (monthlySummariesList.length == 0) {
+@if (monthlySummariesList?.length == 0) {
         <div class="text-center h4 empty-list-text">
                 <p class="informating-text">Você ainda não possui resumos mensais.</p>
         </div>
 } @else {
         <app-monthly-summaries-container>
-                @for (monthlySummary of monthlySummariesList; track monthlySummary) {
-                        <app-monthly-summary-card 
-                                [month]="monthlySummary.month" 
-                                [totalIncome]="monthlySummary.totalIncome"
-                                [totalExpense]="monthlySummary.totalExpense"
-                                [balance]="monthlySummary.balance" />
+                @for (monthlySummary of monthlySummariesList; track monthlySummary.id) {
+                        <app-monthly-summary-card
+                                (cardClick)="onClickInCard($event)"
+                                [monthlySummary]="monthlySummary"
+                        >
+                        </app-monthly-summary-card>
                 }
         </app-monthly-summaries-container>
 }

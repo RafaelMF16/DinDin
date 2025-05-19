@@ -1,0 +1,7 @@
+.nav-back-button {
+    transition: transform 0.2s;
+}
+
+.nav-back-button:hover {
+    transform: translateX(-4px);
+}

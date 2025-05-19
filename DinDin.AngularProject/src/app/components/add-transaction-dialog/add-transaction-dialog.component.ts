@@ -1,9 +1,9 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { TransactionService } from './services/transaction.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, throwError } from 'rxjs';
+import { TransactionService } from '../../services/transactionService/transaction.service';
+import { ToastService } from '../../services/toastService/toast.service';
 
 @Component({
   selector: 'app-add-transaction-dialog',
@@ -12,11 +12,23 @@ import { catchError, throwError } from 'rxjs';
   styleUrl: './add-transaction-dialog.component.css'
 })
 export class AddTransactionDialogComponent implements OnInit {
-  readonly addTransactionDialog = inject(MatDialogRef<AddTransactionDialogComponent>);
+
   private transactionService = inject(TransactionService);
-  private snackBar = inject(MatSnackBar);
+  private toastService = inject(ToastService);
+  
+  readonly addTransactionDialog = inject(MatDialogRef<AddTransactionDialogComponent>);
 
   transactionForm!: FormGroup;
+
+  categories: string[] = [
+    "Alimentação",
+    "Entreterimento",
+    "Transporte",
+    "Saúde",
+    "Educação",
+    "Investimentos",
+    "Outros"
+  ]
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -82,31 +94,13 @@ export class AddTransactionDialogComponent implements OnInit {
     this.transactionService.addTransaction(this.transactionForm)
       .pipe(
         catchError(() => {
-          this.openSnackBar("Erro");
+          this.toastService.openSnackBar("Não foi possível cadastrar transação!");
           return throwError(() => new Error());
         })
       ).subscribe(() => {
         const successMessage = "Transação cadastrada com sucesso!"
-        this.openSnackBar(successMessage);
+        this.toastService.openSnackBar(successMessage);
         this.closeModal();
       });
   }
-
-  openSnackBar(message: string) {
-    this.snackBar.open(message, 'Fechar', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: 'top'
-    });
-  }
-
-  categories: string[] = [
-    "Alimentação",
-    "Entreterimento",
-    "Transporte",
-    "Saúde",
-    "Educação",
-    "Investimentos",
-    "Outros"
-  ]
 }

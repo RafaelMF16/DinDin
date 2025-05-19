@@ -1,0 +1,10 @@
+.spacer {
+    flex: 1 2 auto;
+}
+
+.transactions-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffff;
+}

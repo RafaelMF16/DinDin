@@ -1,0 +1,28 @@
+<mat-card class="summary-card mat-elevation-z8">
+    <mat-card-header>
+        <mat-card-title>Resumo de {{ _monthName }}/{{ monthlySummary?.year}}</mat-card-title>
+        <mat-card-subtitle>Visão geral das finanças do mês</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="summary-grid">
+            <div class="summary-item">
+                <mat-icon>attach_money</mat-icon>
+                <p><strong>Renda</strong></p>
+                <p class="text-success">{{ monthlySummary?.totalIncome| currency : "BRL" }}</p>
+            </div>
+            <div class="summary-item">
+                <mat-icon>money_off</mat-icon>
+                <p><strong>Gastos</strong></p>
+                <p class="text-danger">{{ monthlySummary?.totalExpense| currency : "BRL" }}</p>
+            </div>
+            <div class="summary-item">
+                <mat-icon>account_balance</mat-icon>
+                <p><strong>Saldo</strong></p>
+                <p
+                    [ngClass]="{ 'text-success': monthlySummary!.balance >= 0, 'text-danger': monthlySummary!.balance < 0 }">
+                    {{ monthlySummary?.balance| currency : "BRL" }}
+                </p>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>
