@@ -13,7 +13,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseProblemDetailsExceptionHandler(app.Services.GetRequiredService<ILoggerFactory>());
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseCors(ApplicationConstants.CORS_POLICY_NAME);
 
