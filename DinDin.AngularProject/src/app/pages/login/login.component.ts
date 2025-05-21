@@ -5,6 +5,8 @@ import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../../core/services/authService/auth.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../services/toastService/toast.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from '../../components/error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -21,6 +23,7 @@ export class LoginComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private toastService = inject(ToastService);
+  readonly errorDialog = inject(MatDialog);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -116,8 +119,17 @@ export class LoginComponent implements OnInit {
   onClickMakeLogin(): void {
     this.authService.login(this.loginForm.value)
       .pipe(
-        catchError(() => {
-          this.toastService.openSnackBar("Não foi possível realizar login!");
+        catchError((error) => {
+          // this.toastService.openSnackBar("Não foi possível realizar login!");
+          debugger
+          const dialogRef = this.errorDialog.open(ErrorDialogComponent, {
+            width: '400px',
+            data: {
+              title: error?.error?.title,
+              detail: error?.error?.detail,
+              errors: error?.error?.errors
+            } 
+          });
           return throwError(() => new Error());
         })
       ).subscribe((response) => {

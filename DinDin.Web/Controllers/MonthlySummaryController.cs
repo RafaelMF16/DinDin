@@ -30,7 +30,7 @@ namespace DinDin.Web.Controllers
         }
 
         [HttpPost("add-transaction")]
-        [Authorize]
+        //[Authorize]
         public async Task<IActionResult> AddTransaction([FromBody] TransactionDto transactionDto)
         {
             var transaction = new Transaction

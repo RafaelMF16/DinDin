@@ -42,6 +42,7 @@ import { MonthlySummaryDetailsToolbarComponent } from './components/monthly-summ
 import { TransactionPanelComponent } from './components/transaction-panel/transaction-panel.component';
 import { DatePipe } from '@angular/common';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     DetailsContainerComponent,
     MonthlySummaryDetailsCardComponent,
     MonthlySummaryDetailsToolbarComponent,
-    TransactionPanelComponent
+    TransactionPanelComponent,
+    ErrorDialogComponent
   ],
   imports: [
     HttpClientModule,

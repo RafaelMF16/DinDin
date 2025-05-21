@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+
+<mat-dialog-content>
+  <p>{{ data.detail }}</p>
+
+  <div *ngIf="hasValidationErrors()">
+    <h4>Erro de validação:</h4>
+    <ul>
+      <li *ngFor="let field of objectKeys(data.errors!)">
+        <strong>{{ field }}:</strong> {{ data.errors![field][0] }}
+      </li>
+    </ul>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close color="primary">Fechar</button>
+</mat-dialog-actions>
