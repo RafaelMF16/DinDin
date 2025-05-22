@@ -44,7 +44,7 @@ namespace DinDin.Web
 
                 case BadHttpRequestException badRequestEx:
                     problemDetails.Status = (int)HttpStatusCode.BadRequest;
-                    problemDetails.Title = "Requisição malformada.";
+                    problemDetails.Title = ApplicationConstants.BAD_REQUEST_ERROR_TITLE;
                     problemDetails.Detail = badRequestEx.Message;
                     break;
 

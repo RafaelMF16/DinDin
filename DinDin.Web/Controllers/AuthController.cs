@@ -1,7 +1,9 @@
-﻿using DinDin.Domain.Users;
+﻿using DinDin.Domain.Constantes;
+using DinDin.Domain.Users;
 using DinDin.Services.Users;
 using DinDin.Web.DTOS;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DinDin.Web.Controllers
@@ -36,7 +38,16 @@ namespace DinDin.Web.Controllers
         {
             var token = await _userService.AuthenticateUser(loginDto.Email, loginDto.Password);
             if (token == null)
-                return Unauthorized(new { message = "Incorrect email or password" });
+            {
+                var problemDetails = new ProblemDetails
+                {
+                    Title = ApplicationConstants.AUTHENTICATION_ERROR_TITLE,
+                    Status = StatusCodes.Status401Unauthorized,
+                    Detail = ApplicationConstants.AUTHENTICATION_ERROR_MESSAGE,
+                    Instance = HttpContext.Request.Path
+                };
+                return Unauthorized(problemDetails);
+            }
 
             return Ok(new { Token = token});
         }

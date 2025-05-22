@@ -1,4 +1,20 @@
 .btn-error {
     background-color: #58af9b;
     color: #ffff;
+    transition: transform 0.3s ease;
+}
+
+.btn-error:hover {
+    transform: scale(1.05);
+}
+
+.error-title {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.error-message {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #333;
 }

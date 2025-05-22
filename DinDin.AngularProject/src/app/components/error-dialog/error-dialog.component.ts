@@ -17,7 +17,8 @@ export class ErrorDialogComponent {
 
   objectKeys = Object.keys;
 
-  hasValidationErrors(): boolean {
-    return !!this.data.errors && Object.keys(this.data.errors).length > 0;
+  getFirstError(errors: Record<string, string[]>): string | null {
+    const firstKey = Object.keys(errors)[0];
+    return firstKey ? errors[firstKey][0] : null;
   }
 }

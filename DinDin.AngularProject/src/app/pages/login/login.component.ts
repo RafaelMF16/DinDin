@@ -103,8 +103,15 @@ export class LoginComponent implements OnInit {
     this.authService
       .createUser(this.registerForm.value)
       .pipe(
-        catchError(() => {
-          this.toastService.openSnackBar("Não foi possível realizar cadastro!");
+        catchError((error) => {
+          this.errorDialog.open(ErrorDialogComponent, {
+            width: '400px',
+            data: {
+              title: error?.error?.title,
+              detail: error?.error?.detail,
+              errors: error?.error?.errors
+            } 
+          });
           return throwError(() => new Error());
         })
       )
@@ -120,9 +127,7 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginForm.value)
       .pipe(
         catchError((error) => {
-          // this.toastService.openSnackBar("Não foi possível realizar login!");
-          debugger
-          const dialogRef = this.errorDialog.open(ErrorDialogComponent, {
+          this.errorDialog.open(ErrorDialogComponent, {
             width: '400px',
             data: {
               title: error?.error?.title,

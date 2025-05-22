@@ -1,18 +1,15 @@
-<h2 mat-dialog-title>{{ data.title }}</h2>
-
+<h2 mat-dialog-title class="error-title">
+  {{ data.title }}
+</h2>
+<mat-divider></mat-divider>
 <mat-dialog-content>
-  <p>{{ data.detail }}</p>
-
-  <div *ngIf="hasValidationErrors()">
-    <h4>Erro de validação:</h4>
-    <ul>
-      <li *ngFor="let field of objectKeys(data.errors!)">
-        <strong>{{ field }}:</strong> {{ data.errors![field][0] }}
-      </li>
-    </ul>
-  </div>
+  <p class="error-message">
+    {{ data.errors ? (getFirstError(data.errors) ?? data.detail) : data.detail }}
+  </p>
 </mat-dialog-content>
-
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close color="primary">Fechar</button>
+<mat-divider></mat-divider>
+<mat-dialog-actions class="modal-error-actions">
+  <button class="btn btn-error" mat-dialog-close>
+    Fechar
+  </button>
 </mat-dialog-actions>
