@@ -31,7 +31,7 @@ export class MonthlySummariesListComponent implements OnInit {
   loadMonthlySummaries(): void {
     this.monthlySummaryService.getAllByUserId()
       .pipe(
-        catchError((error) => {
+        catchError(() => {
           this.toastService.openSnackBar("Não foi possível carregar os resumos mensais!");
           return throwError(() => new Error());
         })

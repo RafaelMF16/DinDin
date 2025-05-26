@@ -1,8 +1,16 @@
 <div class="fluid-container header">
-    <button class="btn menu-button">
+    <button class="btn common-button">
         <i class="fa-solid fa-bars"></i>
     </button>
-    <button class="btn user-button">
+
+    <button class="btn common-button" [mat-menu-trigger-for]="menu">
         <i class="fa-solid fa-user"></i>
     </button>
+
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onClickInLogout()">
+            <mat-icon fontIcon="logout"></mat-icon>
+            <span>Sair</span>
+        </button>
+    </mat-menu>
 </div>

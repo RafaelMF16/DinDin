@@ -13,8 +13,8 @@
         public const string INTERNAL_SERVER_ERROR_TITLE = "Ocorreu um erro inesperado.";
         public const string VALIDATION_EXCEPTION_TITLE = "Erro de validação";
         public const string VALIDATION_EXTENSIONS_NAME = "errors";
-        public const string BAD_REQUEST_ERROR_TITLE = "Requisição malformada";
-        public const string AUTHENTICATION_ERROR_TITLE = "Authentication Error";
-        public const string AUTHENTICATION_ERROR_MESSAGE = "Email or password is incorrect";
+        public const string BAD_REQUEST_ERROR_TITLE = "Requisição incorreta";
+        public const string AUTHENTICATION_ERROR_TITLE = "Erro de autenticação";
+        public const string AUTHENTICATION_ERROR_MESSAGE = "Email ou senha incorreta";
     }
 }

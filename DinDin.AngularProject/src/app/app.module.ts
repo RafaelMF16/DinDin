@@ -43,6 +43,7 @@ import { TransactionPanelComponent } from './components/transaction-panel/transa
 import { DatePipe } from '@angular/common';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -84,7 +85,8 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
     MatNativeDateModule,
     MatRadioModule,
     MatListModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatMenuModule
   ],
   providers: [
     provideRouter(routes),

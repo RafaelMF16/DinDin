@@ -118,7 +118,8 @@ export class LoginComponent implements OnInit {
       .subscribe(() => {
         const successRegisterMessage = "Cadastro Realizado!";
         this.toastService.openSnackBar(successRegisterMessage);
-        
+        this.registerForm.reset();
+        this.registerForm.markAsUntouched();
         this.isLogin = true;
       });
   }

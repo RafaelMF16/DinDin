@@ -33,7 +33,8 @@ export class MonthlySummaryDetailsComponent implements OnInit, OnDestroy {
   loadMonthlySummary(id: string): void {
     this.subscription = this.monthlySummaryService.getById(id)
       .pipe(
-        catchError(() => {
+        catchError((error) => {
+          debugger
           this.toastService.openSnackBar("Não foi possível carregar o resumo mensal!");
           return throwError(() => new Error());
         })
