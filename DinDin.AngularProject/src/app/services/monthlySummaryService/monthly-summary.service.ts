@@ -16,12 +16,10 @@ export class MonthlySummaryService {
     let endpoint = "";
     const tokenKeyName = "token";
     const token = localStorage.getItem(tokenKeyName);
-    if (!!token) {
-      const decodedToken = this.jwtHelper.decodeToken(token);
-      let userId = decodedToken?.nameid;
-      endpoint = `MonthlySummary/get-all-with-user-id/${userId}`;
-    }
-    
+    const decodedToken = this.jwtHelper.decodeToken(token!);
+    let userId = decodedToken?.nameid;
+    endpoint = `MonthlySummary/get-all-with-user-id/${userId}`;
+
     return this.httpService.get(endpoint);
   }
 

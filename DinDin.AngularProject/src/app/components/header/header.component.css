@@ -6,10 +6,10 @@
     padding: 10px;
 }
 
-.menu-button {
-    transition: background-color .5s ease;
+.common-button {
+    transition: transform 0.3s ease;
 }
 
-.menu-button:hover {
-    background-color: #ffff;
+.common-button:hover {
+    transform: scale(1.05);
 }
