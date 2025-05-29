@@ -2,6 +2,7 @@
 {
     public static class ApplicationConstants
     {
+        public const string CONNECTION_STRING_ENVIRONMENT_VARIABLE = "dindinConnectionString";
         public const string SERVER_URL_ENVIRONMENT_VARIABLE = "serverURL";
         public const string DATABASE_NAME_ENVIRONMENT_VARIABLE = "databaseName";
         public const short WORK_FACTOR = 12;

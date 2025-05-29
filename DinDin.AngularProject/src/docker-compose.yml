@@ -1,0 +1,11 @@
+services:
+  postgres:
+    image: postgres:17.0
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: dindindb
+      POSTGRES_PASSWORD: dindindb
+      POSTGRES_DB: DinDinDB
+    ports:
+      - "8080:8080"
+    restart: unless-stopped

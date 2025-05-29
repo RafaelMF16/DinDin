@@ -1,8 +1,8 @@
-﻿using System.Text;
-using DinDin.Domain.Constantes;
+﻿using DinDin.Domain.Constantes;
 using DinDin.Domain.MonthlySummaries;
 using DinDin.Domain.Users;
 using DinDin.Infra.MonthlySummaries;
+using DinDin.Infra.Postgres;
 using DinDin.Infra.RavenDB;
 using DinDin.Infra.Users;
 using DinDin.Services.Auth;
@@ -10,9 +10,11 @@ using DinDin.Services.MonthlySummaries;
 using DinDin.Services.Users;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
+using System.Text;
 
 namespace DinDin.Web
 {
@@ -39,6 +41,12 @@ namespace DinDin.Web
                 var store = provider.GetRequiredService<IDocumentStore>();
                 return store.OpenAsyncSession();
             });
+
+            var connectionString = Environment.GetEnvironmentVariable(ApplicationConstants.CONNECTION_STRING_ENVIRONMENT_VARIABLE)
+                ?? throw new Exception($"Environment variable [{ApplicationConstants.CONNECTION_STRING_ENVIRONMENT_VARIABLE}] not found");
+
+            builder.Services.AddDbContext<DinDinDbContext>(options =>
+                options.UseNpgsql(connectionString));
 
             var secretKey = Environment.GetEnvironmentVariable(ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE)
                 ?? throw new Exception($"Environment variable [{ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE}] not found");
