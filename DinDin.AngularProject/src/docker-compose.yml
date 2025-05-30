@@ -7,5 +7,5 @@ services:
       POSTGRES_PASSWORD: dindindb
       POSTGRES_DB: DinDinDB
     ports:
-      - "8080:8080"
+      - "5432:5432"
     restart: unless-stopped
