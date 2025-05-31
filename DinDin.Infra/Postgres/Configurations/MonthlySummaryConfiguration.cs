@@ -1,5 +1,4 @@
-﻿using DinDin.Domain.MonthlySummaries;
-using DinDin.Infra.Postgres.Models;
+﻿using DinDin.Infra.Postgres.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -29,7 +28,12 @@ namespace DinDin.Infra.Postgres.Configurations
 
             builder.Property(monthlySummary => monthlySummary.Balance)
                 .HasColumnType("decimal(18,2)")
-            .IsRequired();
+                .IsRequired();
+
+            builder.HasOne<UserModel>()
+                .WithMany()
+                .HasForeignKey(monthlySummary => monthlySummary.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
