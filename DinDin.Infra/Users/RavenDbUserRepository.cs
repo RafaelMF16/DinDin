@@ -5,11 +5,11 @@ using Raven.Client.Documents.Session;
 
 namespace DinDin.Infra.Users
 {
-    public class UserRepository : IUserRepository
+    public class RavenDbUserRepository : IUserRepository
     {
         private readonly IAsyncDocumentSession _session;
 
-        public UserRepository(IAsyncDocumentSession session)
+        public RavenDbUserRepository(IAsyncDocumentSession session)
         {
             _session = session;
         }

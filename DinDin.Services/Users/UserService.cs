@@ -82,7 +82,7 @@ namespace DinDin.Services.Users
             }
         }
 
-        public async Task<string> AuthenticateUser(string email, string password)
+        public async Task<string?> AuthenticateUser(string email, string password)
         {
             var user = await _userRepository.GetUserByEmail(email);
 
@@ -97,7 +97,7 @@ namespace DinDin.Services.Users
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new (ClaimTypes.NameIdentifier, user.Id!)
+                    new (ClaimTypes.NameIdentifier, user.Id)
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(encodedSecretKey), SecurityAlgorithms.HmacSha256Signature)

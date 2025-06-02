@@ -1,13 +1,16 @@
 ﻿using DinDin.Domain.MonthlySummaries;
 using DinDin.Domain.Transactions;
+using DinDin.Infra.Postgres;
 
 namespace DinDin.Infra.MonthlySummaries
 {
-    public class PostgresMonthlySummaryRepository : IMonthlySummaryRepository
+    public class PostgresMonthlySummaryRepository(DinDinDbContext dbContext) : IMonthlySummaryRepository
     {
-        public Task Add(MonthlySummary monthlySummary)
+        private readonly DinDinDbContext _dbContext = dbContext;
+
+        public async Task Add(MonthlySummary monthlySummary)
         {
-            throw new NotImplementedException();
+            await _dbContext.AddAsync(monthlySummary);
         }
 
         public void AddTransactionInMonthlySummary(MonthlySummary monthlySummary, Transaction transaction)

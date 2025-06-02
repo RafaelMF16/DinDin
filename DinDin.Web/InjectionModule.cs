@@ -28,11 +28,11 @@ namespace DinDin.Web
 
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<AuthService>();
-            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IUserRepository, PostgresUserRepository>();
             builder.Services.AddScoped<IValidator<User>, ValidatorUser>();
 
             builder.Services.AddScoped<MonthlySummaryService>();
-            builder.Services.AddScoped<IMonthlySummaryRepository, RavenDbMonthlySummaryRepository>();
+            builder.Services.AddScoped<IMonthlySummaryRepository, PostgresMonthlySummaryRepository>();
             builder.Services.AddScoped<IValidator<MonthlySummary>, ValidatorMonthlySummary>();
 
             builder.Services.AddSingleton<IDocumentStore>(_ => DocumentStoreHolder.Store);
