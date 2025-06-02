@@ -32,7 +32,7 @@ namespace DinDin.Web
             builder.Services.AddScoped<IValidator<User>, ValidatorUser>();
 
             builder.Services.AddScoped<MonthlySummaryService>();
-            builder.Services.AddScoped<IMonthlySummaryRepository, MonthlySummaryRepository>();
+            builder.Services.AddScoped<IMonthlySummaryRepository, RavenDbMonthlySummaryRepository>();
             builder.Services.AddScoped<IValidator<MonthlySummary>, ValidatorMonthlySummary>();
 
             builder.Services.AddSingleton<IDocumentStore>(_ => DocumentStoreHolder.Store);

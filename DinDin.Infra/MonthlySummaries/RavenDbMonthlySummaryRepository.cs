@@ -6,11 +6,11 @@ using Raven.Client.Documents.Session;
 
 namespace DinDin.Infra.MonthlySummaries
 {
-    public class MonthlySummaryRepository : IMonthlySummaryRepository
+    public class RavenDbMonthlySummaryRepository : IMonthlySummaryRepository
     {
         private readonly IAsyncDocumentSession _session;
 
-        public MonthlySummaryRepository(IAsyncDocumentSession session)
+        public RavenDbMonthlySummaryRepository(IAsyncDocumentSession session)
         {
             _session = session;
         }
