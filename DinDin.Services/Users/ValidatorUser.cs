@@ -14,22 +14,22 @@ namespace DinDin.Services.Users
             ClassLevelCascadeMode = CascadeMode.Stop;
 
             RuleFor(user => user.Name)
-                .NotEmpty().WithMessage("The Name field is mandatory")
-                .MaximumLength(100).WithMessage("The Name field can contain a maximum of 100 characters");
+                .NotEmpty().WithMessage("O campo Nome é obrigatório")
+                .MaximumLength(100).WithMessage("O campo Nome pode conter um máximo de 100 caracteres");
 
             RuleFor(user => user.Email)
-                .NotEmpty().WithMessage("The Email field is mandatory")
-                .EmailAddress().WithMessage("Email Invalid")
-                .MustAsync(ValidateIfEmailHasAlreadyBeenRegistered).WithMessage("Email has already regitered")
-                .MaximumLength(100).WithMessage("The Email field can contain a maximum of 100 characters");
+                .NotEmpty().WithMessage("O campo Email é obrigatório")
+                .EmailAddress().WithMessage("E-mail inválido")
+                .MustAsync(ValidateIfEmailHasAlreadyBeenRegistered).WithMessage("O e-mail já foi registrado")
+                .MaximumLength(100).WithMessage("O campo E-mail pode conter um máximo de 100 caracteres");
 
             RuleFor(user => user.Password)
-                .NotEmpty().WithMessage("The Password field is mandatory")
-                .MinimumLength(8).WithMessage("The Password field can contain a minimum of 8 characters")
-                .MaximumLength(50).WithMessage("The Password field can contain a maximum of 50 characters");
+                .NotEmpty().WithMessage("O campo Senha é obrigatório")
+                .MinimumLength(8).WithMessage("O campo Senha pode conter um mínimo de 8 caracteres")
+                .MaximumLength(50).WithMessage("O campo Senha pode conter um máximo de 50 caracteres");
 
             RuleFor(user => user)
-                .Must(user => ValidateUserCreationDate(user)).WithMessage("The Creation Date not is valid");
+                .Must(user => ValidateUserCreationDate(user)).WithMessage("A data de criação não é válida");
         }
 
         private async Task<bool> ValidateIfEmailHasAlreadyBeenRegistered(string email, CancellationToken cancellationToken)

@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
 import { FormatterService } from '../../services/formatterService/formatter.service';
 
