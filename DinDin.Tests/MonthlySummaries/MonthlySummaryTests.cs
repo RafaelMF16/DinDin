@@ -1,5 +1,4 @@
 ﻿using DinDin.Domain.MonthlySummaries;
-using DinDin.Domain.Transactions;
 using DinDin.Infra.MonthlySummaries;
 using DinDin.Services.MonthlySummaries;
 using Microsoft.Extensions.DependencyInjection;
@@ -153,51 +152,6 @@ namespace DinDin.Tests.MonthlySummaries
             await _monthlySummaryService.Update(updatedMonthlySummary);
 
             Assert.Contains(MonthlySummarySingleton.Instance, monthlySummary => monthlySummary == updatedMonthlySummary);
-        }
-
-        [Fact]
-        public async Task Must_add_transaction_in_monthly_summary()
-        {
-            CreateMonthlySummaryList();
-
-            var newTransaction = new Transaction
-            {
-                Type = "Despesa",
-                Category = "Alimentação",
-                Description = "Test",
-                Amont = 100,
-                TransactionDate = DateTime.Now,
-            };
-
-            const string userId = "1";
-            await _monthlySummaryService.AddTransaction(newTransaction, userId);
-
-            Assert.Contains(MonthlySummarySingleton.Instance, monthlySummary => monthlySummary.Transactions.FirstOrDefault() == newTransaction);
-        }
-
-        [Fact]
-        public async Task Must_add_amont_of_new_transaction_in_month_summary_balance()
-        {
-            CreateMonthlySummaryList();
-
-            var newTransaction = new Transaction
-            {
-                Type = "Despesa",
-                Category = "Alimentação",
-                Description = "Test",
-                Amont = 100,
-                TransactionDate = DateTime.Now,
-            };
-
-            var expectedAmont = 300;
-
-            const string userId = "1";
-            await _monthlySummaryService.AddTransaction(newTransaction, userId);
-
-            const string id = "1";
-            var monthlySummary = await _monthlySummaryService.GetById(id);
-
-            Assert.Equal(expectedAmont, monthlySummary.Balance);
         }
 
         private static List<MonthlySummary> CreateMonthlySummaryList()

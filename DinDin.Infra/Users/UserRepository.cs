@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DinDin.Infra.Users
 {
-    public class PostgresUserRepository(DinDinDbContext dbContext) : IUserRepository
+    public class UserRepository(DinDinDbContext dbContext) : IUserRepository
     {
         private readonly DinDinDbContext _dbContext = dbContext;
 
@@ -23,12 +23,12 @@ namespace DinDin.Infra.Users
             await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public User GetById(string id)
+        public User GetById(int id)
         {
             throw new NotImplementedException();
         }
@@ -44,7 +44,7 @@ namespace DinDin.Infra.Users
 
             return new User 
             {
-                Id = userModel.Id.ToString(),
+                Id = userModel.Id,
                 Name = userModel.Name,
                 Email = userModel.Email,
                 Password = userModel.Password,

@@ -40,7 +40,7 @@ namespace DinDin.Services.Users
 
         private bool ValidateUserCreationDate(User user)
         {
-            if (string.IsNullOrEmpty(user.Id))
+            if (user.Id != 0)
                 return user.CreationDate.Date == DateTime.UtcNow.Date;
 
             var dataBaseUser = _userRepository.GetById(user.Id)

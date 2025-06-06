@@ -47,13 +47,13 @@ namespace DinDin.Services.Users
             }
         }
 
-        public User GetById(string id)
+        public User GetById(int id)
         {
             return _userRepository.GetById(id)
                 ?? throw new ArgumentNullException($"Not find user with id: {id}");
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace DinDin.Services.Users
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new (ClaimTypes.NameIdentifier, user.Id)
+                    new (ClaimTypes.NameIdentifier, user.Id.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(encodedSecretKey), SecurityAlgorithms.HmacSha256Signature)

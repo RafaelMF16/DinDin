@@ -18,14 +18,14 @@ namespace DinDin.Tests.Users
             return Task.CompletedTask;
         }
 
-        public void Delete(string id)
+        public void Delete(int id)
         {
             var userThatWillBeDeleted = GetById(id);
 
             _instance.Remove(userThatWillBeDeleted);
         }
 
-        public User GetById(string id)
+        public User GetById(int id)
         {
             return _instance.Find(user => user.Id == id);
         }

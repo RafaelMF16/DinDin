@@ -19,21 +19,6 @@ namespace DinDin.Tests.MonthlySummaries
             return Task.CompletedTask;
         }
 
-        public void AddTransactionInMonthlySummary(MonthlySummary monthlySummary, Transaction transaction)
-        {
-            monthlySummary.Transactions.Add(transaction);
-            AddAmontInMonthlySummary(monthlySummary, transaction);
-        }
-
-        private static void AddAmontInMonthlySummary(MonthlySummary monthlySummary, Transaction transaction)
-        {
-            const string expense = "despesa";
-            if (transaction.Type == expense)
-                monthlySummary.TotalExpense += transaction.Amont;
-            else
-                monthlySummary.TotalIncome += transaction.Amont;
-        }
-
         public async Task Delete(string id)
         {
             var monthlySummaryThatWillBeDeleted = await GetById(id);

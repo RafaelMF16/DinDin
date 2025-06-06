@@ -3,8 +3,6 @@ using DinDin.Infra.Users;
 using DinDin.Services.Users;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Linq;
-using Raven.Client.Documents.Operations.ETL.ElasticSearch;
 
 namespace DinDin.Tests.Users
 {
@@ -42,7 +40,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = name,
                 Email = "login@email.com",
                 Password = "password",
@@ -63,7 +61,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = name,
                 Email = "login@email.com",
                 Password = "password",
@@ -84,7 +82,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = "Rafael",
                 Email = email,
                 Password = "password",
@@ -105,7 +103,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = "Rafael",
                 Email = email,
                 Password = "password",
@@ -126,7 +124,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = "Rafael",
                 Email = email,
                 Password = "password",
@@ -147,7 +145,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = "Rafael",
                 Email = "login@email.com",
                 Password = password,
@@ -170,7 +168,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = "Test",
                 Email = "login@email.com",
                 Password = password,
@@ -192,7 +190,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = "Test",
                 Email = "login@email.com",
                 Password = password,
@@ -248,10 +246,10 @@ namespace DinDin.Tests.Users
         }
 
         [Theory]
-        [InlineData("User-1")]
-        [InlineData("User-2")]
-        [InlineData("User-3")]
-        public void Get_by_id_must_return_user_with_id_expected(string id)
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public void Get_by_id_must_return_user_with_id_expected(int id)
         {
             CreateUsersList();
 
@@ -263,10 +261,10 @@ namespace DinDin.Tests.Users
         }
 
         [Theory]
-        [InlineData("User-5")]
-        [InlineData("User-6")]
-        [InlineData("User-7")]
-        public void Get_by_id_must_throw_exception_if_id_is_null(string id)
+        [InlineData(5)]
+        [InlineData(6)]
+        [InlineData(7)]
+        public void Get_by_id_must_throw_exception_if_id_is_null(int id)
         {
             CreateUsersList();
 
@@ -282,7 +280,7 @@ namespace DinDin.Tests.Users
         {
             CreateUsersList();
 
-            const string deletedId = "User-1";
+            const int deletedId = 1;
 
             _userService.Delete(deletedId);
 
@@ -296,7 +294,7 @@ namespace DinDin.Tests.Users
         {
             CreateUsersList();
 
-            const string deletedId = "User-4";
+            const int deletedId = 4;
 
             _userService.Delete(deletedId);
 
@@ -316,7 +314,7 @@ namespace DinDin.Tests.Users
 
             var updatedUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = "Updated User",
                 Email = "Login@email.com",
                 Password = "password",
@@ -337,7 +335,7 @@ namespace DinDin.Tests.Users
 
             var updatedUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = "User",
                 Email = "Login@email.com",
                 Password = "wordpass",
@@ -394,7 +392,7 @@ namespace DinDin.Tests.Users
             {
                 new()
                 {
-                    Id = "User-1",
+                    Id = 1,
                     Name = "User",
                     Email = "Login@email.com",
                     Password = "password",
@@ -403,7 +401,7 @@ namespace DinDin.Tests.Users
 
                 new()
                 {
-                    Id = "User-2",
+                    Id = 2,
                     Name = "User02",
                     Email = "Login02@email.com",
                     Password = "password02",
@@ -412,7 +410,7 @@ namespace DinDin.Tests.Users
 
                 new()
                 {
-                    Id = "User-3",
+                    Id = 3,
                     Name = "User03",
                     Email = "Login03@email.com",
                     Password = "password03",
@@ -421,7 +419,7 @@ namespace DinDin.Tests.Users
 
                 new()
                 {
-                    Id = "User-4",
+                    Id = 4,
                     Name = "User04",
                     Email = "Login04@email.com",
                     Password = "$2a$12$YtdqEcInr9hcUwFLpH3.EuKnbVaGIpxY68OFOZ7IHSMLyMet/pvCS",
