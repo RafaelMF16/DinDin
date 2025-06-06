@@ -10,31 +10,28 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace DinDin.Services.Users
 {
-    public class UserService
+    public class UserService(
+        IUserRepository userRepository,
+        IValidator<User> userValidator,
+        AuthService authService,
+        IConfiguration configuration)
     {
-        private readonly IUserRepository _userRepository;
-        private readonly IValidator<User> _userValidator;
-        private readonly AuthService _authService;
-        private readonly IConfiguration _configuration;
-
-        public UserService(
-            IUserRepository userRepository, 
-            IValidator<User> userValidator,
-            AuthService authService,
-            IConfiguration configuration)
-        {
-            _userRepository = userRepository;
-            _userValidator = userValidator;
-            _authService = authService;
-            _configuration = configuration;
-        }
+        private readonly IUserRepository _userRepository = userRepository;
+        private readonly IValidator<User> _userValidator = userValidator;
+        private readonly AuthService _authService = authService;
+        private readonly IConfiguration _configuration = configuration;
 
         public async Task Add(User user)
         {
             try
             {
-                await _userValidator.ValidateAndThrowAsync(user);
-                user.Password = _authService.HashPassword(user.Password);
+                var validationResult = await _userValidator.ValidateAsync(user, options => 
+                    options.IncludeRuleSets(ApplicationConstants.USER_CREATE_RULE_SET_NAME));
+
+                if (!validationResult.IsValid)
+                    throw new ValidationException(validationResult.Errors);
+
+                user.Password = await _authService.HashPassword(user.Password);
                 await _userRepository.Add(user);
             }
             catch (ValidationException validationException)
@@ -47,17 +44,16 @@ namespace DinDin.Services.Users
             }
         }
 
-        public User GetById(string id)
+        public async Task<User> GetById(string id)
         {
-            return _userRepository.GetById(id)
-                ?? throw new ArgumentNullException($"Not find user with id: {id}");
+            return await _userRepository.GetById(id);
         }
 
-        public void Delete(string id)
+        public async Task Delete(string id)
         {
             try
             {
-                _userRepository.Delete(id);
+                await _userRepository.Delete(id);
             }
             catch(Exception exception)
             {
@@ -65,12 +61,17 @@ namespace DinDin.Services.Users
             }
         }
 
-        public void Update(User user)
+        public async Task Update(User user)
         {
             try
             {
-                _userValidator.ValidateAndThrowAsync(user);
-                _userRepository.Update(user);
+                var validationResult = await _userValidator.ValidateAsync(user, options =>
+                    options.IncludeRuleSets(ApplicationConstants.USER_UPDATE_RULE_SET_NAME));
+
+                if (!validationResult.IsValid)
+                    throw new ValidationException(validationResult.Errors);
+
+                await _userRepository.Update(user);
             }
             catch (ValidationException validationException)
             {
@@ -95,10 +96,10 @@ namespace DinDin.Services.Users
             var encodedSecretKey = Encoding.ASCII.GetBytes(secretKey);
             var tokenConfig = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
+                Subject = new ClaimsIdentity(
+                [
                     new (ClaimTypes.NameIdentifier, user.Id)
-                }),
+                ]),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(encodedSecretKey), SecurityAlgorithms.HmacSha256Signature)
             };

@@ -1,5 +1,6 @@
 ﻿using DinDin.Domain.Users;
 using DinDin.Infra.Users;
+using FluentValidation;
 
 namespace DinDin.Tests.Users
 {
@@ -18,27 +19,29 @@ namespace DinDin.Tests.Users
             return Task.CompletedTask;
         }
 
-        public void Delete(string id)
+        public async Task Delete(string id)
         {
-            var userThatWillBeDeleted = GetById(id);
+            var userThatWillBeDeleted = await GetById(id);
 
             _instance.Remove(userThatWillBeDeleted);
         }
 
-        public User GetById(string id)
+        public async Task<User> GetById(string id)
         {
-            return _instance.Find(user => user.Id == id);
+            return await Task.Run(() =>
+                _instance.Find(user => user.Id == id)
+                    ?? throw new ArgumentNullException($"Not find user with id: {id}"));
         }
 
-        public Task<User> GetUserByEmail(string email)
+        public async Task<User?> GetUserByEmail(string email)
         {
-            var user = _instance.Find(user => user.Email == email);
-            return Task.FromResult(user);
+            return await Task.Run(() =>
+                _instance.Find(user => user.Email == email));
         }
 
-        public void Update(User user)
+        public async Task Update(User user)
         {
-            var dataBaseUser = GetById(user.Id!);
+            var dataBaseUser = await GetById(user.Id!);
 
             _instance[_instance.IndexOf(dataBaseUser)] = user;
         }

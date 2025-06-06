@@ -5,7 +5,7 @@
         public const string CONNECTION_STRING_ENVIRONMENT_VARIABLE = "dindinConnectionString";
         public const string SERVER_URL_ENVIRONMENT_VARIABLE = "serverURL";
         public const string DATABASE_NAME_ENVIRONMENT_VARIABLE = "databaseName";
-        public const short WORK_FACTOR = 12;
+        public const short WORK_FACTOR = 10;
         public const string SECRET_KEY_ENVIRONMENT_VARIABLE = "secretKey";
         public const string APP_SETTINGS_NAME = "appsettings.json";
         public const string CORS_POLICY_NAME = "MyPolicy";
@@ -17,5 +17,7 @@
         public const string BAD_REQUEST_ERROR_TITLE = "Requisição incorreta";
         public const string AUTHENTICATION_ERROR_TITLE = "Erro de autenticação";
         public const string AUTHENTICATION_ERROR_MESSAGE = "Email ou senha incorreta";
+        public const string USER_CREATE_RULE_SET_NAME = "CreateUser";
+        public const string USER_UPDATE_RULE_SET_NAME = "UpdateUser";
     }
 }

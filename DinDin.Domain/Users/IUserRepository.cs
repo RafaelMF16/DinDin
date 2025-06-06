@@ -2,10 +2,10 @@
 {
     public interface IUserRepository
     {
-        User GetById(string id);
+        Task<User> GetById(string id);
         Task Add(User user);
-        void Update(User user);
-        void Delete(string id);
-        Task<User> GetUserByEmail(string email);
+        Task Update(User user);
+        Task Delete(string id);
+        Task<User?> GetUserByEmail(string email);
     }
 }

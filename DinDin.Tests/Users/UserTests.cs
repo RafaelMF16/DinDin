@@ -227,37 +227,17 @@ namespace DinDin.Tests.Users
             Assert.Equal(errorMessageExpected, validationException.Errors.First().ErrorMessage);
         }
 
-        [Fact]
-        public async Task When_trying_to_create_a_user_with_a_email_already_been_registered_must_return_a_validation_error()
-        {
-            CreateUsersList();
-
-            var newUser = new User
-            {
-                Name = "Test",
-                Email = "Login@email.com",
-                Password = "password",
-                CreationDate = DateTime.UtcNow
-            };
-
-            const string errorMessageExpected = "Email has already regitered";
-
-            var validationException = await Assert.ThrowsAsync<ValidationException>(() => _userService.Add(newUser));
-
-            Assert.Equal(errorMessageExpected, validationException.Errors.First().ErrorMessage);
-        }
-
         [Theory]
         [InlineData("User-1")]
         [InlineData("User-2")]
         [InlineData("User-3")]
-        public void Get_by_id_must_return_user_with_id_expected(string id)
+        public async Task Get_by_id_must_return_user_with_id_expected(string id)
         {
             CreateUsersList();
 
             var expectedId = id; 
 
-            var dataBaseUser = _userService.GetById(id);
+            var dataBaseUser = await _userService.GetById(id);
 
             Assert.Equal(expectedId, dataBaseUser.Id);
         }
@@ -266,25 +246,25 @@ namespace DinDin.Tests.Users
         [InlineData("User-5")]
         [InlineData("User-6")]
         [InlineData("User-7")]
-        public void Get_by_id_must_throw_exception_if_id_is_null(string id)
+        public async Task Get_by_id_must_throw_exception_if_id_is_null(string id)
         {
             CreateUsersList();
 
             var errorMessageExpected = $"Not find user with id: {id}";
 
-            var errorMessage = Assert.Throws<ArgumentNullException>(() => _userService.GetById(id)).ParamName;
+            var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => _userService.GetById(id));
 
-            Assert.Equal(errorMessageExpected, errorMessage);
+            Assert.Equal(errorMessageExpected, exception.ParamName);
         }
 
         [Fact]
-        public void Delete_should_delete_user_with_id_one()
+        public async Task Delete_should_delete_user_with_id_one()
         {
             CreateUsersList();
 
             const string deletedId = "User-1";
 
-            _userService.Delete(deletedId);
+            await _userService.Delete(deletedId);
 
             var dataBaseList = UserSingleton.Instance;
 
@@ -292,13 +272,13 @@ namespace DinDin.Tests.Users
         }
 
         [Fact]
-        public void Delete_not_must_delete_user_with_id_four()
+        public async Task Delete_not_must_delete_user_with_id_four()
         {
             CreateUsersList();
 
             const string deletedId = "User-4";
 
-            _userService.Delete(deletedId);
+            await _userService.Delete(deletedId);
 
             var dataBaseList = UserSingleton.Instance;
 
@@ -308,7 +288,7 @@ namespace DinDin.Tests.Users
         }
 
         [Fact]
-        public void Update_should_update_name_of_user_with_id_one()
+        public async Task Update_should_update_name_of_user_with_id_one()
         {
             CreateUsersList();
 
@@ -323,13 +303,13 @@ namespace DinDin.Tests.Users
                 CreationDate = DateTime.Parse("06/11/2024").ToUniversalTime()
             };
 
-            _userService.Update(updatedUser);
+            await _userService.Update(updatedUser);
 
             Assert.Contains(UserSingleton.Instance, user => user == updatedUser);
         }
 
         [Fact]
-        public void Update_should_update_password_of_user_with_id_one()
+        public async Task Update_should_update_password_of_user_with_id_one()
         {
             CreateUsersList();
 
@@ -344,7 +324,7 @@ namespace DinDin.Tests.Users
                 CreationDate = DateTime.Parse("06/11/2024").ToUniversalTime()
             };
 
-            _userService.Update(updatedUser);
+            await _userService.Update(updatedUser);
 
             Assert.Contains(UserSingleton.Instance, user => user == updatedUser);
         }

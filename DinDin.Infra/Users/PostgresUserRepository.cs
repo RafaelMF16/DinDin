@@ -23,14 +23,26 @@ namespace DinDin.Infra.Users
             await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(string id)
+        public Task Delete(string id)
         {
             throw new NotImplementedException();
         }
 
-        public User GetById(string id)
+        public async Task<User> GetById(string id)
         {
-            throw new NotImplementedException();
+            var userModel = await _dbContext.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(user => user.Id.ToString() == id)
+                    ?? throw new ArgumentNullException($"Not find user with id: {id}");
+
+            return new User
+            {
+                Id = userModel.Id.ToString(),
+                Name = userModel.Name,
+                Email = userModel.Email,
+                Password = userModel.Password,
+                CreationDate = userModel.CreationDate
+            };
         }
 
         public async Task<User?> GetUserByEmail(string email)
@@ -52,7 +64,7 @@ namespace DinDin.Infra.Users
             };
         }
 
-        public void Update(User user)
+        public Task Update(User user)
         {
             throw new NotImplementedException();
         }

@@ -20,12 +20,12 @@ namespace DinDin.Infra.Users
             await _session.SaveChangesAsync();
         }
 
-        public void Delete(string id)
+        public Task Delete(string id)
         {
             throw new NotImplementedException();
         }
 
-        public User GetById(string id)
+        public Task<User> GetById(string id)
         {
             throw new NotImplementedException();
         }
@@ -35,7 +35,7 @@ namespace DinDin.Infra.Users
             return _session.Users().WithEmail(email).FirstOrDefaultAsync();
         }
 
-        public void Update(User user)
+        public Task Update(User user)
         {
             throw new NotImplementedException();
         }

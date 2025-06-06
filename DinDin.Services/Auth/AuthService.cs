@@ -4,9 +4,10 @@ namespace DinDin.Services.Auth
 {
     public class AuthService
     {
-        public string HashPassword(string password)
+        public async Task<string> HashPassword(string password)
         {
-            return BCrypt.Net.BCrypt.HashPassword(password, ApplicationConstants.WORK_FACTOR);
+            return await Task.Run(() => 
+                BCrypt.Net.BCrypt.HashPassword(password, ApplicationConstants.WORK_FACTOR));
         }
 
         public bool VerifyPassword(string password, string hashedPassword)
