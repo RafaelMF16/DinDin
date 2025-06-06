@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DinDin.Infra.Users
 {
-    public class PostgresUserRepository(DinDinDbContext dbContext) : IUserRepository
+    public class UserRepository(DinDinDbContext dbContext) : IUserRepository
     {
         private readonly DinDinDbContext _dbContext = dbContext;
 
@@ -23,26 +23,14 @@ namespace DinDin.Infra.Users
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task Delete(string id)
+        public void Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<User> GetById(string id)
+        public User GetById(int id)
         {
-            var userModel = await _dbContext.Users
-                .AsNoTracking()
-                .FirstOrDefaultAsync(user => user.Id.ToString() == id)
-                    ?? throw new ArgumentNullException($"Not find user with id: {id}");
-
-            return new User
-            {
-                Id = userModel.Id.ToString(),
-                Name = userModel.Name,
-                Email = userModel.Email,
-                Password = userModel.Password,
-                CreationDate = userModel.CreationDate
-            };
+            throw new NotImplementedException();
         }
 
         public async Task<User?> GetUserByEmail(string email)
@@ -56,7 +44,7 @@ namespace DinDin.Infra.Users
 
             return new User 
             {
-                Id = userModel.Id.ToString(),
+                Id = userModel.Id,
                 Name = userModel.Name,
                 Email = userModel.Email,
                 Password = userModel.Password,

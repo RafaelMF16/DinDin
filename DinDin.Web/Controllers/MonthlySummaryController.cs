@@ -1,5 +1,4 @@
 ﻿using DinDin.Domain.MonthlySummaries;
-using DinDin.Domain.Transactions;
 using DinDin.Services.MonthlySummaries;
 using DinDin.Web.DTOS;
 using Microsoft.AspNetCore.Authorization;
@@ -26,23 +25,6 @@ namespace DinDin.Web.Controllers
 
             await _monthlySummaryService.Add(newMonthlySummary);
 
-            return Ok();
-        }
-
-        [HttpPost("add-transaction")]
-        [Authorize]
-        public async Task<IActionResult> AddTransaction([FromBody] TransactionDto transactionDto)
-        {
-            var transaction = new Transaction
-            {
-                Type = transactionDto.Type,
-                Category = transactionDto.Category,
-                Amont = transactionDto.Amont,
-                Description = transactionDto.Description,
-                TransactionDate = transactionDto.TransactionDate
-            };
-
-            await _monthlySummaryService.AddTransaction(transaction, transactionDto.UserId);
             return Ok();
         }
 

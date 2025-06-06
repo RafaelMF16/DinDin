@@ -3,7 +3,6 @@ using DinDin.Domain.MonthlySummaries;
 using DinDin.Domain.Users;
 using DinDin.Infra.MonthlySummaries;
 using DinDin.Infra.Postgres;
-using DinDin.Infra.RavenDB;
 using DinDin.Infra.Users;
 using DinDin.Services.Auth;
 using DinDin.Services.MonthlySummaries;
@@ -12,8 +11,6 @@ using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Raven.Client.Documents;
-using Raven.Client.Documents.Session;
 using System.Text;
 
 namespace DinDin.Web
@@ -28,19 +25,12 @@ namespace DinDin.Web
 
             builder.Services.AddScoped<UserService>();
             builder.Services.AddScoped<AuthService>();
-            builder.Services.AddScoped<IUserRepository, PostgresUserRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IValidator<User>, ValidatorUser>();
 
             builder.Services.AddScoped<MonthlySummaryService>();
-            builder.Services.AddScoped<IMonthlySummaryRepository, PostgresMonthlySummaryRepository>();
+            builder.Services.AddScoped<IMonthlySummaryRepository, MonthlySummaryRepository>();
             builder.Services.AddScoped<IValidator<MonthlySummary>, ValidatorMonthlySummary>();
-
-            builder.Services.AddSingleton<IDocumentStore>(_ => DocumentStoreHolder.Store);
-            builder.Services.AddScoped<IAsyncDocumentSession>(provider =>
-            {
-                var store = provider.GetRequiredService<IDocumentStore>();
-                return store.OpenAsyncSession();
-            });
 
             var connectionString = Environment.GetEnvironmentVariable(ApplicationConstants.CONNECTION_STRING_ENVIRONMENT_VARIABLE)
                 ?? throw new Exception($"Environment variable [{ApplicationConstants.CONNECTION_STRING_ENVIRONMENT_VARIABLE}] not found");

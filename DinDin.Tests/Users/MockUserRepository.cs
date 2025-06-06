@@ -19,14 +19,14 @@ namespace DinDin.Tests.Users
             return Task.CompletedTask;
         }
 
-        public async Task Delete(string id)
+        public void Delete(int id)
         {
             var userThatWillBeDeleted = await GetById(id);
 
             _instance.Remove(userThatWillBeDeleted);
         }
 
-        public async Task<User> GetById(string id)
+        public User GetById(int id)
         {
             return await Task.Run(() =>
                 _instance.Find(user => user.Id == id)

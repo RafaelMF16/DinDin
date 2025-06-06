@@ -10,6 +10,5 @@ namespace DinDin.Domain.MonthlySummaries
         Task Update(MonthlySummary monthlySummary);
         Task Delete(string id);
         Task<MonthlySummary> GetByMonthAndYear(Transaction transaction, string userId);
-        void AddTransactionInMonthlySummary(MonthlySummary monthlySummary, Transaction transaction);
     }
 }

@@ -44,12 +44,12 @@ namespace DinDin.Services.Users
             }
         }
 
-        public async Task<User> GetById(string id)
+        public User GetById(int id)
         {
             return await _userRepository.GetById(id);
         }
 
-        public async Task Delete(string id)
+        public void Delete(int id)
         {
             try
             {
@@ -96,10 +96,10 @@ namespace DinDin.Services.Users
             var encodedSecretKey = Encoding.ASCII.GetBytes(secretKey);
             var tokenConfig = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(
-                [
-                    new (ClaimTypes.NameIdentifier, user.Id)
-                ]),
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new (ClaimTypes.NameIdentifier, user.Id.ToString())
+                }),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(encodedSecretKey), SecurityAlgorithms.HmacSha256Signature)
             };
