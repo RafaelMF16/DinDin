@@ -1,5 +1,4 @@
 ﻿using DinDin.Domain.MonthlySummaries;
-using DinDin.Domain.Transactions;
 using DinDin.Infra.MonthlySummaries;
 
 namespace DinDin.Tests.MonthlySummaries
@@ -19,38 +18,18 @@ namespace DinDin.Tests.MonthlySummaries
             return Task.CompletedTask;
         }
 
-        public async Task Delete(string id)
-        {
-            var monthlySummaryThatWillBeDeleted = await GetById(id);
-
-            _instance.Remove(monthlySummaryThatWillBeDeleted);
-        }
-
-        public Task<List<MonthlySummary>> GetAllWithUserId(string id)
+        public Task<List<MonthlySummary>> GetAllWithUserId(int id)
         {
             var monthlySummary = _instance.Where(monthlySummary => monthlySummary.UserId == id).ToList();
             return Task.FromResult(monthlySummary);
         }
 
-        public Task<MonthlySummary> GetById(string id)
+        public Task<MonthlySummary> GetById(int id)
         {
-            var monthlySummary = _instance.FirstOrDefault(monthlySummary => monthlySummary.Id == id);
-            return Task.FromResult(monthlySummary);
-        }
-
-        public Task<MonthlySummary> GetByMonthAndYear(Transaction transaction, string userId)
-        {
-            var monthlySummary = _instance.Where(monthlySummary => monthlySummary.UserId == userId)
-                .FirstOrDefault(monthlySummary => monthlySummary.Month == transaction.TransactionDate.Month && monthlySummary.Year == transaction.TransactionDate.Year);
+            var monthlySummary = _instance.FirstOrDefault(monthlySummary => monthlySummary.Id == id)
+                ?? throw new ArgumentNullException($"Não foi encontrado nenhum usuário com id: {id}");
 
             return Task.FromResult(monthlySummary);
-        }
-
-        public async Task Update(MonthlySummary monthlySummary)
-        {
-            var dataBaseMonthlySummary = await GetById(monthlySummary.Id);
-
-            _instance[_instance.IndexOf(dataBaseMonthlySummary)] = monthlySummary;
         }
     }
 }

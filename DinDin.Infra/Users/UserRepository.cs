@@ -23,16 +23,6 @@ namespace DinDin.Infra.Users
             await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public User GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<User?> GetUserByEmail(string email)
         {
             var userModel = await _dbContext.Users
@@ -50,11 +40,6 @@ namespace DinDin.Infra.Users
                 Password = userModel.Password,
                 CreationDate = userModel.CreationDate,
             };
-        }
-
-        public Task Update(User user)
-        {
-            throw new NotImplementedException();
         }
     }
 }

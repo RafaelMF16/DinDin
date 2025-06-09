@@ -44,45 +44,6 @@ namespace DinDin.Services.Users
             }
         }
 
-        public User GetById(int id)
-        {
-            return await _userRepository.GetById(id);
-        }
-
-        public void Delete(int id)
-        {
-            try
-            {
-                await _userRepository.Delete(id);
-            }
-            catch(Exception exception)
-            {
-                throw new Exception(exception.Message);
-            }
-        }
-
-        public async Task Update(User user)
-        {
-            try
-            {
-                var validationResult = await _userValidator.ValidateAsync(user, options =>
-                    options.IncludeRuleSets(ApplicationConstants.USER_UPDATE_RULE_SET_NAME));
-
-                if (!validationResult.IsValid)
-                    throw new ValidationException(validationResult.Errors);
-
-                await _userRepository.Update(user);
-            }
-            catch (ValidationException validationException)
-            {
-                throw new ValidationException(validationException.Errors);
-            }
-            catch (Exception exception)
-            {
-                throw new Exception(exception.Message);
-            }
-        }
-
         public async Task<string?> AuthenticateUser(string email, string password)
         {
             var user = await _userRepository.GetUserByEmail(email);

@@ -21,7 +21,7 @@ namespace DinDin.Tests.MonthlySummaries
         {
             var newMonthlySummary = new MonthlySummary
             {
-                Id = "1",
+                Id = 1,
                 TotalExpense = 15,
                 TotalIncome = 20
             };
@@ -36,7 +36,7 @@ namespace DinDin.Tests.MonthlySummaries
         {
             var newMonthlySummary = new MonthlySummary
             {
-                Id = "1",
+                Id = 1,
                 TotalExpense = 15,
                 TotalIncome = 20,
             };
@@ -55,17 +55,17 @@ namespace DinDin.Tests.MonthlySummaries
         {
             var monthlySummaryList = CreateMonthlySummaryList();
 
-            const string userId = "1";
+            const int userId = 1;
             var dataBaseList = await _monthlySummaryService.GetAllWithUserId(userId);
 
             Assert.Equivalent(monthlySummaryList, dataBaseList);
         }
 
         [Theory]
-        [InlineData("1")]
-        [InlineData("2")]
-        [InlineData("3")]
-        public async Task Get_by_id_must_return_monthly_summary_with_id_expected(string id)
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        public async Task Get_by_id_must_return_monthly_summary_with_id_expected(int id)
         {
             CreateMonthlySummaryList();
             var expectedId = id;
@@ -76,10 +76,10 @@ namespace DinDin.Tests.MonthlySummaries
         }
 
         [Theory]
-        [InlineData("4")]
-        [InlineData("5")]
-        [InlineData("6")]
-        public async Task Get_by_id_must_throw_exception_if_id_is_null(string id)
+        [InlineData(4)]
+        [InlineData(5)]
+        [InlineData(6)]
+        public async Task Get_by_id_must_throw_exception_if_id_is_null(int id)
         {
             CreateMonthlySummaryList();
 
@@ -90,70 +90,6 @@ namespace DinDin.Tests.MonthlySummaries
             Assert.Equal(errorMessageExpected, exception.ParamName);
         }
 
-        [Fact]
-        public async Task Delete_should_delete_monthly_summary_with_id_one()
-        {
-            CreateMonthlySummaryList();
-
-            const string deletedUserId = "1";
-
-            await _monthlySummaryService.Delete(deletedUserId);
-
-            var dataBaseList = MonthlySummarySingleton.Instance;
-
-            Assert.DoesNotContain(dataBaseList, user => user.Id == deletedUserId);
-        }
-
-        [Fact]
-        public async Task Delete_not_must_delete_monthly_summary_with_id_four()
-        {
-            CreateMonthlySummaryList();
-
-            const string deletedUserId = "4";
-
-            await _monthlySummaryService.Delete(deletedUserId);
-
-            var dataBaseList = MonthlySummarySingleton.Instance;
-
-            const int expectedListSize = 3;
-
-            Assert.Equal(expectedListSize, dataBaseList.Count);
-        }
-
-        [Fact]
-        public async Task Must_update_the_total_expense_of_the_monthly_summary_with_id_one()
-        {
-            CreateMonthlySummaryList();
-
-            var updatedMonthlySummary = new MonthlySummary
-            {
-                Id = "1",
-                TotalExpense = 500,
-                TotalIncome = 500
-            };
-
-            await _monthlySummaryService.Update(updatedMonthlySummary);
-
-            Assert.Contains(MonthlySummarySingleton.Instance, monthlySummary => monthlySummary == updatedMonthlySummary);
-        }
-
-        [Fact]
-        public async Task Must_update_the_total_income_of_the_monthly_summary_with_id_one()
-        {
-            CreateMonthlySummaryList();
-
-            var updatedMonthlySummary = new MonthlySummary
-            {
-                Id = "1",
-                TotalExpense = 300,
-                TotalIncome = 600
-            };
-
-            await _monthlySummaryService.Update(updatedMonthlySummary);
-
-            Assert.Contains(MonthlySummarySingleton.Instance, monthlySummary => monthlySummary == updatedMonthlySummary);
-        }
-
         private static List<MonthlySummary> CreateMonthlySummaryList()
         {
             var monthlySummarySingletonList = MonthlySummarySingleton.Instance;
@@ -162,26 +98,26 @@ namespace DinDin.Tests.MonthlySummaries
             {
                 new()
                 {
-                    Id = "1",
+                    Id = 1,
                     TotalExpense = 300,
                     TotalIncome = 500,
-                    UserId = "1",
+                    UserId = 1,
                 },
 
                 new()
                 {
-                    Id = "2",
+                    Id = 2,
                     TotalExpense = 200,
                     TotalIncome = 300,
-                    UserId = "1",
+                    UserId = 1,
                 },
 
                 new()
                 {
-                    Id = "3",
+                    Id = 3,
                     TotalExpense = 100,
                     TotalIncome = 700,
-                    UserId = "1",
+                    UserId = 1,
                 }
             };
 

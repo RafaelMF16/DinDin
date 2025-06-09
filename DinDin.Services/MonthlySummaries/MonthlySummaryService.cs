@@ -3,16 +3,10 @@ using FluentValidation;
 
 namespace DinDin.Services.MonthlySummaries
 {
-    public class MonthlySummaryService
+    public class MonthlySummaryService(IMonthlySummaryRepository monthlySummaryRepository, IValidator<MonthlySummary> monthlySummaryValidator)
     {
-        private readonly IMonthlySummaryRepository _monthlySummaryRepository;
-        private readonly IValidator<MonthlySummary> _monthlySummaryValidator;
-
-        public MonthlySummaryService(IMonthlySummaryRepository monthlySummaryRepository, IValidator<MonthlySummary> monthlySummaryValidator)
-        {
-            _monthlySummaryRepository = monthlySummaryRepository;
-            _monthlySummaryValidator = monthlySummaryValidator;
-        }
+        private readonly IMonthlySummaryRepository _monthlySummaryRepository = monthlySummaryRepository;
+        private readonly IValidator<MonthlySummary> _monthlySummaryValidator = monthlySummaryValidator;
 
         public async Task Add(MonthlySummary monthlySummary)
         {
@@ -27,40 +21,14 @@ namespace DinDin.Services.MonthlySummaries
             }
         }
 
-        public async Task Delete(string id)
-        {
-            try
-            {
-                await _monthlySummaryRepository.Delete(id);
-            }
-            catch(Exception exception)
-            {
-                throw new Exception(exception.Message);
-            }
-        }
-
-        public async Task<List<MonthlySummary>> GetAllWithUserId(string id)
+        public async Task<List<MonthlySummary>> GetAllWithUserId(int id)
         {
             return await _monthlySummaryRepository.GetAllWithUserId(id);
         }
 
-        public async Task<MonthlySummary> GetById(string id)
+        public async Task<MonthlySummary> GetById(int id)
         {
-            return await _monthlySummaryRepository.GetById(id)
-                ?? throw new ArgumentNullException($"Not find monthly summary with id: {id}");
-        }
-
-        public async Task Update(MonthlySummary monthlySummary)
-        {
-            try
-            {
-                await _monthlySummaryValidator.ValidateAndThrowAsync(monthlySummary);
-                await _monthlySummaryRepository.Update(monthlySummary);
-            }
-            catch (Exception exception)
-            {
-                throw new Exception(exception.Message);
-            }
+            return await _monthlySummaryRepository.GetById(id);
         }
     }
 }

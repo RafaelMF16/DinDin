@@ -1,7 +1,7 @@
 ﻿using DinDin.Domain.MonthlySummaries;
-using DinDin.Domain.Transactions;
 using DinDin.Infra.Postgres;
 using DinDin.Infra.Postgres.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DinDin.Infra.MonthlySummaries
 {
@@ -18,41 +18,48 @@ namespace DinDin.Infra.MonthlySummaries
                 Balance = monthlySummary.Balance,
                 TotalExpense = monthlySummary.TotalExpense,
                 TotalIncome = monthlySummary.TotalIncome,
-                UserId = int.Parse(monthlySummary.UserId)
+                UserId = monthlySummary.UserId
             };
 
             await _dbContext.AddAsync(monthlySummaryModel);
             await _dbContext.SaveChangesAsync();
         }
 
-        public void AddTransactionInMonthlySummary(MonthlySummary monthlySummary, Transaction transaction)
+        public async Task<List<MonthlySummary>> GetAllWithUserId(int id)
         {
-            throw new NotImplementedException();
+            var monthlySummaryModelList = await _dbContext.MonthlySummaries
+                .AsNoTracking()
+                .Where(monthlySummary => monthlySummary.UserId == id)
+                .ToListAsync();
+
+            var monthlySummaryList = monthlySummaryModelList
+                .Select(model => new MonthlySummary
+                {
+                    Id = model.Id,
+                    Month = model.Month,
+                    Year = model.Year,
+                    TotalExpense = model.TotalExpense,
+                    TotalIncome= model.TotalIncome,
+                    UserId = model.UserId
+                }).ToList();
+
+            return monthlySummaryList;
         }
 
-        public Task Delete(string id)
+        public async Task<MonthlySummary> GetById(int id)
         {
-            throw new NotImplementedException();
-        }
+            var monthlySummaryModel = await _dbContext.MonthlySummaries.AsNoTracking().FirstOrDefaultAsync(model => model.Id == id)
+                ?? throw new ArgumentNullException($"Não foi encontrado nenhum usuário com id: {id}");
 
-        public Task<List<MonthlySummary>> GetAllWithUserId(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<MonthlySummary> GetById(string id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<MonthlySummary> GetByMonthAndYear(Transaction transaction, string userId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task Update(MonthlySummary monthlySummary)
-        {
-            throw new NotImplementedException();
+            return new MonthlySummary
+            {
+                Id = monthlySummaryModel.Id,
+                Month = monthlySummaryModel.Month,
+                Year = monthlySummaryModel.Year,
+                TotalExpense = monthlySummaryModel.TotalExpense,
+                TotalIncome = monthlySummaryModel.TotalIncome,
+                UserId = monthlySummaryModel.UserId
+            };
         }
     }
 }
