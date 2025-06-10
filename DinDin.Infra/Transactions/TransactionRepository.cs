@@ -1,6 +1,7 @@
 ﻿using DinDin.Domain.Transactions;
 using DinDin.Infra.Postgres;
 using DinDin.Infra.Postgres.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DinDin.Infra.Transactions
 {
@@ -34,14 +35,44 @@ namespace DinDin.Infra.Transactions
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task<List<Transaction>> GetAllByMonthlySummaryId(int monthlySummaryId)
+        public async Task<List<Transaction>> GetAllByMonthlySummaryId(int monthlySummaryId)
         {
-            throw new NotImplementedException();
+            var transactionModelList = await _dbContext.Transactions
+                .AsNoTracking()
+                .Where(transactionModel => transactionModel.MonthlySummaryId == monthlySummaryId)
+                .ToListAsync();
+
+            var transactionsList = transactionModelList
+                .Select(transactionModel => new Transaction 
+                { 
+                    Id = transactionModel.Id,
+                    Amont = transactionModel.Amont,
+                    Description = transactionModel.Description,
+                    ExpenseCategory = transactionModel.ExpenseCategory,
+                    IncomeCategory= transactionModel.IncomeCategory,
+                    TransactionDate = transactionModel.TransactionDate,
+                    Type = transactionModel.Type,
+                    MonthlySummaryId = transactionModel.MonthlySummaryId
+                }).ToList();
+
+            return transactionsList;
         }
 
-        public Task Update(Transaction transaction)
+        public async Task Update(Transaction transaction)
         {
-            throw new NotImplementedException();
+            var transactionModel = await _dbContext.Transactions.FindAsync(transaction.Id)
+                ?? throw new ArgumentNullException($"Não foi encontrado nenhuma transação com id: {transaction.Id}");
+
+            transactionModel.Id = transaction.Id;
+            transactionModel.Amont = transaction.Amont;
+            transactionModel.Description = transaction.Description;
+            transactionModel.ExpenseCategory = transaction.ExpenseCategory;
+            transactionModel.IncomeCategory = transaction.IncomeCategory;
+            transactionModel.TransactionDate = transaction.TransactionDate;
+            transactionModel.Type = transaction.Type;
+            transactionModel.MonthlySummaryId = transaction.MonthlySummaryId;
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
