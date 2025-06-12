@@ -1,11 +1,14 @@
 ﻿using DinDin.Domain.Constantes;
 using DinDin.Domain.MonthlySummaries;
+using DinDin.Domain.Transactions;
 using DinDin.Domain.Users;
 using DinDin.Infra.MonthlySummaries;
 using DinDin.Infra.Postgres;
+using DinDin.Infra.Transactions;
 using DinDin.Infra.Users;
 using DinDin.Services.Auth;
 using DinDin.Services.MonthlySummaries;
+using DinDin.Services.Transactions;
 using DinDin.Services.Users;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -19,6 +22,9 @@ namespace DinDin.Web
     {
         public static void AddServicesInScope(this WebApplicationBuilder builder)
         {
+            builder.Services.AddScoped<TransactionService>();
+            builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
