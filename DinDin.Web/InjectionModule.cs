@@ -24,6 +24,7 @@ namespace DinDin.Web
         {
             builder.Services.AddScoped<TransactionService>();
             builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+            builder.Services.AddScoped<IValidator<Transaction>, TransactionValidator>();
 
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();

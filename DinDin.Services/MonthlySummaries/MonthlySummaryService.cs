@@ -13,7 +13,7 @@ namespace DinDin.Services.MonthlySummaries
             try
             {
                 await _monthlySummaryValidator.ValidateAndThrowAsync(monthlySummary);
-                await _monthlySummaryRepository.Add(monthlySummary);
+                //await _monthlySummaryRepository.Add(monthlySummary);
             }
             catch (Exception exception)
             {

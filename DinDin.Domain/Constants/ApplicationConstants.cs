@@ -19,5 +19,6 @@
         public const string AUTHENTICATION_ERROR_MESSAGE = "Email ou senha incorreta";
         public const string USER_CREATE_RULE_SET_NAME = "CreateUser";
         public const string USER_UPDATE_RULE_SET_NAME = "UpdateUser";
+        public const string TRANSACTION_CREATE_RULE_SET_NAME = "CreateTransaction";
     }
 }
