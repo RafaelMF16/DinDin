@@ -1,5 +1,4 @@
 ﻿using DinDin.Domain.Constantes;
-using DinDin.Domain.Extensions;
 using DinDin.Domain.MonthlySummaries;
 using DinDin.Domain.Transactions;
 using FluentValidation;
@@ -35,7 +34,7 @@ namespace DinDin.Services.Transactions
                 if (!validationResult.IsValid)
                     throw new ValidationException(validationResult.Errors);
 
-                var monthlySummary = await CheckIfThereIsMonthlySummaryWithTheMonthAndYearOfTheTransaction(transaction.TransactionDate, userId);
+                var monthlySummary = await GetByTransactionDate(transaction.TransactionDate, userId);
 
                 if (monthlySummary is null)
                     transaction.MonthlySummaryId = await _monthlySummaryRepository.Add(transaction, userId);
@@ -53,7 +52,7 @@ namespace DinDin.Services.Transactions
             }
         }
 
-        private async Task<MonthlySummary?> CheckIfThereIsMonthlySummaryWithTheMonthAndYearOfTheTransaction(DateTime transactionDate, int userId)
+        private async Task<MonthlySummary?> GetByTransactionDate(DateTime transactionDate, int userId)
         {
             var monthlySummaries = await _monthlySummaryRepository.GetAllWithUserId(userId);
 
