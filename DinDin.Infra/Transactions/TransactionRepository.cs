@@ -1,4 +1,5 @@
-﻿using DinDin.Domain.Transactions;
+﻿using DinDin.Domain.MonthlySummaries;
+using DinDin.Domain.Transactions;
 using DinDin.Infra.Postgres;
 using DinDin.Infra.Postgres.Models;
 using Microsoft.EntityFrameworkCore;
@@ -58,21 +59,22 @@ namespace DinDin.Infra.Transactions
             return transactionsList;
         }
 
-        public async Task Update(Transaction transaction)
+        public async Task<Transaction> GetById(int id)
         {
-            var transactionModel = await _dbContext.Transactions.FindAsync(transaction.Id)
-                ?? throw new ArgumentNullException($"Não foi encontrado nenhuma transação com id: {transaction.Id}");
+            var transactionModel = await _dbContext.Transactions.AsNoTracking().FirstOrDefaultAsync(model => model.Id == id)
+                ?? throw new ArgumentNullException($"Não foi encontrado nenhum usuário com id: {id}");
 
-            transactionModel.Id = transaction.Id;
-            transactionModel.Amont = transaction.Amont;
-            transactionModel.Description = transaction.Description;
-            transactionModel.ExpenseCategory = transaction.ExpenseCategory;
-            transactionModel.IncomeCategory = transaction.IncomeCategory;
-            transactionModel.TransactionDate = transaction.TransactionDate;
-            transactionModel.Type = transaction.Type;
-            transactionModel.MonthlySummaryId = transaction.MonthlySummaryId;
-
-            await _dbContext.SaveChangesAsync();
+            return new Transaction
+            {
+                Id = transactionModel.Id,
+                Amont = transactionModel.Amont,
+                Description = transactionModel.Description,
+                Type = transactionModel.Type,
+                MonthlySummaryId = transactionModel.MonthlySummaryId,
+                TransactionDate = transactionModel.TransactionDate,
+                ExpenseCategory = transactionModel.ExpenseCategory,
+                IncomeCategory = transactionModel.IncomeCategory
+            };
         }
     }
 }

@@ -20,5 +20,6 @@
         public const string USER_CREATE_RULE_SET_NAME = "CreateUser";
         public const string USER_UPDATE_RULE_SET_NAME = "UpdateUser";
         public const string TRANSACTION_CREATE_RULE_SET_NAME = "CreateTransaction";
+        public const string TRANSACTION_UPDATE_RULE_SET_NAME = "UpdateTransaction";
     }
 }

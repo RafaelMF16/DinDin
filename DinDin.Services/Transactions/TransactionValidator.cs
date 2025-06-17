@@ -1,5 +1,6 @@
 ﻿using DinDin.Domain.Constantes;
 using DinDin.Domain.Transactions;
+using DinDin.Domain.Transactions.Enums;
 using FluentValidation;
 namespace DinDin.Services.Transactions 
 { 
@@ -22,13 +23,15 @@ namespace DinDin.Services.Transactions
                     .NotEmpty().WithMessage("O campo descrição é obrigatório");
                 
                 RuleFor(transaction => transaction.IncomeCategory)
-                    .Null()
-                    .When(transaction => transaction.ExpenseCategory is not null);
+                    .NotEmpty()
+                    .When(transaction => transaction.Type == TransactionType.Income)
+                    .IsInEnum().WithMessage("Esse valor não é válido para o enum");
                 
                 RuleFor(transaction => transaction.ExpenseCategory)
-                    .Null()
-                    .When(transaction => transaction.IncomeCategory is not null);
-            }); 
+                    .NotEmpty()
+                    .When(transaction => transaction.Type == TransactionType.Expense)
+                    .IsInEnum().WithMessage("Esse valor não é válido para o enum");
+            });
         } 
     } 
 }

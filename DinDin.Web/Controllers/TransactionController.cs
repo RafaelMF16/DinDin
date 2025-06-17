@@ -45,26 +45,6 @@ namespace DinDin.Web.Controllers
         }
 
         [Authorize]
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> UpdateTransaction([FromBody] TransactionDto transactionDto, [FromRoute] int id)
-        {
-            var transaction = new Transaction
-            {
-                Id = id,
-                Amont = transactionDto.Amont,
-                Description = transactionDto.Description,
-                ExpenseCategory = transactionDto.ExpenseCategory,
-                IncomeCategory = transactionDto.IncomeCategory,
-                TransactionDate = transactionDto.TransactionDate,
-                Type = transactionDto.Type,
-                MonthlySummaryId = transactionDto.MonthlySummaryId
-            };
-
-            await _transactionService.UpdateTransaction(transaction);
-            return Ok();
-        }
-
-        [Authorize]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTransaction([FromRoute] int id)
         {

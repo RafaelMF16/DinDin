@@ -1,6 +1,4 @@
 ﻿using DinDin.Domain.MonthlySummaries;
-using DinDin.Domain.Transactions;
-using DinDin.Domain.Transactions.Enums;
 using DinDin.Infra.Postgres;
 using DinDin.Infra.Postgres.Models;
 using Microsoft.EntityFrameworkCore;
@@ -11,19 +9,17 @@ namespace DinDin.Infra.MonthlySummaries
     {
         private readonly DinDinDbContext _dbContext = dbContext;
 
-        public async Task<int> Add(Transaction transaction, int userId)
+        public async Task<int> Add(MonthlySummary monthlySummary)
         {
             var monthlySummaryModel = new MonthlySummaryModel
             {
-                Month = transaction.TransactionDate.Month,
-                Year = transaction.TransactionDate.Year,
-                UserId = userId,
+                Month = monthlySummary.Month,
+                Year = monthlySummary.Year,
+                UserId = monthlySummary.UserId,
+                Balance = monthlySummary.Balance,
+                TotalExpense = monthlySummary.TotalExpense,
+                TotalIncome = monthlySummary.TotalIncome 
             };
-
-            if (transaction.Type == TransactionType.Expense)
-                monthlySummaryModel.TotalExpense = transaction.Amont;
-            else 
-                monthlySummaryModel.TotalIncome = transaction.Amont;
 
             var entityEntry = await _dbContext.AddAsync(monthlySummaryModel);
             await _dbContext.SaveChangesAsync();
@@ -68,15 +64,17 @@ namespace DinDin.Infra.MonthlySummaries
             };
         }
 
-        public async Task Update(Transaction transaction)
+        public async Task Update(MonthlySummary monthlySummary)
         {
-            var monthlySummaryModel = await _dbContext.MonthlySummaries.FindAsync(transaction.MonthlySummaryId)
-                ?? throw new ArgumentNullException($"Não foi encontrado nenhum usuário com id: {transaction.MonthlySummaryId}");
+            var monthlySummaryModel = await _dbContext.MonthlySummaries.FindAsync(monthlySummary.Id)
+                ?? throw new ArgumentNullException($"Não foi encontrado nenhum usuário com id: {monthlySummary.Id}");
 
-            if (transaction.Type == TransactionType.Expense)
-                monthlySummaryModel.TotalExpense += transaction.Amont;
-            else
-                monthlySummaryModel.TotalIncome += transaction.Amont;
+            monthlySummaryModel.Month = monthlySummary.Month;
+            monthlySummaryModel.Year = monthlySummary.Year;
+            monthlySummaryModel.TotalExpense = monthlySummary.TotalExpense;
+            monthlySummaryModel.TotalIncome = monthlySummary.TotalIncome;
+            monthlySummaryModel.UserId = monthlySummary.UserId;
+            monthlySummaryModel.Balance = monthlySummary.Balance;
 
             await _dbContext.SaveChangesAsync();
         }

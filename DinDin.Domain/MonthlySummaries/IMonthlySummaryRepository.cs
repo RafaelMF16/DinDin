@@ -6,7 +6,7 @@ namespace DinDin.Domain.MonthlySummaries
     {
         Task<List<MonthlySummary>> GetAllWithUserId(int id);
         Task<MonthlySummary> GetById(int id);
-        Task<int> Add(Transaction transaction, int userId);
-        Task Update(Transaction transaction);
+        Task<int> Add(MonthlySummary monthlySummary);
+        Task Update(MonthlySummary monthlySummary);
     }
 }
