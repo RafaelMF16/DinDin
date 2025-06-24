@@ -1,9 +1,12 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+    private route = inject(Router);
+
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const token = localStorage.getItem('token');
 
@@ -17,6 +20,7 @@ export class AuthInterceptor implements HttpInterceptor {
             return next.handle(clonedReq);
         }
 
+        this.route.navigate(['/login']);
         return next.handle(req);
     }
 }

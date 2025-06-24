@@ -23,7 +23,8 @@
 
     <p class="fw-bold">
       Saldo:
-      <span>
+      <span
+        [ngClass]="monthlySummary.balance < 0 ? 'text-danger' : 'text-success'">
         {{ monthlySummary.balance | currency : "BRL" }}
       </span>
     </p>
