@@ -1,4 +1,13 @@
-﻿namespace DinDin.Web.DTOS
+﻿using DinDin.Domain.Transactions.Enums;
+
+namespace DinDin.Web.DTOS
 {
-    public record TransactionDto(string Type, string Category, decimal Amont, string Description, DateTime TransactionDate, string UserId);
+    public record TransactionDto(
+        TransactionType Type, 
+        IncomeCategories? IncomeCategory, 
+        ExpenseCategories? ExpenseCategory, 
+        decimal Amont, 
+        string Description, 
+        DateTime TransactionDate,
+        int MonthlySummaryId);
 }

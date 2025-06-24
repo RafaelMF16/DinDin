@@ -1,43 +1,45 @@
 ﻿using DinDin.Domain.Users;
-using DinDin.Infra.RavenDB.Extensions;
-using Raven.Client.Documents;
-using Raven.Client.Documents.Session;
+using DinDin.Infra.Postgres;
+using DinDin.Infra.Postgres.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DinDin.Infra.Users
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository(DinDinDbContext dbContext) : IUserRepository
     {
-        private readonly IAsyncDocumentSession _session;
-
-        public UserRepository(IAsyncDocumentSession session)
-        {
-            _session = session;
-        }
+        private readonly DinDinDbContext _dbContext = dbContext;
 
         public async Task Add(User user)
         {
-            await _session.StoreAsync(user);
-            await _session.SaveChangesAsync();
+            var userModel = new UserModel
+            {
+                Name = user.Name,
+                Email = user.Email,
+                Password = user.Password,
+                CreationDate = user.CreationDate
+            };
+
+            await _dbContext.AddAsync(userModel);
+            await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(string id)
+        public async Task<User?> GetUserByEmail(string email)
         {
-            throw new NotImplementedException();
-        }
+            var userModel = await _dbContext.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(user => user.Email == email);
 
-        public User GetById(string id)
-        {
-            throw new NotImplementedException();
-        }
+            if (userModel is null)
+                return null;
 
-        public Task<User> GetUserByEmail(string email)
-        {
-            return _session.Users().WithEmail(email).FirstOrDefaultAsync();
-        }
-
-        public void Update(User user)
-        {
-            throw new NotImplementedException();
+            return new User 
+            {
+                Id = userModel.Id,
+                Name = userModel.Name,
+                Email = userModel.Email,
+                Password = userModel.Password,
+                CreationDate = userModel.CreationDate,
+            };
         }
     }
 }

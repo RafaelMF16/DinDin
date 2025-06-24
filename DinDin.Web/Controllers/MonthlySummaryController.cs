@@ -1,7 +1,4 @@
-﻿using DinDin.Domain.MonthlySummaries;
-using DinDin.Domain.Transactions;
-using DinDin.Services.MonthlySummaries;
-using DinDin.Web.DTOS;
+﻿using DinDin.Services.MonthlySummaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,42 +10,9 @@ namespace DinDin.Web.Controllers
     {
         private readonly MonthlySummaryService _monthlySummaryService = monthlySummaryService;
 
-        [HttpPost]
-        public async Task<IActionResult> CreateMonthlySummary([FromBody] MonthlySummaryDto monthlySummaryDto)
-        {
-            var newMonthlySummary = new MonthlySummary
-            {
-                Month = monthlySummaryDto.Month,
-                Year = monthlySummaryDto.Year,
-                TotalIncome = monthlySummaryDto.TotalIncome,
-                TotalExpense = monthlySummaryDto.TotalExpense
-            };
-
-            await _monthlySummaryService.Add(newMonthlySummary);
-
-            return Ok();
-        }
-
-        [HttpPost("add-transaction")]
-        [Authorize]
-        public async Task<IActionResult> AddTransaction([FromBody] TransactionDto transactionDto)
-        {
-            var transaction = new Transaction
-            {
-                Type = transactionDto.Type,
-                Category = transactionDto.Category,
-                Amont = transactionDto.Amont,
-                Description = transactionDto.Description,
-                TransactionDate = transactionDto.TransactionDate
-            };
-
-            await _monthlySummaryService.AddTransaction(transaction, transactionDto.UserId);
-            return Ok();
-        }
-
         [HttpGet("get-all-with-user-id/{id}")]
         [Authorize]
-        public async Task<IActionResult> GetAll([FromRoute] string id)
+        public async Task<IActionResult> GetAll([FromRoute] int id)
         {
             var monthlySummariesList = await _monthlySummaryService.GetAllWithUserId(id);
             return Ok(monthlySummariesList);
@@ -56,7 +20,7 @@ namespace DinDin.Web.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<IActionResult> GetByID([FromRoute] string id)
+        public async Task<IActionResult> GetByID([FromRoute] int id)
         {
             var monthlySummary = await _monthlySummaryService.GetById(id);
             return Ok(monthlySummary);

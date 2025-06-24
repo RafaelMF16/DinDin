@@ -1,8 +1,8 @@
 ﻿using DinDin.Domain.Transactions.Enums;
 
-namespace DinDin.Domain.Transactions
+namespace DinDin.Infra.Postgres.Models
 {
-    public class Transaction
+    public class TransactionModel
     {
         public int Id { get; set; }
         public TransactionType Type { get; set; }

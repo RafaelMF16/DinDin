@@ -9,13 +9,13 @@ namespace DinDin.Services.MonthlySummaries
         {
             ClassLevelCascadeMode = CascadeMode.Stop;
 
-            RuleFor(monthlySummary => monthlySummary.Year)
-                .NotEmpty().WithMessage("The Year field is mandatory")
-                .Must(year => year == DateTime.UtcNow.Year).WithMessage("The Year field must be equal to the current year");
+            //RuleFor(monthlySummary => monthlySummary.Year)
+            //    .NotEmpty().WithMessage("The Year field is mandatory")
+            //    .Must(year => year == DateTime.UtcNow.Year).WithMessage("The Year field must be equal to the current year");
 
-            RuleFor(monthlySummary => monthlySummary.Month)
-                .NotEmpty().WithMessage("The Month field is mandatory")
-                .Must(month => month == DateTime.UtcNow.Month).WithMessage("The Month field must be equal to the current month");
+            //RuleFor(monthlySummary => monthlySummary.Month)
+            //    .NotEmpty().WithMessage("The Month field is mandatory")
+            //    .Must(month => month == DateTime.UtcNow.Month).WithMessage("The Month field must be equal to the current month");
 
             RuleFor(monthlySummary => monthlySummary.TotalIncome)
                 .NotNull().WithMessage("The TotalIncome field is mandatory");

@@ -2,22 +2,15 @@
 using DinDin.Domain.Users;
 using DinDin.Services.Users;
 using DinDin.Web.DTOS;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DinDin.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController : ControllerBase
+    public class AuthController(UserService userService) : ControllerBase
     {
-        private readonly UserService _userService;
-
-        public AuthController(UserService userService)
-        {
-            _userService = userService;
-        }
+        private readonly UserService _userService = userService;
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto newUserDto)

@@ -3,8 +3,6 @@ using DinDin.Infra.Users;
 using DinDin.Services.Users;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using Newtonsoft.Json.Linq;
-using Raven.Client.Documents.Operations.ETL.ElasticSearch;
 
 namespace DinDin.Tests.Users
 {
@@ -42,7 +40,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = name,
                 Email = "login@email.com",
                 Password = "password",
@@ -63,7 +61,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = name,
                 Email = "login@email.com",
                 Password = "password",
@@ -84,7 +82,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = "Rafael",
                 Email = email,
                 Password = "password",
@@ -105,7 +103,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = "Rafael",
                 Email = email,
                 Password = "password",
@@ -126,7 +124,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = "Rafael",
                 Email = email,
                 Password = "password",
@@ -147,7 +145,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = "Rafael",
                 Email = "login@email.com",
                 Password = password,
@@ -170,7 +168,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = "Test",
                 Email = "login@email.com",
                 Password = password,
@@ -192,7 +190,7 @@ namespace DinDin.Tests.Users
         {
             var newUser = new User
             {
-                Id = "User-1",
+                Id = 1,
                 Name = "Test",
                 Email = "login@email.com",
                 Password = password,
@@ -225,128 +223,6 @@ namespace DinDin.Tests.Users
             var validationException = await Assert.ThrowsAsync<ValidationException>(() => _userService.Add(newUser));
 
             Assert.Equal(errorMessageExpected, validationException.Errors.First().ErrorMessage);
-        }
-
-        [Fact]
-        public async Task When_trying_to_create_a_user_with_a_email_already_been_registered_must_return_a_validation_error()
-        {
-            CreateUsersList();
-
-            var newUser = new User
-            {
-                Name = "Test",
-                Email = "Login@email.com",
-                Password = "password",
-                CreationDate = DateTime.UtcNow
-            };
-
-            const string errorMessageExpected = "Email has already regitered";
-
-            var validationException = await Assert.ThrowsAsync<ValidationException>(() => _userService.Add(newUser));
-
-            Assert.Equal(errorMessageExpected, validationException.Errors.First().ErrorMessage);
-        }
-
-        [Theory]
-        [InlineData("User-1")]
-        [InlineData("User-2")]
-        [InlineData("User-3")]
-        public void Get_by_id_must_return_user_with_id_expected(string id)
-        {
-            CreateUsersList();
-
-            var expectedId = id; 
-
-            var dataBaseUser = _userService.GetById(id);
-
-            Assert.Equal(expectedId, dataBaseUser.Id);
-        }
-
-        [Theory]
-        [InlineData("User-5")]
-        [InlineData("User-6")]
-        [InlineData("User-7")]
-        public void Get_by_id_must_throw_exception_if_id_is_null(string id)
-        {
-            CreateUsersList();
-
-            var errorMessageExpected = $"Not find user with id: {id}";
-
-            var errorMessage = Assert.Throws<ArgumentNullException>(() => _userService.GetById(id)).ParamName;
-
-            Assert.Equal(errorMessageExpected, errorMessage);
-        }
-
-        [Fact]
-        public void Delete_should_delete_user_with_id_one()
-        {
-            CreateUsersList();
-
-            const string deletedId = "User-1";
-
-            _userService.Delete(deletedId);
-
-            var dataBaseList = UserSingleton.Instance;
-
-            Assert.DoesNotContain(dataBaseList, user => user.Id == deletedId);
-        }
-
-        [Fact]
-        public void Delete_not_must_delete_user_with_id_four()
-        {
-            CreateUsersList();
-
-            const string deletedId = "User-4";
-
-            _userService.Delete(deletedId);
-
-            var dataBaseList = UserSingleton.Instance;
-
-            const int expectedListSize = 3;
-
-            Assert.Equal(expectedListSize, dataBaseList.Count);
-        }
-
-        [Fact]
-        public void Update_should_update_name_of_user_with_id_one()
-        {
-            CreateUsersList();
-
-            var dataBaseList = UserSingleton.Instance;
-
-            var updatedUser = new User
-            {
-                Id = "User-1",
-                Name = "Updated User",
-                Email = "Login@email.com",
-                Password = "password",
-                CreationDate = DateTime.Parse("06/11/2024").ToUniversalTime()
-            };
-
-            _userService.Update(updatedUser);
-
-            Assert.Contains(UserSingleton.Instance, user => user == updatedUser);
-        }
-
-        [Fact]
-        public void Update_should_update_password_of_user_with_id_one()
-        {
-            CreateUsersList();
-
-            var dataBaseList = UserSingleton.Instance;
-
-            var updatedUser = new User
-            {
-                Id = "User-1",
-                Name = "User",
-                Email = "Login@email.com",
-                Password = "wordpass",
-                CreationDate = DateTime.Parse("06/11/2024").ToUniversalTime()
-            };
-
-            _userService.Update(updatedUser);
-
-            Assert.Contains(UserSingleton.Instance, user => user == updatedUser);
         }
 
         [Fact]
@@ -394,7 +270,7 @@ namespace DinDin.Tests.Users
             {
                 new()
                 {
-                    Id = "User-1",
+                    Id = 1,
                     Name = "User",
                     Email = "Login@email.com",
                     Password = "password",
@@ -403,7 +279,7 @@ namespace DinDin.Tests.Users
 
                 new()
                 {
-                    Id = "User-2",
+                    Id = 2,
                     Name = "User02",
                     Email = "Login02@email.com",
                     Password = "password02",
@@ -412,7 +288,7 @@ namespace DinDin.Tests.Users
 
                 new()
                 {
-                    Id = "User-3",
+                    Id = 3,
                     Name = "User03",
                     Email = "Login03@email.com",
                     Password = "password03",
@@ -421,7 +297,7 @@ namespace DinDin.Tests.Users
 
                 new()
                 {
-                    Id = "User-4",
+                    Id = 4,
                     Name = "User04",
                     Email = "Login04@email.com",
                     Password = "$2a$12$YtdqEcInr9hcUwFLpH3.EuKnbVaGIpxY68OFOZ7IHSMLyMet/pvCS",

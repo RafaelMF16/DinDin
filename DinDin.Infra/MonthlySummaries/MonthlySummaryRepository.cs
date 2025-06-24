@@ -1,81 +1,82 @@
 ﻿using DinDin.Domain.MonthlySummaries;
-using DinDin.Domain.Transactions;
-using DinDin.Infra.RavenDB.Extensions;
-using Raven.Client.Documents;
-using Raven.Client.Documents.Session;
+using DinDin.Infra.Postgres;
+using DinDin.Infra.Postgres.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DinDin.Infra.MonthlySummaries
 {
-    public class MonthlySummaryRepository : IMonthlySummaryRepository
+    public class MonthlySummaryRepository(DinDinDbContext dbContext) : IMonthlySummaryRepository
     {
-        private readonly IAsyncDocumentSession _session;
+        private readonly DinDinDbContext _dbContext = dbContext;
 
-        public MonthlySummaryRepository(IAsyncDocumentSession session)
+        public async Task<int> Add(MonthlySummary monthlySummary)
         {
-            _session = session;
-        }
-
-        public async Task Add(MonthlySummary monthlySummary)
-        {
-            await _session.StoreAsync(monthlySummary);
-            await _session.SaveChangesAsync();
-        }
-
-        public void AddTransactionInMonthlySummary(MonthlySummary monthlySummary, Transaction transaction)
-        {
-            monthlySummary.Transactions.Add(transaction);
-            AddAmontInMonthlySummary(monthlySummary, transaction);
-
-            _session.SaveChangesAsync();
-        }
-
-        private static void AddAmontInMonthlySummary(MonthlySummary monthlySummary, Transaction transaction)
-        {
-            const string expense = "despesa";
-            if (transaction.Type == expense)
-                monthlySummary.TotalExpense += transaction.Amont;
-            else
-                monthlySummary.TotalIncome += transaction.Amont;
-        }
-
-        public async Task Delete(string id)
-        {
-            _session.Delete(id);
-            await _session.SaveChangesAsync();
-        }
-
-        public async Task<List<MonthlySummary>> GetAllWithUserId(string id)
-        {
-            return await _session.MonthlySummaries().WithUserId(id).OrderBy(monthlySummary => monthlySummary.Month).ToListAsync();
-        }
-
-        public async Task<MonthlySummary> GetById(string id)
-        {
-            return await _session.GetById<MonthlySummary>(id);
-        }
-
-        public async Task<MonthlySummary> GetByMonthAndYear(Transaction transaction, string userId)
-        {
-            var monthlySummary = await _session.MonthlySummaries().WithUserId(userId).WithMonth(transaction.TransactionDate).WithYear(transaction.TransactionDate).FirstOrDefaultAsync();
-            if (monthlySummary is null)
+            var monthlySummaryModel = new MonthlySummaryModel
             {
-                monthlySummary = new MonthlySummary { Month = transaction.TransactionDate.Month, Year = transaction.TransactionDate.Year, UserId = userId };
-                await _session.StoreAsync(monthlySummary);
-                await _session.SaveChangesAsync();
-            }
+                Month = monthlySummary.Month,
+                Year = monthlySummary.Year,
+                UserId = monthlySummary.UserId,
+                Balance = monthlySummary.Balance,
+                TotalExpense = monthlySummary.TotalExpense,
+                TotalIncome = monthlySummary.TotalIncome 
+            };
 
-            return monthlySummary;
+            var entityEntry = await _dbContext.AddAsync(monthlySummaryModel);
+            await _dbContext.SaveChangesAsync();
+
+            return entityEntry.Entity.Id;
         }
 
-        public async Task Update(MonthlySummary updatedMonthlySummary)
+        public async Task<List<MonthlySummary>> GetAllWithUserId(int id)
         {
-            var monthlySummary = await _session.GetById<MonthlySummary>(updatedMonthlySummary.Id);
-            monthlySummary.Month = updatedMonthlySummary.Month;
-            monthlySummary.Year = updatedMonthlySummary.Year;
-            monthlySummary.TotalIncome = updatedMonthlySummary.TotalIncome;
-            monthlySummary.TotalExpense = updatedMonthlySummary.TotalExpense;
+            var monthlySummaryModelList = await _dbContext.MonthlySummaries
+                .AsNoTracking()
+                .Where(monthlySummary => monthlySummary.UserId == id)
+                .ToListAsync();
 
-            await _session.SaveChangesAsync();
+            var monthlySummaryList = monthlySummaryModelList
+                .Select(model => new MonthlySummary
+                {
+                    Id = model.Id,
+                    Month = model.Month,
+                    Year = model.Year,
+                    TotalExpense = model.TotalExpense,
+                    TotalIncome= model.TotalIncome,
+                    UserId = model.UserId
+                }).ToList();
+
+            return monthlySummaryList;
+        }
+
+        public async Task<MonthlySummary> GetById(int id)
+        {
+            var monthlySummaryModel = await _dbContext.MonthlySummaries.AsNoTracking().FirstOrDefaultAsync(model => model.Id == id)
+                ?? throw new ArgumentNullException($"Não foi encontrado nenhum usuário com id: {id}");
+
+            return new MonthlySummary
+            {
+                Id = monthlySummaryModel.Id,
+                Month = monthlySummaryModel.Month,
+                Year = monthlySummaryModel.Year,
+                TotalExpense = monthlySummaryModel.TotalExpense,
+                TotalIncome = monthlySummaryModel.TotalIncome,
+                UserId = monthlySummaryModel.UserId
+            };
+        }
+
+        public async Task Update(MonthlySummary monthlySummary)
+        {
+            var monthlySummaryModel = await _dbContext.MonthlySummaries.FindAsync(monthlySummary.Id)
+                ?? throw new ArgumentNullException($"Não foi encontrado nenhum usuário com id: {monthlySummary.Id}");
+
+            monthlySummaryModel.Month = monthlySummary.Month;
+            monthlySummaryModel.Year = monthlySummary.Year;
+            monthlySummaryModel.TotalExpense = monthlySummary.TotalExpense;
+            monthlySummaryModel.TotalIncome = monthlySummary.TotalIncome;
+            monthlySummaryModel.UserId = monthlySummary.UserId;
+            monthlySummaryModel.Balance = monthlySummary.Balance;
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

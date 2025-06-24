@@ -1,18 +1,20 @@
-﻿using System.Text;
-using DinDin.Domain.Constantes;
+﻿using DinDin.Domain.Constantes;
 using DinDin.Domain.MonthlySummaries;
+using DinDin.Domain.Transactions;
 using DinDin.Domain.Users;
 using DinDin.Infra.MonthlySummaries;
-using DinDin.Infra.RavenDB;
+using DinDin.Infra.Postgres;
+using DinDin.Infra.Transactions;
 using DinDin.Infra.Users;
 using DinDin.Services.Auth;
 using DinDin.Services.MonthlySummaries;
+using DinDin.Services.Transactions;
 using DinDin.Services.Users;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Raven.Client.Documents;
-using Raven.Client.Documents.Session;
+using System.Text;
 
 namespace DinDin.Web
 {
@@ -20,6 +22,10 @@ namespace DinDin.Web
     {
         public static void AddServicesInScope(this WebApplicationBuilder builder)
         {
+            builder.Services.AddScoped<TransactionService>();
+            builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+            builder.Services.AddScoped<IValidator<Transaction>, TransactionValidator>();
+
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -33,12 +39,11 @@ namespace DinDin.Web
             builder.Services.AddScoped<IMonthlySummaryRepository, MonthlySummaryRepository>();
             builder.Services.AddScoped<IValidator<MonthlySummary>, ValidatorMonthlySummary>();
 
-            builder.Services.AddSingleton<IDocumentStore>(_ => DocumentStoreHolder.Store);
-            builder.Services.AddScoped<IAsyncDocumentSession>(provider =>
-            {
-                var store = provider.GetRequiredService<IDocumentStore>();
-                return store.OpenAsyncSession();
-            });
+            var connectionString = Environment.GetEnvironmentVariable(ApplicationConstants.CONNECTION_STRING_ENVIRONMENT_VARIABLE)
+                ?? throw new Exception($"Environment variable [{ApplicationConstants.CONNECTION_STRING_ENVIRONMENT_VARIABLE}] not found");
+
+            builder.Services.AddDbContext<DinDinDbContext>(options =>
+                options.UseNpgsql(connectionString));
 
             var secretKey = Environment.GetEnvironmentVariable(ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE)
                 ?? throw new Exception($"Environment variable [{ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE}] not found");
