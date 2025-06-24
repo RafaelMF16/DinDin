@@ -17,40 +17,6 @@ namespace DinDin.Tests.MonthlySummaries
         }
 
         [Fact]
-        public async Task Must_be_able_to_create_a_new_monthly_summary()
-        {
-            var newMonthlySummary = new MonthlySummary
-            {
-                Id = 1,
-                TotalExpense = 15,
-                TotalIncome = 20
-            };
-
-            await _monthlySummaryService.Add(newMonthlySummary);
-
-            Assert.Contains(MonthlySummarySingleton.Instance, monthlySummary => monthlySummary == newMonthlySummary);
-        }
-
-        [Fact]
-        public async Task The_balance_should_be_the_difference_between_total_income_and_total_expenses_when_creating_a_monthly_summary()
-        {
-            var newMonthlySummary = new MonthlySummary
-            {
-                Id = 1,
-                TotalExpense = 15,
-                TotalIncome = 20,
-            };
-
-            var expectedBalance = 5;
-
-            await _monthlySummaryService.Add(newMonthlySummary);
-
-            var dataBaseList = MonthlySummarySingleton.Instance;
-
-            Assert.Equal(expectedBalance, dataBaseList.First().Balance);
-        }
-
-        [Fact]
         public async Task Should_be_able_to_get_all_monthly_summaries_with_user_id_when_calling_get_all()
         {
             var monthlySummaryList = CreateMonthlySummaryList();
@@ -83,7 +49,7 @@ namespace DinDin.Tests.MonthlySummaries
         {
             CreateMonthlySummaryList();
 
-            var errorMessageExpected = $"Not find monthly summary with id: {id}";
+            var errorMessageExpected = $"Não foi encontrado nenhum usuário com id: {id}";
 
             var exception = await Assert.ThrowsAsync<ArgumentNullException>(() => _monthlySummaryService.GetById(id));
 

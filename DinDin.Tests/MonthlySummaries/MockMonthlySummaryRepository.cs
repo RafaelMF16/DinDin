@@ -12,24 +12,33 @@ namespace DinDin.Tests.MonthlySummaries
             _instance = MonthlySummarySingleton.Instance;
         }
 
-        public Task Add(MonthlySummary monthlySummary)
+        public async Task<int> Add(MonthlySummary monthlySummary)
         {
             _instance.Add(monthlySummary);
-            return Task.CompletedTask;
+            return await Task.Run(() => monthlySummary.Id);
         }
 
-        public Task<List<MonthlySummary>> GetAllWithUserId(int id)
+        public async Task<List<MonthlySummary>> GetAllWithUserId(int id)
         {
-            var monthlySummary = _instance.Where(monthlySummary => monthlySummary.UserId == id).ToList();
-            return Task.FromResult(monthlySummary);
+            return await Task.Run(() => _instance.Where(x => x.UserId == id).ToList());
         }
 
-        public Task<MonthlySummary> GetById(int id)
+        public async Task<MonthlySummary> GetById(int id)
         {
-            var monthlySummary = _instance.FirstOrDefault(monthlySummary => monthlySummary.Id == id)
+            var monthlySummary = _instance.FirstOrDefault(x => x.Id == id)
                 ?? throw new ArgumentNullException($"Não foi encontrado nenhum usuário com id: {id}");
 
-            return Task.FromResult(monthlySummary);
+            return await Task.Run(() => monthlySummary);
+        }
+
+        public Task Update(MonthlySummary monthlySummary)
+        {
+            var dataBaseMonthlySummary = _instance.FirstOrDefault(x => x.Id == monthlySummary.Id)
+               ?? throw new ArgumentNullException($"Não foi encontrado nenhum usuário com id: {monthlySummary.Id}");
+
+            _instance[_instance.IndexOf(dataBaseMonthlySummary)] = monthlySummary;
+
+            return Task.CompletedTask;
         }
     }
 }
