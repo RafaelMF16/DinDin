@@ -3,18 +3,34 @@
 <mat-dialog-content>
     <app-forms-container>
         <form [formGroup]="transactionForm">
-            <mat-form-field class="form-field" floatLabel="always">
-                <mat-label>
-                    Valor
-                </mat-label>
-                <input matInput type="number" class="amont-input" placeholder="0" formControlName="amont" />
-                <span matTextPrefix>$&nbsp;</span>
-                @if (transactionForm.get('amont')?.errors?.['required'] && transactionForm.get('amont')?.touched) {
-                <mat-error>
-                    O campo valor é obrigatório!
-                </mat-error>
-                }
-            </mat-form-field>
+
+            <div class="amount-date-div">
+                <mat-form-field class="form-field" floatLabel="always">
+                    <mat-label>
+                        Valor
+                    </mat-label>
+                    <input matInput type="number" class="amont-input" placeholder="0" formControlName="amont" />
+                    <span matTextPrefix>$&nbsp;</span>
+                    @if (transactionForm.get('amont')?.errors?.['required'] && transactionForm.get('amont')?.touched) {
+                    <mat-error>
+                        O campo valor é obrigatório!
+                    </mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field class="form-field" appearance="fill">
+                    <mat-label>Escolha uma data</mat-label>
+                    <input matInput required [matDatepicker]="picker" formControlName="transactionDate">
+                    <mat-datepicker-toggle matIconSuffix [for]="picker" />
+                    <mat-datepicker #picker />
+                    @if (transactionForm.get('transactionDate')?.errors?.['required'] && transactionForm.get('transactionDate')?.touched) {
+                        <mat-error>
+                            O campo data é obrigatório!
+                        </mat-error>
+                    }
+                </mat-form-field>
+            </div>
+            
 
             <mat-form-field class="form-field">
                 <mat-label>Categoria</mat-label>
@@ -30,17 +46,7 @@
                 }
             </mat-form-field>
 
-            <mat-form-field class="form-field" appearance="fill">
-                <mat-label>Escolha uma data</mat-label>
-                <input matInput required [matDatepicker]="picker" formControlName="transactionDate">
-                <mat-datepicker-toggle matIconSuffix [for]="picker" />
-                <mat-datepicker #picker />
-                @if (transactionForm.get('transactionDate')?.errors?.['required'] && transactionForm.get('transactionDate')?.touched) {
-                    <mat-error>
-                        O campo data é obrigatório!
-                    </mat-error>
-                }
-            </mat-form-field>
+            
 
             <mat-radio-group formControlName="type" class="checkbox-area">
                 <h6>Tipo:</h6>

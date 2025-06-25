@@ -51,3 +51,9 @@ input.amont-input::-webkit-outer-spin-button,
 input.amont-input::-webkit-inner-spin-button {
     display: none;
 }
+
+.amount-date-div {
+    width: 100%;
+    display: flex;
+    gap: 5%;
+}

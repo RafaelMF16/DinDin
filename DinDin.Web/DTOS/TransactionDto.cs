@@ -3,11 +3,11 @@
 namespace DinDin.Web.DTOS
 {
     public record TransactionDto(
-        TransactionType Type, 
-        IncomeCategories? IncomeCategory, 
-        ExpenseCategories? ExpenseCategory, 
-        decimal Amont, 
-        string Description, 
+        TransactionType Type,
+        IncomeCategories? IncomeCategory,
+        ExpenseCategories? ExpenseCategory,
+        decimal Amont,
+        string Description,
         DateTime TransactionDate,
         int MonthlySummaryId);
 }
