@@ -42,8 +42,8 @@ export class MonthlySummariesListComponent implements OnInit {
 
   onClickInAdd(): void {
     const dialogRef = this.addTransactionDialog.open(AddTransactionDialogComponent, {
-      height: '80vh',
-      width: '500px'
+      height: '75vh',
+      width: '400px'
     });
 
     dialogRef.afterClosed().subscribe(() => {

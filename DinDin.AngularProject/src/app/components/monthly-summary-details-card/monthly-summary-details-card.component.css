@@ -25,6 +25,10 @@
   transform: translateY(-4px);
 }
 
+.default-font-family {
+  font-family: "JetBrains Mono", monospace;
+}
+
 @media screen and (max-width: 800px){
   .summary-grid {
     grid-template-columns: repeat(1, 1fr);

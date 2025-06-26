@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { catchError, throwError } from 'rxjs';
 import { TransactionService } from '../../services/transactionService/transaction.service';
 import { ToastService } from '../../services/toastService/toast.service';
+import { EnumService } from '../../services/enumService/enum.service';
 
 @Component({
   selector: 'app-add-transaction-dialog',
@@ -15,25 +16,20 @@ export class AddTransactionDialogComponent implements OnInit {
 
   private transactionService = inject(TransactionService);
   private toastService = inject(ToastService);
-  
+  private enumService = inject(EnumService);
+
   readonly addTransactionDialog = inject(MatDialogRef<AddTransactionDialogComponent>);
 
   transactionForm!: FormGroup;
 
-  categories: string[] = [
-    "Alimentação",
-    "Entreterimento",
-    "Transporte",
-    "Saúde",
-    "Educação",
-    "Investimentos",
-    "Outros"
-  ]
+  categories?: string[];
+  types?: string[];
 
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.initializeForms();
+    this.getEnums();
   }
 
   private initializeForms(): void {
@@ -101,6 +97,28 @@ export class AddTransactionDialogComponent implements OnInit {
         const successMessage = "Transação cadastrada com sucesso!"
         this.toastService.openSnackBar(successMessage);
         this.closeModal();
+      });
+  }
+
+  getEnums(): void {
+    this.getCategories();
+    this.getTypes();
+  }
+
+  getCategories(): void {
+
+  }
+
+  getTypes(): void {
+    this.enumService.getEnumType()
+      .pipe(
+        catchError(() => {
+          this.toastService.openSnackBar("Não foi possível obter os tipos!");
+          this.closeModal();
+          return throwError(() => new Error());
+        })
+      ).subscribe((response) => {
+        this.types = response;
       });
   }
 }
