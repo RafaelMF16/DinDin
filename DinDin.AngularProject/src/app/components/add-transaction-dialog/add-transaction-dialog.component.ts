@@ -5,6 +5,7 @@ import { catchError, throwError } from 'rxjs';
 import { TransactionService } from '../../services/transactionService/transaction.service';
 import { ToastService } from '../../services/toastService/toast.service';
 import { EnumService } from '../../services/enumService/enum.service';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-add-transaction-dialog',
@@ -24,6 +25,7 @@ export class AddTransactionDialogComponent implements OnInit {
 
   categories?: string[];
   types?: string[];
+  selectedType?: string;
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -67,9 +69,6 @@ export class AddTransactionDialogComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])
-      ],
-      userId: [
-        ''
       ]
     })
   }
@@ -101,12 +100,7 @@ export class AddTransactionDialogComponent implements OnInit {
   }
 
   getEnums(): void {
-    this.getCategories();
     this.getTypes();
-  }
-
-  getCategories(): void {
-
   }
 
   getTypes(): void {
@@ -119,6 +113,42 @@ export class AddTransactionDialogComponent implements OnInit {
         })
       ).subscribe((response) => {
         this.types = response;
+      });
+  }
+
+  onSelectionChange(event: MatSelectChange): void {
+    this.selectedType = event.value;
+
+    const incomeType = "Income"
+    if (this.selectedType == incomeType)
+      this.getIncomeCategories();
+    else
+      this.getExpenseCategories();
+  }
+
+  getIncomeCategories(): void {
+    this.enumService.getEnumIncomeCategories()
+      .pipe(
+        catchError(() => {
+          this.toastService.openSnackBar("Não foi possível obter as categorias de renda!");
+          this.closeModal();
+          return throwError(() => new Error());
+        })
+      ).subscribe((response) => {
+        this.categories = response;
+      });
+  }
+
+  getExpenseCategories(): void {
+    this.enumService.getEnumExpenseCategories()
+      .pipe(
+        catchError(() => {
+          this.toastService.openSnackBar("Não foi possível obter as categorias de despesa!");
+          this.closeModal();
+          return throwError(() => new Error());
+        })
+      ).subscribe((response) => {
+        this.categories = response;
       });
   }
 }

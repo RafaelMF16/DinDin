@@ -15,5 +15,19 @@ namespace DinDin.Web.Controllers
             var types = _enumService.GetTypes();
             return Ok(types);
         }
+
+        [HttpGet("IncomeCategories")]
+        public IActionResult GetIncomeCategories()
+        {
+            var categories = _enumService.GetIncomeCategories();
+            return Ok(categories);
+        }
+
+        [HttpGet("ExpenseCategories")]
+        public IActionResult GetExpenseCategories()
+        {
+            var categories = _enumService.GetExpenseCategories();
+            return Ok(categories);
+        }
     }
 }

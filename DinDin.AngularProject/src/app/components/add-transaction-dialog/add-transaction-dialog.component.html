@@ -30,7 +30,7 @@
 
             <mat-form-field class="form-field">
                 <mat-label class="default-font-family">Tipo</mat-label>
-                <mat-select required formControlName="type">
+                <mat-select required formControlName="type" (selectionChange)="onSelectionChange($event)">
                     @for (type of types; track type) {
                         <mat-option [value]="type"> {{ type }}</mat-option>
                     }
