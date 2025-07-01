@@ -37,7 +37,6 @@ namespace DinDin.Web.Controllers
                 IncomeCategory = transactionDto.IncomeCategory,
                 TransactionDate = transactionDto.TransactionDate,
                 Type = transactionDto.Type,
-                MonthlySummaryId = transactionDto.MonthlySummaryId
             };
 
             await _transactionService.AddTransaction(transaction, userId);

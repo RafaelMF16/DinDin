@@ -28,7 +28,7 @@ namespace DinDin.Infra.Postgres.Configurations
 
             builder.Property(transaction => transaction.TransactionDate)
                 .IsRequired()
-                .HasColumnType("timestamp without time zone");
+                .HasColumnType("timestamp with time zone");
 
             builder.HasOne<MonthlySummaryModel>()
                 .WithMany()

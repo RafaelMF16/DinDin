@@ -29,15 +29,15 @@
             </mat-form-field>
 
             <mat-form-field class="form-field">
-                <mat-label class="default-font-family">Tipo</mat-label>
+                <mat-label class="default-font-family">Tipo da transação</mat-label>
                 <mat-select required formControlName="type" (selectionChange)="onSelectionChange($event)">
                     @for (type of types; track type) {
-                        <mat-option [value]="type"> {{ type }}</mat-option>
+                        <mat-option [value]="type.key"> {{ type.value }}</mat-option>
                     }
                 </mat-select>
                 @if (transactionForm.get('type')?.errors?.['required'] && transactionForm.get('type')?.touched) {
                     <mat-error class="default-font-family">
-                        O campo tipo é obrigatório!
+                        O campo tipo da transação é obrigatório!
                     </mat-error>
                 }
             </mat-form-field>
@@ -46,7 +46,7 @@
                 <mat-label class="default-font-family">Categoria</mat-label>
                 <mat-select required formControlName="category">
                     @for (category of categories; track category) {
-                        <mat-option [value]="category"> {{ category }}</mat-option>
+                        <mat-option [value]="category.key"> {{ category.value }}</mat-option>
                     }
                 </mat-select>
                 @if (transactionForm.get('category')?.errors?.['required'] && transactionForm.get('category')?.touched) {

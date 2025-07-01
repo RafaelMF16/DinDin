@@ -23,9 +23,10 @@ export class AddTransactionDialogComponent implements OnInit {
 
   transactionForm!: FormGroup;
 
-  categories?: string[];
-  types?: string[];
-  selectedType?: string;
+  categories?: {key: number, value: string}[];
+  types?: {key: number, value: string}[];
+  selectedType?: number;
+  isIncome?: boolean;
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -69,7 +70,9 @@ export class AddTransactionDialogComponent implements OnInit {
         Validators.compose([
           Validators.required
         ])
-      ]
+      ],
+      incomeCategory: [],
+      expenseCategory:[]
     })
   }
 
@@ -82,11 +85,28 @@ export class AddTransactionDialogComponent implements OnInit {
   }
 
   onClickInSave(): void {
-    this.addTransaction();
+    let formValue = this.transactionForm.value;
+    const transaction: any = {
+      amout: formValue.amont,
+      transactionDate: formValue.transactionDate,
+      type: formValue.type,
+      description: formValue.description
+    };
+
+    if (this.isIncome) {
+      formValue.incomeCategory = formValue.category;
+      transaction.incomeCategories = formValue.incomeCategory;
+    }
+    else {
+      formValue.expenseCategory = formValue.category
+      transaction.expenseCategories = formValue.expenseCategory;
+    }
+
+    this.addTransaction(formValue);
   }
 
-  addTransaction(): void {
-    this.transactionService.addTransaction(this.transactionForm)
+  addTransaction(transaction: any): void {
+    this.transactionService.addTransaction(transaction)
       .pipe(
         catchError(() => {
           this.toastService.openSnackBar("Não foi possível cadastrar transação!");
@@ -107,23 +127,30 @@ export class AddTransactionDialogComponent implements OnInit {
     this.enumService.getEnumType()
       .pipe(
         catchError(() => {
-          this.toastService.openSnackBar("Não foi possível obter os tipos!");
+          this.toastService.openSnackBar("Não foi possível obter os tipos de transação!");
           this.closeModal();
           return throwError(() => new Error());
         })
       ).subscribe((response) => {
-        this.types = response;
+        this.types = Object.entries(response).map(([key, value]) => ({
+          key: Number(key),
+          value: String(value)
+        }));
       });
   }
 
   onSelectionChange(event: MatSelectChange): void {
     this.selectedType = event.value;
 
-    const incomeType = "Income"
-    if (this.selectedType == incomeType)
+    const incomeType = 2
+    if (this.selectedType == incomeType) {
+      this.isIncome = true;
       this.getIncomeCategories();
-    else
+    }
+    else {
+      this.isIncome = false;
       this.getExpenseCategories();
+    }
   }
 
   getIncomeCategories(): void {
@@ -135,7 +162,10 @@ export class AddTransactionDialogComponent implements OnInit {
           return throwError(() => new Error());
         })
       ).subscribe((response) => {
-        this.categories = response;
+        this.categories = Object.entries(response).map(([key, value]) => ({
+          key: Number(key),
+          value: String(value)
+        }));
       });
   }
 
@@ -148,7 +178,10 @@ export class AddTransactionDialogComponent implements OnInit {
           return throwError(() => new Error());
         })
       ).subscribe((response) => {
-        this.categories = response;
+        this.categories = Object.entries(response).map(([key, value]) => ({
+          key: Number(key),
+          value: String(value)
+        }));
       });
   }
 }

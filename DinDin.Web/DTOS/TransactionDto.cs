@@ -8,6 +8,5 @@ namespace DinDin.Web.DTOS
         ExpenseCategories? ExpenseCategory,
         decimal Amont,
         string Description,
-        DateTime TransactionDate,
-        int MonthlySummaryId);
+        DateTime TransactionDate);
 }

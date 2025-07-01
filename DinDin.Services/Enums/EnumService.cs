@@ -4,42 +4,25 @@ namespace DinDin.Services.Enums
 {
     public class EnumService
     {
-        public List<string> GetExpenseCategories()
+        public Dictionary<int, string> GetExpenseCategories()
         {
-            return
-            [
-                ExpenseCategories.Food.ToString(),
-                ExpenseCategories.housing.ToString(),
-                ExpenseCategories.Transport.ToString(),
-                ExpenseCategories.Health.ToString(),
-                ExpenseCategories.Education.ToString(),
-                ExpenseCategories.leisure.ToString(),
-                ExpenseCategories.Guys.ToString(),
-                ExpenseCategories.Financial.ToString(),
-                ExpenseCategories.donations.ToString(),
-                ExpenseCategories.Others.ToString()
-            ];
+            return Enum.GetValues(typeof(ExpenseCategories))
+                .Cast<ExpenseCategories>()
+                .ToDictionary(x => (int)x, x => x.ToString());
         }
 
-        public List<string> GetIncomeCategories()
+        public Dictionary<int, string> GetIncomeCategories()
         {
-            return
-            [
-                IncomeCategories.Wage.ToString(),
-                IncomeCategories.Investments.ToString(),
-                IncomeCategories.Gifts.ToString(),
-                IncomeCategories.Refunds.ToString(),
-                IncomeCategories.Others.ToString()
-            ];
+            return Enum.GetValues(typeof(IncomeCategories))
+                .Cast<IncomeCategories>()
+                .ToDictionary(x => (int)x, x => x.ToString());
         }
 
-        public List<string> GetTypes()
+        public Dictionary<int, string> GetTypes()
         {
-            return
-            [
-                TransactionType.Income.ToString(),
-                TransactionType.Expense.ToString()
-            ];
+            return Enum.GetValues(typeof(TransactionType))
+                .Cast<TransactionType>()
+                .ToDictionary(x => (int)x, x => x.ToString());
         }
     }
 }
