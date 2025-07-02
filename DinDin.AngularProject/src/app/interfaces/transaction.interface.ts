@@ -1,7 +1,9 @@
 export interface Transaction {
-    type: string
-    category: string
-    amont: number
-    description: string
-    transactionDate: string
+    type: number;
+    incomeCategory: number;
+    expenseCategory: number;
+    amont: number;
+    description: string;
+    transactionDate: string;
+    monthlySummaryId: number
 } 

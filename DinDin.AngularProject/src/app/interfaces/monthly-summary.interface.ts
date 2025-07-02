@@ -1,7 +1,7 @@
 import { Transaction } from "./transaction.interface"
 
 export interface MonthlySummary {
-    id: string
+    id: number
     month: number
     year: number
     totalIncome: number

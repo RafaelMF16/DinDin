@@ -27,6 +27,6 @@ export class MonthlySummaryCardComponent implements OnInit {
   }
 
   onClickInCard(): void {
-    this.cardClick.emit(this.monthlySummary.id);
+    this.cardClick.emit(this.monthlySummary.id.toString());
   }
 }

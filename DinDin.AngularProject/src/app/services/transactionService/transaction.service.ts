@@ -13,4 +13,9 @@ export class TransactionService {
     const endpoint = "Transaction";
     return this.httpService.post<any>(endpoint, transaction);
   }
+
+  getAllByMonthlySummaryId(monthlySummaryId?: number): Observable<any> {
+    const endpoint = `Transaction/get-all-by-monthly-summary-id/${monthlySummaryId}`;
+    return this.httpService.get(endpoint);
+  }
 }
