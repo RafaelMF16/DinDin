@@ -22,10 +22,27 @@ export class TransactionPanelComponent implements OnInit {
 
   ngOnInit(): void {
     this.formattedDate.set(this.formatterService.formatteDate(this.transaction.transactionDate));
-    this.carregarCategory();
+    this.loadCategory();
   }
 
-  carregarCategory(): void {
+  loadCategory(): void {
+    const income = 2;
+    if (this.transaction.type == income)
+      this.loadIncomeCategory();
+    else 
+      this.loadExpenseCategory();
+  }
+
+  loadExpenseCategory(): void {
+    this.enumService.getEnumExpenseCategories().pipe(
+      catchError(() => {
+        return throwError(() => new Error())
+      })).subscribe((response) => {
+        this.category.set(response[this.transaction.expenseCategory]);
+      });
+  }
+
+  loadIncomeCategory(): void {
     this.enumService.getEnumIncomeCategories().pipe(
       catchError(() => {
         return throwError(() => new Error())
