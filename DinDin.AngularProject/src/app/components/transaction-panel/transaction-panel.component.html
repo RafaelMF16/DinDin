@@ -3,15 +3,15 @@
         <mat-panel-title>{{ transaction.description }}</mat-panel-title>
         <mat-panel-description>
             <span 
-                [ngClass]="{ 'text-success': transaction.type == 'renda', 'text-danger': transaction.type == 'despesa' }">
+                [ngClass]="{ 'text-success': transaction.type == 2, 'text-danger': transaction.type == 1 }">
                 {{ transaction.amont | currency : "BRL" }}
             </span>
         </mat-panel-description>
     </mat-expansion-panel-header>
     <p><strong>Data:</strong>
-        {{ transaction.transactionDate }}
+        {{ formattedDate() }}
     </p>
     <p><strong>Categoria:</strong>
-        {{ transaction.category }}
+        {{ category() }}
     </p>
 </mat-expansion-panel>

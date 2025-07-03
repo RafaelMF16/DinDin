@@ -4,6 +4,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { catchError, throwError } from 'rxjs';
 import { TransactionService } from '../../services/transactionService/transaction.service';
 import { ToastService } from '../../services/toastService/toast.service';
+import { EnumService } from '../../services/enumService/enum.service';
+import { MatSelectChange } from '@angular/material/select';
 
 @Component({
   selector: 'app-add-transaction-dialog',
@@ -15,25 +17,22 @@ export class AddTransactionDialogComponent implements OnInit {
 
   private transactionService = inject(TransactionService);
   private toastService = inject(ToastService);
-  
+  private enumService = inject(EnumService);
+
   readonly addTransactionDialog = inject(MatDialogRef<AddTransactionDialogComponent>);
 
   transactionForm!: FormGroup;
 
-  categories: string[] = [
-    "Alimentação",
-    "Entreterimento",
-    "Transporte",
-    "Saúde",
-    "Educação",
-    "Investimentos",
-    "Outros"
-  ]
+  categories?: {key: number, value: string}[];
+  types?: {key: number, value: string}[];
+  selectedType?: number;
+  isIncome?: boolean;
 
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.initializeForms();
+    this.getEnums();
   }
 
   private initializeForms(): void {
@@ -72,9 +71,8 @@ export class AddTransactionDialogComponent implements OnInit {
           Validators.required
         ])
       ],
-      userId: [
-        ''
-      ]
+      incomeCategory: [],
+      expenseCategory:[]
     })
   }
 
@@ -87,11 +85,28 @@ export class AddTransactionDialogComponent implements OnInit {
   }
 
   onClickInSave(): void {
-    this.addTransaction();
+    let formValue = this.transactionForm.value;
+    const transaction: any = {
+      amout: formValue.amont,
+      transactionDate: formValue.transactionDate,
+      type: formValue.type,
+      description: formValue.description
+    };
+
+    if (this.isIncome) {
+      formValue.incomeCategory = formValue.category;
+      transaction.incomeCategories = formValue.incomeCategory;
+    }
+    else {
+      formValue.expenseCategory = formValue.category
+      transaction.expenseCategories = formValue.expenseCategory;
+    }
+
+    this.addTransaction(formValue);
   }
 
-  addTransaction(): void {
-    this.transactionService.addTransaction(this.transactionForm)
+  addTransaction(transaction: any): void {
+    this.transactionService.addTransaction(transaction)
       .pipe(
         catchError(() => {
           this.toastService.openSnackBar("Não foi possível cadastrar transação!");
@@ -101,6 +116,72 @@ export class AddTransactionDialogComponent implements OnInit {
         const successMessage = "Transação cadastrada com sucesso!"
         this.toastService.openSnackBar(successMessage);
         this.closeModal();
+      });
+  }
+
+  getEnums(): void {
+    this.getTypes();
+  }
+
+  getTypes(): void {
+    this.enumService.getEnumType()
+      .pipe(
+        catchError(() => {
+          this.toastService.openSnackBar("Não foi possível obter os tipos de transação!");
+          this.closeModal();
+          return throwError(() => new Error());
+        })
+      ).subscribe((response) => {
+        this.types = Object.entries(response).map(([key, value]) => ({
+          key: Number(key),
+          value: String(value)
+        }));
+      });
+  }
+
+  onSelectionChange(event: MatSelectChange): void {
+    this.selectedType = event.value;
+
+    const incomeType = 2
+    if (this.selectedType == incomeType) {
+      this.isIncome = true;
+      this.getIncomeCategories();
+    }
+    else {
+      this.isIncome = false;
+      this.getExpenseCategories();
+    }
+  }
+
+  getIncomeCategories(): void {
+    this.enumService.getEnumIncomeCategories()
+      .pipe(
+        catchError(() => {
+          this.toastService.openSnackBar("Não foi possível obter as categorias de renda!");
+          this.closeModal();
+          return throwError(() => new Error());
+        })
+      ).subscribe((response) => {
+        this.categories = Object.entries(response).map(([key, value]) => ({
+          key: Number(key),
+          value: String(value)
+        }));
+      });
+  }
+
+  getExpenseCategories(): void {
+    this.enumService.getEnumExpenseCategories()
+      .pipe(
+        catchError(() => {
+          this.toastService.openSnackBar("Não foi possível obter as categorias de despesa!");
+          this.closeModal();
+          return throwError(() => new Error());
+        })
+      ).subscribe((response) => {
+        this.categories = Object.entries(response).map(([key, value]) => ({
+          key: Number(key),
+          value: String(value)
+        }));
       });
   }
 }

@@ -13,3 +13,7 @@
 .common-button:hover {
     transform: scale(1.05);
 }
+
+.default-font-family {
+  font-family: "Poppins", sans-serif;
+}

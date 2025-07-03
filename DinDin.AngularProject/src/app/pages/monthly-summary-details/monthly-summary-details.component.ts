@@ -4,6 +4,8 @@ import { catchError, Subscription, throwError } from 'rxjs';
 import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
 import { MonthlySummaryService } from '../../services/monthlySummaryService/monthly-summary.service';
 import { ToastService } from '../../services/toastService/toast.service';
+import { TransactionService } from '../../services/transactionService/transaction.service';
+import { Transaction } from '../../interfaces/transaction.interface';
 
 @Component({
   selector: 'app-monthly-summary-details',
@@ -16,22 +18,25 @@ export class MonthlySummaryDetailsComponent implements OnInit, OnDestroy {
   private monthlySummaryService = inject(MonthlySummaryService);
   private router = inject(Router);
   private toastService = inject(ToastService);
-
+  private transactionService = inject(TransactionService);
   private subscription?: Subscription;
+  private id?: number;
+
   monthlySummary?: MonthlySummary;
-  private id: string = '';
+  transactions?: Transaction[];
 
   ngOnInit(): void {
     this.getIdByRoute();
-    this.loadMonthlySummary(this.id);
+    this.loadMonthlySummary();
+    this.loadTransactions();
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 
-  loadMonthlySummary(id: string): void {
-    this.subscription = this.monthlySummaryService.getById(id)
+  loadMonthlySummary(): void {
+    this.subscription = this.monthlySummaryService.getById(this.id)
       .pipe(
         catchError(() => {
           this.toastService.openSnackBar("Não foi possível carregar o resumo mensal!");
@@ -42,9 +47,21 @@ export class MonthlySummaryDetailsComponent implements OnInit, OnDestroy {
       });
   }
 
+  loadTransactions(): void {
+    this.subscription = this.transactionService.getAllByMonthlySummaryId(this.id)
+      .pipe(
+        catchError(() => {
+          this.toastService.openSnackBar("Não foi possível carregar as transações!");
+          return throwError(() => new Error());
+        })
+      ).subscribe((response) => {
+        this.transactions = response;
+      });
+  }
+
   getIdByRoute(): void {
     const idParameter = "id";
-    this.id = this.route.snapshot.paramMap.get(idParameter)!;
+    this.id = Number(this.route.snapshot.paramMap.get(idParameter))!;
   }
 
   onClickInNavBack(): void {

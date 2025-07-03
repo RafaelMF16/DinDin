@@ -14,7 +14,7 @@
   
     <app-monthly-summary-details-toolbar/>
     <mat-accordion class="transaction-list">
-      @for (transaction of monthlySummary?.transactions; track transaction) {
+      @for (transaction of transactions; track transaction) {
         <app-transaction-panel 
           [transaction]="transaction"
         >

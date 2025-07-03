@@ -7,6 +7,7 @@ using DinDin.Infra.Postgres;
 using DinDin.Infra.Transactions;
 using DinDin.Infra.Users;
 using DinDin.Services.Auth;
+using DinDin.Services.Enums;
 using DinDin.Services.MonthlySummaries;
 using DinDin.Services.Transactions;
 using DinDin.Services.Users;
@@ -38,6 +39,8 @@ namespace DinDin.Web
             builder.Services.AddScoped<MonthlySummaryService>();
             builder.Services.AddScoped<IMonthlySummaryRepository, MonthlySummaryRepository>();
             builder.Services.AddScoped<IValidator<MonthlySummary>, ValidatorMonthlySummary>();
+
+            builder.Services.AddScoped<EnumService>();
 
             var connectionString = Environment.GetEnvironmentVariable(ApplicationConstants.CONNECTION_STRING_ENVIRONMENT_VARIABLE)
                 ?? throw new Exception($"Environment variable [{ApplicationConstants.CONNECTION_STRING_ENVIRONMENT_VARIABLE}] not found");

@@ -43,7 +43,7 @@ namespace DinDin.Infra.MonthlySummaries
                     TotalExpense = model.TotalExpense,
                     TotalIncome= model.TotalIncome,
                     UserId = model.UserId
-                }).ToList();
+                }).OrderBy(monthlySummary => monthlySummary.Month).ToList();
 
             return monthlySummaryList;
         }

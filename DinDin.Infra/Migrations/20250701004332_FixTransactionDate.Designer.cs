@@ -3,6 +3,7 @@ using System;
 using DinDin.Infra.Postgres;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DinDin.Infra.Migrations
 {
     [DbContext(typeof(DinDinDbContext))]
-    partial class DinDinDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250701004332_FixTransactionDate")]
+    partial class FixTransactionDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
