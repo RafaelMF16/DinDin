@@ -8,8 +8,8 @@ describe('MonthlySummariesContainerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MonthlySummariesContainerComponent]
-    })
+    imports: [MonthlySummariesContainerComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(MonthlySummariesContainerComponent);

@@ -8,8 +8,8 @@ describe('LabelInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [LabelInputComponent]
-    })
+    imports: [LabelInputComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(LabelInputComponent);

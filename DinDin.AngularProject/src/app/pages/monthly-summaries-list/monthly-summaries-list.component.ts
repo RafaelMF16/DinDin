@@ -6,12 +6,22 @@ import { AddTransactionDialogComponent } from '../../components/add-transaction-
 import { Router } from '@angular/router';
 import { MonthlySummaryService } from '../../services/monthlySummaryService/monthly-summary.service';
 import { ToastService } from '../../services/toastService/toast.service';
+import { HeaderComponent } from '../../components/header/header.component';
+import { MatToolbar } from '@angular/material/toolbar';
+import { MonthlySummariesContainerComponent } from '../../components/monthly-summaries-container/monthly-summaries-container.component';
+import { MonthlySummaryCardComponent } from '../../components/monthly-summary-card/monthly-summary-card.component';
 
 @Component({
   selector: 'app-monthly-summaries-list',
-  standalone: false,
   templateUrl: './monthly-summaries-list.component.html',
-  styleUrl: './monthly-summaries-list.component.css'
+  styleUrl: './monthly-summaries-list.component.css',
+  standalone: true,
+  imports: [
+    HeaderComponent, 
+    MatToolbar, 
+    MonthlySummariesContainerComponent, 
+    MonthlySummaryCardComponent
+  ]
 })
 export class MonthlySummariesListComponent implements OnInit {
 

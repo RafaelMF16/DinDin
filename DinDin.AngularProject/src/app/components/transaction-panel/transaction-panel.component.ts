@@ -1,53 +1,93 @@
-import { Component, inject, Input, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, input, Input, OnInit, signal } from '@angular/core';
 import { Transaction } from '../../interfaces/transaction.interface';
 import { FormatterService } from '../../services/formatterService/formatter.service';
 import { EnumService } from '../../services/enumService/enum.service';
 import { catchError, throwError } from 'rxjs';
+import { MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription } from '@angular/material/expansion';
+import { NgClass, CurrencyPipe, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-transaction-panel',
-  standalone: false,
   templateUrl: './transaction-panel.component.html',
-  styleUrl: './transaction-panel.component.css'
+  styleUrl: './transaction-panel.component.css',
+  standalone: true,
+  imports: [
+    MatExpansionPanel,
+    MatExpansionPanelHeader,
+    MatExpansionPanelTitle,
+    MatExpansionPanelDescription,
+    NgClass,
+    CurrencyPipe,
+    CommonModule
+  ]
 })
-export class TransactionPanelComponent implements OnInit {
+export class TransactionPanelComponent {
 
-  private formatterService = inject(FormatterService);
-  private enumService = inject(EnumService);
+  readonly transaction = input<Transaction>();
 
-  category = signal("");
-  formattedDate = signal("");
+  private readonly formatterService = inject(FormatterService);
+  private readonly enumService = inject(EnumService);
 
-  @Input() transaction!: Transaction;
+  readonly formattedTransactionDate = signal<string>("");
+  readonly transactionCategoryName = signal<string>("");
 
-  ngOnInit(): void {
-    this.formattedDate.set(this.formatterService.formatteDate(this.transaction.transactionDate));
-    this.loadCategory();
+  constructor() {
+    effect(() => {
+      const currentTransaction = this.transaction();
+
+      if (!currentTransaction) 
+        return;
+
+      this.formattedTransactionDate.set(this.formatterService.formatteDate(currentTransaction.transactionDate));
+
+      const isIncomeTransaction = currentTransaction.type === 2;
+
+      const categoryObservable = isIncomeTransaction
+        ? this.enumService.getEnumIncomeCategories()
+        : this.enumService.getEnumExpenseCategories();
+
+      categoryObservable
+        .pipe(catchError(() => throwError(() => new Error())))
+        .subscribe((response) => {
+          const categoryKey = isIncomeTransaction
+            ? currentTransaction.incomeCategory
+            : currentTransaction.expenseCategory;
+
+          this.transactionCategoryName.set(response[categoryKey]);
+        })
+    })
   }
 
-  loadCategory(): void {
-    const income = 2;
-    if (this.transaction.type == income)
-      this.loadIncomeCategory();
-    else 
-      this.loadExpenseCategory();
-  }
+  // @Input() transaction!: Transaction;
 
-  loadExpenseCategory(): void {
-    this.enumService.getEnumExpenseCategories().pipe(
-      catchError(() => {
-        return throwError(() => new Error())
-      })).subscribe((response) => {
-        this.category.set(response[this.transaction.expenseCategory]);
-      });
-  }
+  // ngOnInit(): void {
+  //   this.formattedTransactionDate.set(this.formatterService.formatteDate(this.transactionSignal.transactionDate));
+  //   this.loadCategory();
+  // }
 
-  loadIncomeCategory(): void {
-    this.enumService.getEnumIncomeCategories().pipe(
-      catchError(() => {
-        return throwError(() => new Error())
-      })).subscribe((response) => {
-        this.category.set(response[this.transaction.incomeCategory]);
-      });
-  }
+  // loadCategory(): void {
+  //   const income = 2;
+  //   if (this.transactionSignal.type == income)
+  //     this.loadIncomeCategory();
+  //   else
+  //     this.loadExpenseCategory();
+  // }
+
+  // loadExpenseCategory(): void {
+  //   this.enumService.getEnumExpenseCategories().pipe(
+  //     catchError(() => {
+  //       return throwError(() => new Error())
+  //     })).subscribe((response) => {
+  //       this.transactionCategoryName .set(response[this.transactionSignal.expenseCategory]);
+  //     });
+  // }
+
+  // loadIncomeCategory(): void {
+  //   this.enumService.getEnumIncomeCategories().pipe(
+  //     catchError(() => {
+  //       return throwError(() => new Error())
+  //     })).subscribe((response) => {
+  //       this.transactionCategoryName .set(response[this.transactionSignal.incomeCategory]);
+  //     });
+  // }
 }

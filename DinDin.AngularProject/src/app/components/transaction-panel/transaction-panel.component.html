@@ -1,4 +1,4 @@
-<mat-expansion-panel>
+<mat-expansion-panel *ngIf="transaction() as transaction">
     <mat-expansion-panel-header>
         <mat-panel-title>{{ transaction.description }}</mat-panel-title>
         <mat-panel-description>
@@ -9,9 +9,9 @@
         </mat-panel-description>
     </mat-expansion-panel-header>
     <p><strong>Data:</strong>
-        {{ formattedDate() }}
+        {{ formattedTransactionDate() }}
     </p>
     <p><strong>Categoria:</strong>
-        {{ category() }}
+        {{ transactionCategoryName() }}
     </p>
 </mat-expansion-panel>
