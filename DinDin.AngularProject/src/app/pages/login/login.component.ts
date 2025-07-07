@@ -24,7 +24,7 @@ import { LabelInputComponent } from '../../components/label-input/label-input.co
         FormsContainerComponent,
         ReactiveFormsModule,
         LabelInputComponent,
-        NgIf,
+        NgIf
     ],
 })
 export class LoginComponent implements OnInit {

@@ -1,9 +1,9 @@
-import { Component, inject, Input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
 import { FormatterService } from '../../services/formatterService/formatter.service';
 import { MatCard, MatCardHeader, MatCardTitle, MatCardSubtitle, MatCardContent } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
-import { NgClass, CurrencyPipe } from '@angular/common';
+import { NgClass, CurrencyPipe, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-monthly-summary-details-card',
@@ -17,18 +17,21 @@ import { NgClass, CurrencyPipe } from '@angular/common';
     MatCardSubtitle,
     MatCardContent,
     MatIcon,
-    NgClass, 
-    CurrencyPipe
+    NgClass,
+    CurrencyPipe,
+    CommonModule
   ]
 })
 export class MonthlySummaryDetailsCardComponent {
 
-  private formatterService = inject(FormatterService);
+  readonly monthlySummary = input<MonthlySummary>();
 
-  _monthName!: string;
+  private readonly formatterService = inject(FormatterService);
 
-  @Input() monthlySummary?: MonthlySummary
-  @Input() set month(value: number) {
-    this._monthName = this.formatterService.formatteMonth(value);
-  }
+  readonly monthName = computed(() => {
+    const monthlySummary = this.monthlySummary();
+    return monthlySummary
+      ? this.formatterService.formatteMonth(monthlySummary.month)
+      : "";
+  });
 }

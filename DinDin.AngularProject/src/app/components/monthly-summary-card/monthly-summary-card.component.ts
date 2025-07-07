@@ -1,10 +1,10 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, computed, effect, EventEmitter, inject, input, Output, signal } from '@angular/core';
 import { hoverCardTrigger } from '../../animations';
 import { MonthlySummary } from '../../interfaces/monthly-summary.interface';
 import { FormatterService } from '../../services/formatterService/formatter.service';
 import { MatCard, MatCardHeader, MatCardTitle, MatCardContent } from '@angular/material/card';
 import { MatDivider } from '@angular/material/divider';
-import { NgClass, CurrencyPipe } from '@angular/common';
+import { NgClass, CurrencyPipe, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-monthly-summary-card',
@@ -21,24 +21,28 @@ import { NgClass, CurrencyPipe } from '@angular/common';
     MatCardContent,
     MatDivider,
     NgClass,
-    CurrencyPipe
+    CurrencyPipe,
+    CommonModule
   ]
 })
-export class MonthlySummaryCardComponent implements OnInit {
-  @Input() monthlySummary!: MonthlySummary;
+export class MonthlySummaryCardComponent{
+
+  readonly monthlySummary = input<MonthlySummary>();
+  
+  private readonly formatterService = inject(FormatterService);
+  
+  readonly monthName = computed(() => {
+    const monthlySummary = this.monthlySummary();
+    return monthlySummary 
+      ? this.formatterService.formatteMonth(monthlySummary.month)
+      : "";
+  });
 
   @Output() cardClick = new EventEmitter<string>();
 
-  private formatterService = inject(FormatterService);
-
   hoverState: string = 'neutral';
-  monthName: string = '';
-
-  ngOnInit(): void {
-    this.monthName = this.formatterService.formatteMonth(this.monthlySummary.month);
-  }
 
   onClickInCard(): void {
-    this.cardClick.emit(this.monthlySummary.id.toString());
+    this.cardClick.emit(this.monthlySummary()?.id.toString());
   }
 }
