@@ -13,6 +13,7 @@ import { MonthlySummaryDetailsToolbarComponent } from '../../components/monthly-
 import { MatAccordion } from '@angular/material/expansion';
 import { TransactionPanelComponent } from '../../components/transaction-panel/transaction-panel.component';
 
+
 @Component({
   selector: 'app-monthly-summary-details',
   templateUrl: './monthly-summary-details.component.html',
@@ -23,8 +24,8 @@ import { TransactionPanelComponent } from '../../components/transaction-panel/tr
     DetailsContainerComponent,
     MonthlySummaryDetailsCardComponent,
     MonthlySummaryDetailsToolbarComponent,
-    MatAccordion, TransactionPanelComponent
-
+    MatAccordion, 
+    TransactionPanelComponent
   ]
 })
 export class MonthlySummaryDetailsComponent implements OnInit, OnDestroy {

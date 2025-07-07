@@ -3,10 +3,11 @@
   class="monthly-summary-card mat-elevation-z2" 
   [@hoverCard]="hoverState"
   (mouseenter)="hoverState = 'hover'" 
-  (mouseleave)="hoverState = 'neutral'">
+  (mouseleave)="hoverState = 'neutral'"
+  *ngIf="monthlySummary() as monthlySummary">
   <mat-card-header>
     <mat-card-title>
-      <span class="card-title">{{ monthName }}</span>
+      <span class="card-title">{{ monthName() }}</span>
     </mat-card-title>
   </mat-card-header>
 
