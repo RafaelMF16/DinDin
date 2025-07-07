@@ -1,17 +1,45 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { catchError, throwError } from 'rxjs';
 import { TransactionService } from '../../services/transactionService/transaction.service';
 import { ToastService } from '../../services/toastService/toast.service';
 import { EnumService } from '../../services/enumService/enum.service';
-import { MatSelectChange } from '@angular/material/select';
+import { MatSelectChange, MatSelect, MatOption } from '@angular/material/select';
+import { MatDivider } from '@angular/material/divider';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { FormsContainerComponent } from '../forms-container/forms-container.component';
+import { MatFormField, MatLabel, MatPrefix, MatError, MatSuffix } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { MatDatepickerInput, MatDatepickerToggle, MatDatepicker } from '@angular/material/datepicker';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-add-transaction-dialog',
-  standalone: false,
   templateUrl: './add-transaction-dialog.component.html',
-  styleUrl: './add-transaction-dialog.component.css'
+  styleUrl: './add-transaction-dialog.component.css',
+  standalone: true,
+  imports: [
+    MatDialogTitle,
+    MatDivider,
+    CdkScrollable,
+    MatDialogContent,
+    FormsContainerComponent,
+    ReactiveFormsModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    MatPrefix,
+    MatError,
+    MatDatepickerInput,
+    MatDatepickerToggle,
+    MatSuffix,
+    MatDatepicker,
+    MatSelect,
+    MatOption,
+    MatDialogActions,
+    NgClass
+  ]
 })
 export class AddTransactionDialogComponent implements OnInit {
 
@@ -23,8 +51,8 @@ export class AddTransactionDialogComponent implements OnInit {
 
   transactionForm!: FormGroup;
 
-  categories?: {key: number, value: string}[];
-  types?: {key: number, value: string}[];
+  categories?: { key: number, value: string }[];
+  types?: { key: number, value: string }[];
   selectedType?: number;
   isIncome?: boolean;
 
@@ -72,7 +100,7 @@ export class AddTransactionDialogComponent implements OnInit {
         ])
       ],
       incomeCategory: [],
-      expenseCategory:[]
+      expenseCategory: []
     })
   }
 

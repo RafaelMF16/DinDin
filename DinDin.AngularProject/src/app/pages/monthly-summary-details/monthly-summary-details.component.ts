@@ -6,12 +6,26 @@ import { MonthlySummaryService } from '../../services/monthlySummaryService/mont
 import { ToastService } from '../../services/toastService/toast.service';
 import { TransactionService } from '../../services/transactionService/transaction.service';
 import { Transaction } from '../../interfaces/transaction.interface';
+import { HeaderComponent } from '../../components/header/header.component';
+import { DetailsContainerComponent } from '../../components/details-container/details-container.component';
+import { MonthlySummaryDetailsCardComponent } from '../../components/monthly-summary-details-card/monthly-summary-details-card.component';
+import { MonthlySummaryDetailsToolbarComponent } from '../../components/monthly-summary-details-toolbar/monthly-summary-details-toolbar.component';
+import { MatAccordion } from '@angular/material/expansion';
+import { TransactionPanelComponent } from '../../components/transaction-panel/transaction-panel.component';
 
 @Component({
   selector: 'app-monthly-summary-details',
-  standalone: false,
   templateUrl: './monthly-summary-details.component.html',
-  styleUrl: './monthly-summary-details.component.css'
+  styleUrl: './monthly-summary-details.component.css',
+  standalone: true,
+  imports: [
+    HeaderComponent,
+    DetailsContainerComponent,
+    MonthlySummaryDetailsCardComponent,
+    MonthlySummaryDetailsToolbarComponent,
+    MatAccordion, TransactionPanelComponent
+
+  ]
 })
 export class MonthlySummaryDetailsComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { slideContentTrigger } from '../../animations';
 import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../../core/services/authService/auth.service';
@@ -7,13 +7,25 @@ import { Router } from '@angular/router';
 import { ToastService } from '../../services/toastService/toast.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../components/error-dialog/error-dialog.component';
+import { AllPageContainerComponent } from '../../components/all-page-container/all-page-container.component';
+import { NgClass, NgIf } from '@angular/common';
+import { FormsContainerComponent } from '../../components/forms-container/forms-container.component';
+import { LabelInputComponent } from '../../components/label-input/label-input.component';
 
 @Component({
-  selector: 'app-login',
-  standalone: false,
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
-  animations: [slideContentTrigger],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.css',
+    standalone: true,
+    animations: [slideContentTrigger],
+    imports: [
+        AllPageContainerComponent,
+        NgClass,
+        FormsContainerComponent,
+        ReactiveFormsModule,
+        LabelInputComponent,
+        NgIf,
+    ],
 })
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;

@@ -1,13 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AppConfig } from '../../../config/app-config';
+import { environment } from '../../../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HttpService {
-  private baseUrl: string = AppConfig.apiBaseUrl;
+  private baseUrl: string = environment.apiBaseUrl;
 
   constructor(private http: HttpClient) { }
 
