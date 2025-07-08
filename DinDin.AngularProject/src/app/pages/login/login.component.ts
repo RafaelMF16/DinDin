@@ -119,9 +119,9 @@ export class LoginComponent implements OnInit {
           this.errorDialog.open(ErrorDialogComponent, {
             width: '400px',
             data: {
-              title: error?.error?.title,
-              detail: error?.error?.detail,
-              errors: error?.error?.errors
+              title: error?.error?.Title,
+              detail: error?.error?.Detail,
+              errors: error?.error?.Extensions
             } 
           });
           return throwError(() => new Error());

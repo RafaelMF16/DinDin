@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, Input, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { Transaction } from '../../interfaces/transaction.interface';
 import { FormatterService } from '../../services/formatterService/formatter.service';
 import { EnumService } from '../../services/enumService/enum.service';

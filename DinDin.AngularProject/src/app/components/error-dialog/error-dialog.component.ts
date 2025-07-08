@@ -25,9 +25,8 @@ export class ErrorDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: Errors
   ) { }
 
-  objectKeys = Object.keys;
-
   getFirstError(errors: Record<string, string[]>): string | null {
+    debugger
     const firstKey = Object.keys(errors)[0];
     return firstKey ? errors[firstKey][0] : null;
   }

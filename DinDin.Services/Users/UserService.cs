@@ -5,8 +5,11 @@ using DinDin.Domain.Constantes;
 using DinDin.Domain.Users;
 using DinDin.Services.Auth;
 using FluentValidation;
+using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Npgsql;
 
 namespace DinDin.Services.Users
 {
@@ -37,6 +40,13 @@ namespace DinDin.Services.Users
             catch (ValidationException validationException)
             {
                 throw new ValidationException(validationException.Errors);
+            }
+            catch (DbUpdateException dbUpdateException) when (dbUpdateException.InnerException is PostgresException postgresException && postgresException.SqlState == "23505")
+            {
+                throw new ValidationException(
+                [
+                    new FluentValidation.Results.ValidationFailure("Email", "Já existe um usuário com este e-mail.")
+                ]);
             }
             catch (Exception exception)
             {
