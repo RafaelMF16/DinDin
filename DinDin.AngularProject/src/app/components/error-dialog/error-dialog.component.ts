@@ -26,7 +26,6 @@ export class ErrorDialogComponent {
   ) { }
 
   getFirstError(errors: Record<string, string[]>): string | null {
-    debugger
     const firstKey = Object.keys(errors)[0];
     return firstKey ? errors[firstKey][0] : null;
   }

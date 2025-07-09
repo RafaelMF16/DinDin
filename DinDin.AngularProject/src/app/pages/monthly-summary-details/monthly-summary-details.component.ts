@@ -53,9 +53,9 @@ export class MonthlySummaryDetailsComponent implements OnInit, OnDestroy {
   loadMonthlySummary(): void {
     this.subscription = this.monthlySummaryService.getById(this.id)
       .pipe(
-        catchError(() => {
+        catchError((error) => {
           this.toastService.openSnackBar("Não foi possível carregar o resumo mensal!");
-          return throwError(() => new Error());
+          return throwError(() => error);
         })
       ).subscribe((response) => {
         this.monthlySummary = response;
@@ -65,9 +65,9 @@ export class MonthlySummaryDetailsComponent implements OnInit, OnDestroy {
   loadTransactions(): void {
     this.subscription = this.transactionService.getAllByMonthlySummaryId(this.id)
       .pipe(
-        catchError(() => {
+        catchError((error) => {
           this.toastService.openSnackBar("Não foi possível carregar as transações!");
-          return throwError(() => new Error());
+          return throwError(() => error);
         })
       ).subscribe((response) => {
         this.transactions = response;

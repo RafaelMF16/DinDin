@@ -47,7 +47,7 @@ export class TransactionPanelComponent {
         : this.enumService.getEnumExpenseCategories();
 
       categoryObservable
-        .pipe(catchError(() => throwError(() => new Error())))
+        .pipe(catchError((error) => throwError(() => error)))
         .subscribe((response) => {
           const categoryKey = isIncomeTransaction
             ? currentTransaction.incomeCategory
