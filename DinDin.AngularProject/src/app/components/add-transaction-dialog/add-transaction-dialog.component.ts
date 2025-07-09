@@ -136,9 +136,9 @@ export class AddTransactionDialogComponent implements OnInit {
   addTransaction(transaction: any): void {
     this.transactionService.addTransaction(transaction)
       .pipe(
-        catchError(() => {
+        catchError((error) => {
           this.toastService.openSnackBar("Não foi possível cadastrar transação!");
-          return throwError(() => new Error());
+          return throwError(() => error);
         })
       ).subscribe(() => {
         const successMessage = "Transação cadastrada com sucesso!"
@@ -154,10 +154,10 @@ export class AddTransactionDialogComponent implements OnInit {
   getTypes(): void {
     this.enumService.getEnumType()
       .pipe(
-        catchError(() => {
+        catchError((error) => {
           this.toastService.openSnackBar("Não foi possível obter os tipos de transação!");
           this.closeModal();
-          return throwError(() => new Error());
+          return throwError(() => error);
         })
       ).subscribe((response) => {
         this.types = Object.entries(response).map(([key, value]) => ({
@@ -184,10 +184,10 @@ export class AddTransactionDialogComponent implements OnInit {
   getIncomeCategories(): void {
     this.enumService.getEnumIncomeCategories()
       .pipe(
-        catchError(() => {
+        catchError((error) => {
           this.toastService.openSnackBar("Não foi possível obter as categorias de renda!");
           this.closeModal();
-          return throwError(() => new Error());
+          return throwError(() => error);
         })
       ).subscribe((response) => {
         this.categories = Object.entries(response).map(([key, value]) => ({
@@ -200,10 +200,10 @@ export class AddTransactionDialogComponent implements OnInit {
   getExpenseCategories(): void {
     this.enumService.getEnumExpenseCategories()
       .pipe(
-        catchError(() => {
+        catchError((error) => {
           this.toastService.openSnackBar("Não foi possível obter as categorias de despesa!");
           this.closeModal();
-          return throwError(() => new Error());
+          return throwError(() => error);
         })
       ).subscribe((response) => {
         this.categories = Object.entries(response).map(([key, value]) => ({

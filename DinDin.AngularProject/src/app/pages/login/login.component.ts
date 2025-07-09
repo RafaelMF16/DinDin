@@ -11,6 +11,7 @@ import { AllPageContainerComponent } from '../../components/all-page-container/a
 import { NgClass, NgIf } from '@angular/common';
 import { FormsContainerComponent } from '../../components/forms-container/forms-container.component';
 import { LabelInputComponent } from '../../components/label-input/label-input.component';
+import { ErrorModalService } from '../../services/errorModalService/error-modal.service';
 
 @Component({
     selector: 'app-login',
@@ -35,6 +36,8 @@ export class LoginComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private toastService = inject(ToastService);
+  private errorModalService = inject(ErrorModalService);
+
   readonly errorDialog = inject(MatDialog);
 
   constructor(
@@ -116,15 +119,8 @@ export class LoginComponent implements OnInit {
       .createUser(this.registerForm.value)
       .pipe(
         catchError((error) => {
-          this.errorDialog.open(ErrorDialogComponent, {
-            width: '400px',
-            data: {
-              title: error?.error?.title,
-              detail: error?.error?.detail,
-              errors: error?.error?.errors
-            } 
-          });
-          return throwError(() => new Error());
+          this.errorModalService.show(error.error);
+          return throwError(() => error);
         })
       )
       .subscribe(() => {
@@ -140,15 +136,8 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.loginForm.value)
       .pipe(
         catchError((error) => {
-          this.errorDialog.open(ErrorDialogComponent, {
-            width: '400px',
-            data: {
-              title: error?.error?.title,
-              detail: error?.error?.detail,
-              errors: error?.error?.errors
-            } 
-          });
-          return throwError(() => new Error());
+          this.errorModalService.show(error.error);
+          return throwError(() => error);
         })
       ).subscribe((response) => {
         const successLoginMessage = "Login Realizado!";

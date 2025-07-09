@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, Input, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, input, signal } from '@angular/core';
 import { Transaction } from '../../interfaces/transaction.interface';
 import { FormatterService } from '../../services/formatterService/formatter.service';
 import { EnumService } from '../../services/enumService/enum.service';
@@ -47,7 +47,7 @@ export class TransactionPanelComponent {
         : this.enumService.getEnumExpenseCategories();
 
       categoryObservable
-        .pipe(catchError(() => throwError(() => new Error())))
+        .pipe(catchError((error) => throwError(() => error)))
         .subscribe((response) => {
           const categoryKey = isIncomeTransaction
             ? currentTransaction.incomeCategory
