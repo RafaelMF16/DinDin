@@ -13,11 +13,11 @@
 
   <mat-card-content>
     <p class="text-success fw-semibold">
-      Renda Total: {{ monthlySummary.totalIncome | currency : "BRL" }}
+      Renda Total: {{ monthlySummary.totalIncome | currency }}
     </p>
 
     <p class="text-danger fw-semibold">
-      Total Gasto: {{ monthlySummary.totalExpense | currency : "BRL" }}
+      Total Gasto: {{ monthlySummary.totalExpense | currency }}
     </p>
 
     <mat-divider class="my-2"></mat-divider>
@@ -26,7 +26,7 @@
       Saldo:
       <span
         [ngClass]="monthlySummary.balance < 0 ? 'text-danger' : 'text-success'">
-        {{ monthlySummary.balance | currency : "BRL" }}
+        {{ monthlySummary.balance | currency }}
       </span>
     </p>
   </mat-card-content>

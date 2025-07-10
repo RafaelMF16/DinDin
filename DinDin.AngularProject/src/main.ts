@@ -1,3 +1,5 @@
+/// <reference types="@angular/localize" />
+
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';

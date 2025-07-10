@@ -4,7 +4,7 @@
         <mat-panel-description>
             <span 
                 [ngClass]="{ 'text-success': transaction.type == 2, 'text-danger': transaction.type == 1 }">
-                {{ transaction.amont | currency : "BRL" }}
+                {{ transaction.amont | currency }}
             </span>
         </mat-panel-description>
     </mat-expansion-panel-header>
