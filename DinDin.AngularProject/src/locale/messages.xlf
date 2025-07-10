@@ -2,6 +2,189 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="pt" datatype="plaintext" original="ng2.template">
     <body>
+      <trans-unit id="6430277496989727803" datatype="html">
+        <source>Registrar Transação</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-transaction-dialog/add-transaction-dialog.component.html</context>
+          <context context-type="linenumber">1,2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8206920021542259834" datatype="html">
+        <source> Valor </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-transaction-dialog/add-transaction-dialog.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="492015200845248529" datatype="html">
+        <source> O campo valor é obrigatório! </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-transaction-dialog/add-transaction-dialog.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7856031410541081130" datatype="html">
+        <source>Escolha uma data</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-transaction-dialog/add-transaction-dialog.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6617404479927837979" datatype="html">
+        <source> O campo data é obrigatório! </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-transaction-dialog/add-transaction-dialog.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6821585181970350928" datatype="html">
+        <source>Tipo da transação</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-transaction-dialog/add-transaction-dialog.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1744781557797505088" datatype="html">
+        <source> O campo tipo da transação é obrigatório! </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-transaction-dialog/add-transaction-dialog.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5923041569817566400" datatype="html">
+        <source>Categoria</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-transaction-dialog/add-transaction-dialog.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2369832372015169561" datatype="html">
+        <source> O campo categoria é obrigatório! </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-transaction-dialog/add-transaction-dialog.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5269978570089659028" datatype="html">
+        <source>Descrição</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-transaction-dialog/add-transaction-dialog.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6473092502698563375" datatype="html">
+        <source> O campo descrição é obrigatório! </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-transaction-dialog/add-transaction-dialog.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9053961753309349313" datatype="html">
+        <source> Salvar </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-transaction-dialog/add-transaction-dialog.component.html</context>
+          <context context-type="linenumber">83,84</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6060080757060540228" datatype="html">
+        <source> Cancelar </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/add-transaction-dialog/add-transaction-dialog.component.html</context>
+          <context context-type="linenumber">86,87</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8665820249974963410" datatype="html">
+        <source> Fechar </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/error-dialog/error-dialog.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4711539933884989412" datatype="html">
+        <source>Sair</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/header/header.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2192607600987963196" datatype="html">
+        <source> Renda Total: <x id="INTERPOLATION" equiv-text="{{ monthlySummary.totalIncome | currency }}"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/monthly-summary-card/monthly-summary-card.component.html</context>
+          <context context-type="linenumber">16,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8527025384740416623" datatype="html">
+        <source> Total Gasto: <x id="INTERPOLATION" equiv-text="{{ monthlySummary.totalExpense | currency }}"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/monthly-summary-card/monthly-summary-card.component.html</context>
+          <context context-type="linenumber">20,23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5636474552728306800" datatype="html">
+        <source> Saldo: <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span
+        [ngClass]=&quot;monthlySummary.balance &lt; 0 ? &apos;text-danger&apos; : &apos;text-success&apos;&quot;&gt;"/> <x id="INTERPOLATION" equiv-text="{{ monthlySummary.balance | currency }}"/> <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/monthly-summary-card/monthly-summary-card.component.html</context>
+          <context context-type="linenumber">26,32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4140079431995061832" datatype="html">
+        <source>Resumo de <x id="INTERPOLATION" equiv-text="{{ monthName() }}"/>/<x id="INTERPOLATION_1" equiv-text="{{ monthlySummary.year}}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/monthly-summary-details-card/monthly-summary-details-card.component.html</context>
+          <context context-type="linenumber">5,6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7521049547193177606" datatype="html">
+        <source>Visão geral das finanças do mês</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/monthly-summary-details-card/monthly-summary-details-card.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8096588286156855102" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Renda<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/monthly-summary-details-card/monthly-summary-details-card.component.html</context>
+          <context context-type="linenumber">13,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1177358228328330006" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Gastos<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/monthly-summary-details-card/monthly-summary-details-card.component.html</context>
+          <context context-type="linenumber">20,21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8529975408949246228" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Saldo<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/monthly-summary-details-card/monthly-summary-details-card.component.html</context>
+          <context context-type="linenumber">27,28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2233973129148501829" datatype="html">
+        <source>Transações</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/monthly-summary-details-toolbar/monthly-summary-details-toolbar.component.html</context>
+          <context context-type="linenumber">2,3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4857064217007912208" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Data:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="INTERPOLATION" equiv-text="{{ formattedTransactionDate() }}"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/transaction-panel/transaction-panel.component.html</context>
+          <context context-type="linenumber">12,15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6521441330894246263" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Categoria:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="INTERPOLATION" equiv-text="{{ transactionCategoryName() }}"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/transaction-panel/transaction-panel.component.html</context>
+          <context context-type="linenumber">16,19</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="3852880578587306755" datatype="html">
         <source>você voltou!</source>
         <context-group purpose="location">
@@ -129,6 +312,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/login/login.component.html</context>
           <context context-type="linenumber">190</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="537560381488952409" datatype="html">
+        <source>Você ainda não possui resumos mensais.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/monthly-summaries-list/monthly-summaries-list.component.html</context>
+          <context context-type="linenumber">12,13</context>
         </context-group>
       </trans-unit>
     </body>

@@ -12,17 +12,17 @@
   </mat-card-header>
 
   <mat-card-content>
-    <p class="text-success fw-semibold">
+    <p i18n class="text-success fw-semibold">
       Renda Total: {{ monthlySummary.totalIncome | currency }}
     </p>
 
-    <p class="text-danger fw-semibold">
+    <p i18n class="text-danger fw-semibold">
       Total Gasto: {{ monthlySummary.totalExpense | currency }}
     </p>
 
     <mat-divider class="my-2"></mat-divider>
 
-    <p class="fw-bold">
+    <p i18n class="fw-bold">
       Saldo:
       <span
         [ngClass]="monthlySummary.balance < 0 ? 'text-danger' : 'text-success'">
