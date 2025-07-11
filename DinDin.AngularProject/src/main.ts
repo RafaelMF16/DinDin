@@ -3,7 +3,6 @@
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
-import { DatePipe, registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS, withInterceptorsFromDi, provideHttpClient } from '@angular/common/http';
 import { AuthInterceptor } from './app/core/interceptors/auth.interceptor';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
@@ -26,29 +25,29 @@ import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { AppComponent } from './app/app.component';
-import { importProvidersFrom, LOCALE_ID } from '@angular/core';
+import { importProvidersFrom } from '@angular/core';
 
 bootstrapApplication(AppComponent, {
     providers: [
         importProvidersFrom(
-            BrowserModule, 
-            ReactiveFormsModule, 
-            MatDividerModule, 
-            MatCardModule, 
-            MatButtonModule, 
-            MatIconModule, 
-            MatTooltipModule, 
-            MatToolbarModule, 
-            MatDialogModule, 
-            MatFormFieldModule, 
-            MatInputModule, 
-            MatSelectModule, 
-            MatCheckboxModule, 
-            MatDatepickerModule, 
-            MatNativeDateModule, 
-            MatRadioModule, 
-            MatListModule, 
-            MatExpansionModule, 
+            BrowserModule,
+            ReactiveFormsModule,
+            MatDividerModule,
+            MatCardModule,
+            MatButtonModule,
+            MatIconModule,
+            MatTooltipModule,
+            MatToolbarModule,
+            MatDialogModule,
+            MatFormFieldModule,
+            MatInputModule,
+            MatSelectModule,
+            MatCheckboxModule,
+            MatDatepickerModule,
+            MatNativeDateModule,
+            MatRadioModule,
+            MatListModule,
+            MatExpansionModule,
             MatMenuModule
         ),
         provideRouter(routes),
@@ -56,7 +55,6 @@ bootstrapApplication(AppComponent, {
             provide: MAT_DATE_LOCALE,
             useValue: 'pt-BR'
         },
-        DatePipe,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,

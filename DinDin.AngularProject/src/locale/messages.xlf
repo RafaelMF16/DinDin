@@ -108,14 +108,14 @@
         </context-group>
       </trans-unit>
       <trans-unit id="2192607600987963196" datatype="html">
-        <source> Renda Total: <x id="INTERPOLATION" equiv-text="{{ monthlySummary.totalIncome | currency }}"/> </source>
+        <source> Renda Total: <x id="INTERPOLATION" equiv-text="{{ monthlySummary.totalIncome | currency: &quot;BRL&quot; }}"/> </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/monthly-summary-card/monthly-summary-card.component.html</context>
           <context context-type="linenumber">16,19</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8527025384740416623" datatype="html">
-        <source> Total Gasto: <x id="INTERPOLATION" equiv-text="{{ monthlySummary.totalExpense | currency }}"/> </source>
+        <source> Total Gasto: <x id="INTERPOLATION" equiv-text="{{ monthlySummary.totalExpense | currency: &quot;BRL&quot; }}"/> </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/monthly-summary-card/monthly-summary-card.component.html</context>
           <context context-type="linenumber">20,23</context>
@@ -123,7 +123,7 @@
       </trans-unit>
       <trans-unit id="5636474552728306800" datatype="html">
         <source> Saldo: <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span
-        [ngClass]=&quot;monthlySummary.balance &lt; 0 ? &apos;text-danger&apos; : &apos;text-success&apos;&quot;&gt;"/> <x id="INTERPOLATION" equiv-text="{{ monthlySummary.balance | currency }}"/> <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        [ngClass]=&quot;monthlySummary.balance &lt; 0 ? &apos;text-danger&apos; : &apos;text-success&apos;&quot;&gt;"/> <x id="INTERPOLATION" equiv-text="{{ monthlySummary.balance | currency: &quot;BRL&quot; }}"/> <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/monthly-summary-card/monthly-summary-card.component.html</context>
           <context context-type="linenumber">26,32</context>
@@ -151,7 +151,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="187187500641108332" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="{{ monthlySummary.totalIncome | currency }}"/></source>
+        <source><x id="INTERPOLATION" equiv-text="{{ monthlySummary.totalIncome | currency: &quot;BRL&quot; }}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/monthly-summary-details-card/monthly-summary-details-card.component.html</context>
           <context context-type="linenumber">15,16</context>
@@ -176,7 +176,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="7708270344948043036" datatype="html">
-        <source> <x id="INTERPOLATION" equiv-text="{{ monthlySummary.balance | currency }}"/> </source>
+        <source> <x id="INTERPOLATION" equiv-text="{{ monthlySummary.balance | currency: &quot;BRL&quot; }}"/> </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/monthly-summary-details-card/monthly-summary-details-card.component.html</context>
           <context context-type="linenumber">32,33</context>

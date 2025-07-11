@@ -25,20 +25,16 @@ export class TransactionPanelComponent {
 
   readonly transaction = input<Transaction>();
 
-  private readonly formatterService = inject(FormatterService);
   private readonly enumService = inject(EnumService);
 
-  readonly formattedTransactionDate = signal<string>("");
   readonly transactionCategoryName = signal<string>("");
 
   constructor() {
     effect(() => {
       const currentTransaction = this.transaction();
 
-      if (!currentTransaction) 
+      if (!currentTransaction)
         return;
-
-      // this.formattedTransactionDate.set(this.formatterService.formatteDate(currentTransaction.transactionDate));
 
       const isIncomeTransaction = currentTransaction.type === 2;
 
