@@ -3,7 +3,6 @@
         <mat-panel-title>{{ transaction.description }}</mat-panel-title>
         <mat-panel-description>
             <span 
-                i18n
                 [ngClass]="{ 'text-success': transaction.type == 2, 'text-danger': transaction.type == 1 }">
                 {{ transaction.amont | currency: "BRL" }}
             </span>

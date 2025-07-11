@@ -10,6 +10,10 @@
           "en-US": {
             "translation": "src/locale/messages.en-US.xlf",
             "baseHref": "en/"
+          },
+          "es": {
+            "translation": "src/locale/messages.es.xlf",
+            "baseHref": "es/"
           }
         }
       },
@@ -52,7 +56,7 @@
             ],
             "scripts": [],
             "localize": [
-              "en-US"
+              "es"
             ]
           },
           "configurations": {
