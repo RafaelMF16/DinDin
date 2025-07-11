@@ -3,6 +3,7 @@
         <mat-panel-title>{{ transaction.description }}</mat-panel-title>
         <mat-panel-description>
             <span 
+                i18n
                 [ngClass]="{ 'text-success': transaction.type == 2, 'text-danger': transaction.type == 1 }">
                 {{ transaction.amont | currency }}
             </span>
@@ -10,7 +11,7 @@
     </mat-expansion-panel-header>
     <p i18n>
         <strong>Data:</strong>
-        {{ formattedTransactionDate() }}
+        {{ transaction.transactionDate | date}}
     </p>
     <p i18n>
         <strong>Categoria:</strong>

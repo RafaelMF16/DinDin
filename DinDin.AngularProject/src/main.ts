@@ -3,7 +3,7 @@
 import { provideRouter } from '@angular/router';
 import { routes } from './app/app.routes';
 import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
-import { DatePipe } from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS, withInterceptorsFromDi, provideHttpClient } from '@angular/common/http';
 import { AuthInterceptor } from './app/core/interceptors/auth.interceptor';
 import { BrowserModule, bootstrapApplication } from '@angular/platform-browser';
@@ -26,11 +26,31 @@ import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { AppComponent } from './app/app.component';
-import { importProvidersFrom } from '@angular/core';
+import { importProvidersFrom, LOCALE_ID } from '@angular/core';
 
 bootstrapApplication(AppComponent, {
     providers: [
-        importProvidersFrom(BrowserModule, ReactiveFormsModule, MatDividerModule, MatCardModule, MatButtonModule, MatIconModule, MatTooltipModule, MatToolbarModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatCheckboxModule, MatDatepickerModule, MatNativeDateModule, MatRadioModule, MatListModule, MatExpansionModule, MatMenuModule),
+        importProvidersFrom(
+            BrowserModule, 
+            ReactiveFormsModule, 
+            MatDividerModule, 
+            MatCardModule, 
+            MatButtonModule, 
+            MatIconModule, 
+            MatTooltipModule, 
+            MatToolbarModule, 
+            MatDialogModule, 
+            MatFormFieldModule, 
+            MatInputModule, 
+            MatSelectModule, 
+            MatCheckboxModule, 
+            MatDatepickerModule, 
+            MatNativeDateModule, 
+            MatRadioModule, 
+            MatListModule, 
+            MatExpansionModule, 
+            MatMenuModule
+        ),
         provideRouter(routes),
         {
             provide: MAT_DATE_LOCALE,

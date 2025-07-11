@@ -12,14 +12,14 @@
                 <p i18n>
                     <strong>Renda</strong>
                 </p>
-                <p class="text-success">{{ monthlySummary.totalIncome | currency }}</p>
+                <p i18n class="text-success">{{ monthlySummary.totalIncome | currency }}</p>
             </div>
             <div class="summary-item">
                 <mat-icon>money_off</mat-icon>
                 <p i18n>
                     <strong>Gastos</strong>
                 </p>
-                <p class="text-danger">{{ monthlySummary.totalExpense | currency }}</p>
+                <p i18n class="text-danger">{{ monthlySummary.totalExpense | currency }}</p>
             </div>
             <div class="summary-item">
                 <mat-icon>account_balance</mat-icon>
@@ -27,6 +27,7 @@
                     <strong>Saldo</strong>
                 </p>
                 <p
+                    i18n
                     [ngClass]="{ 'text-success': monthlySummary.balance >= 0, 'text-danger': monthlySummary.balance < 0 }">
                     {{ monthlySummary.balance | currency }}
                 </p>

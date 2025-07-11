@@ -38,7 +38,7 @@ export class TransactionPanelComponent {
       if (!currentTransaction) 
         return;
 
-      this.formattedTransactionDate.set(this.formatterService.formatteDate(currentTransaction.transactionDate));
+      // this.formattedTransactionDate.set(this.formatterService.formatteDate(currentTransaction.transactionDate));
 
       const isIncomeTransaction = currentTransaction.type === 2;
 

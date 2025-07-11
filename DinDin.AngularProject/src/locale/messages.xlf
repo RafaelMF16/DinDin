@@ -150,6 +150,17 @@
           <context context-type="linenumber">13,14</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="187187500641108332" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ monthlySummary.totalIncome | currency }}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/monthly-summary-details-card/monthly-summary-details-card.component.html</context>
+          <context context-type="linenumber">15,16</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/monthly-summary-details-card/monthly-summary-details-card.component.html</context>
+          <context context-type="linenumber">22,23</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="1177358228328330006" datatype="html">
         <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Gastos<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></source>
         <context-group purpose="location">
@@ -164,6 +175,17 @@
           <context context-type="linenumber">27,28</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="7708270344948043036" datatype="html">
+        <source> <x id="INTERPOLATION" equiv-text="{{ monthlySummary.balance | currency }}"/> </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/monthly-summary-details-card/monthly-summary-details-card.component.html</context>
+          <context context-type="linenumber">32,33</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/transaction-panel/transaction-panel.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="2233973129148501829" datatype="html">
         <source>Transações</source>
         <context-group purpose="location">
@@ -172,17 +194,17 @@
         </context-group>
       </trans-unit>
       <trans-unit id="4857064217007912208" datatype="html">
-        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Data:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="INTERPOLATION" equiv-text="{{ formattedTransactionDate() }}"/> </source>
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Data:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="INTERPOLATION" equiv-text="{{ transaction.transactionDate | date}}"/> </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/transaction-panel/transaction-panel.component.html</context>
-          <context context-type="linenumber">12,15</context>
+          <context context-type="linenumber">13,16</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6521441330894246263" datatype="html">
         <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Categoria:<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/> <x id="INTERPOLATION" equiv-text="{{ transactionCategoryName() }}"/> </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/transaction-panel/transaction-panel.component.html</context>
-          <context context-type="linenumber">16,19</context>
+          <context context-type="linenumber">17,20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3852880578587306755" datatype="html">
@@ -319,6 +341,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/pages/monthly-summaries-list/monthly-summaries-list.component.html</context>
           <context context-type="linenumber">12,13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6030419242795113270" datatype="html">
+        <source><x id="START_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;i class=&quot;fa-solid fa-arrow-left&quot;&gt;"/><x id="CLOSE_ITALIC_TEXT" ctype="x-i" equiv-text="&lt;/i&gt;"/> Voltar </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/pages/monthly-summary-details/monthly-summary-details.component.html</context>
+          <context context-type="linenumber">6,8</context>
         </context-group>
       </trans-unit>
     </body>
