@@ -1,16 +1,39 @@
 <div class="fluid-container header">
-    <button class="btn common-button">
-        <i class="fa-solid fa-bars"></i>
-    </button>
-
-    <button class="btn common-button" [mat-menu-trigger-for]="menu">
-        <i class="fa-solid fa-user"></i>
-    </button>
-
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="onClickInLogout()">
-            <mat-icon fontIcon="logout"></mat-icon>
-            <span i18n class="default-font-family">Sair</span>
+    <div>
+        <button class="btn common-button">
+            <i class="fa-solid fa-bars"></i>
         </button>
-    </mat-menu>
+    </div>
+
+    <div>
+        <button class="btn common-button" [mat-menu-trigger-for]="languageMenu">
+            <i class="fa-solid fa-globe"></i>
+        </button>
+
+        <button class="btn common-button" [mat-menu-trigger-for]="userMenu">
+            <i class="fa-solid fa-user"></i>
+        </button>
+
+        <mat-menu #userMenu="matMenu">
+            <button mat-menu-item (click)="onClickInLogout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span i18n class="default-font-family">Sair</span>
+            </button>
+        </mat-menu>
+
+        <mat-menu #languageMenu="matMenu">
+            <button mat-menu-item (click)="onClickInLogout()">
+                <span class="flag-icon flag-icon-br me-2"></span>
+                <span class="default-font-family">Português</span>
+            </button>
+            <button mat-menu-item (click)="onClickInLogout()">
+                <img src="../../../assets/us.png" width="20" height="14" class="me-2" />
+                <span class="default-font-family">English</span>
+            </button>
+            <button mat-menu-item (click)="onClickInLogout()">
+                <span class="flag-icon flag-icon-es me-2"></span>
+                <span class="default-font-family">Español</span>
+            </button>
+        </mat-menu>
+    </div>
 </div>

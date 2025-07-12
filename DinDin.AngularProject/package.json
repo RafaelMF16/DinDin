@@ -22,6 +22,7 @@
     "@angular/router": "^19.1.0",
     "@auth0/angular-jwt": "^5.2.0",
     "bootstrap": "^5.3.3",
+    "flag-icon-css": "^4.1.7",
     "jest-editor-support": "*",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

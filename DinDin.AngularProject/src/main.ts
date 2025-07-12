@@ -26,6 +26,15 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatMenuModule } from '@angular/material/menu';
 import { AppComponent } from './app/app.component';
 import { importProvidersFrom } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+import localeEs from '@angular/common/locales/es';
+import localeEn from '@angular/common/locales/en';
+import { I18nService } from './app/services/i18nService/i18n.service';
+
+registerLocaleData(localePt, 'pt');
+registerLocaleData(localeEn, 'en-US');
+registerLocaleData(localeEs, 'es');
 
 bootstrapApplication(AppComponent, {
     providers: [
@@ -55,6 +64,11 @@ bootstrapApplication(AppComponent, {
             provide: MAT_DATE_LOCALE,
             useValue: 'pt-BR'
         },
+        {
+            provide: 'LOCALE_ID',
+            useValue: 'pt'
+        },
+        I18nService,
         {
             provide: HTTP_INTERCEPTORS,
             useClass: AuthInterceptor,
