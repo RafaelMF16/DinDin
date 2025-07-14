@@ -21,4 +21,16 @@ export class HeaderComponent {
     localStorage.clear();
     this.router.navigate(['/login']);
   }
+
+  onClickInPt(): void {
+
+  }
+
+  onClickInUs(): void {
+
+  }
+
+  onClickInEs(): void {
+
+  }
 }

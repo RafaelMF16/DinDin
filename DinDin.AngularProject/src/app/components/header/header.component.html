@@ -22,17 +22,25 @@
         </mat-menu>
 
         <mat-menu #languageMenu="matMenu">
-            <button mat-menu-item (click)="onClickInLogout()">
-                <span class="flag-icon flag-icon-br me-2"></span>
-                <span class="default-font-family">Português</span>
+            <button mat-menu-item (click)="onClickInPt()">
+                <div class="language-container">
+                    <img src="assets/flags/brazil.svg" alt="Brazil" width="35px">
+                    <span class="default-font-family">Português</span>
+                </div>
             </button>
-            <button mat-menu-item (click)="onClickInLogout()">
-                <img src="../../../assets/us.png" width="20" height="14" class="me-2" />
-                <span class="default-font-family">English</span>
+
+            <button mat-menu-item (click)="onClickInUs()">
+                <div class="language-container">
+                    <img src="assets/flags/us.svg" alt="United States" width="35px">
+                    <span class="default-font-family">English</span>
+                </div>
             </button>
-            <button mat-menu-item (click)="onClickInLogout()">
-                <span class="flag-icon flag-icon-es me-2"></span>
-                <span class="default-font-family">Español</span>
+
+            <button mat-menu-item (click)="onClickInEs()">
+                <div class="language-container">
+                    <img src="assets/flags/spain.svg" alt="Spain" width="35px">
+                    <span class="default-font-family">Español</span>
+                </div>
             </button>
         </mat-menu>
     </div>
