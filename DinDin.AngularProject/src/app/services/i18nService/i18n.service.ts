@@ -8,7 +8,7 @@ export class I18nService {
   private currencyMap: { [key: string]: string } = {
     'pt': 'BRL',
     'es': 'EUR',
-    'en-US': 'USD'
+    'en': 'USD'
   };
 
   constructor(@Inject(LOCALE_ID) private locale: string) { }
@@ -23,5 +23,22 @@ export class I18nService {
 
   getCurrencyCode(): string {
     return this.currencyMap[this.locale] || 'BRL';
+  }
+
+  changeLanguage(locale: string) {
+    const currentPath = window.location.pathname;
+    const cleanPath = currentPath.replace(/^\/(pt|en|es)(\/|$)/, '/');
+
+    let targetBaseHref = '/';
+    if (locale !== 'pt')
+      targetBaseHref = '/' + locale + '/';
+    else
+      targetBaseHref = '/pt/';
+
+    const normalizedPath = cleanPath.startsWith('/')
+      ? cleanPath.slice(1)
+      : cleanPath;
+
+    window.location.href = `${targetBaseHref}${normalizedPath}`;
   }
 }

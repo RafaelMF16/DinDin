@@ -9,7 +9,8 @@
         public const string SECRET_KEY_ENVIRONMENT_VARIABLE = "secretKey";
         public const string APP_SETTINGS_NAME = "appsettings.json";
         public const string CORS_POLICY_NAME = "MyPolicy";
-        public const string FRONT_END_URL = "http://localhost:57053";
+        public const string LOCAL_FRONT_END_URL = "http://localhost:57053";
+        public const string BUILD_LOCAL_FRONT_END_URL = "http://localhost:8080";
         public const char ID_SEPARATION_PATTERN = '-';
         public const string INTERNAL_SERVER_ERROR_TITLE = "Ocorreu um erro inesperado.";
         public const string VALIDATION_EXCEPTION_TITLE = "Erro de validação";

@@ -7,8 +7,8 @@
       "i18n": {
         "sourceLocale": "pt",
         "locales": {
-          "en-US": {
-            "translation": "src/locale/messages.en-US.xlf",
+          "en": {
+            "translation": "src/locale/messages.en.xlf",
             "baseHref": "en/"
           },
           "es": {
@@ -57,7 +57,9 @@
             ],
             "scripts": [],
             "localize": [
-              "pt"
+              "pt",
+              "en",
+              "es"
             ]
           },
           "configurations": {
