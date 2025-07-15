@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
-import { MatIcon } from '@angular/material/icon';
+import { I18nService } from '../../services/i18nService/i18n.service';
 
 @Component({
   selector: 'app-header',
@@ -12,15 +12,30 @@ import { MatIcon } from '@angular/material/icon';
     MatMenuTrigger,
     MatMenu,
     MatMenuItem,
-    MatIcon
   ]
 })
 export class HeaderComponent {
 
-  private router = inject(Router);
+  private readonly router = inject(Router);
+  private readonly i18nService = inject(I18nService);
 
   onClickInLogout(): void {
     localStorage.clear();
     this.router.navigate(['/login']);
+  }
+
+  onClickInPt(): void {
+    const ptLocale: string = "pt"
+    this.i18nService.changeLanguage(ptLocale);
+  }
+
+  onClickInUs(): void {
+    const usLocale: string = "en"
+    this.i18nService.changeLanguage(usLocale);
+  }
+
+  onClickInEs(): void {
+    const esLocale: string = "es"
+    this.i18nService.changeLanguage(esLocale);
   }
 }

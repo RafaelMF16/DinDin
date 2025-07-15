@@ -6,7 +6,6 @@ import { AuthService } from '../../core/services/authService/auth.service';
 import { Router } from '@angular/router';
 import { ToastService } from '../../services/toastService/toast.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ErrorDialogComponent } from '../../components/error-dialog/error-dialog.component';
 import { AllPageContainerComponent } from '../../components/all-page-container/all-page-container.component';
 import { NgClass, NgIf } from '@angular/common';
 import { FormsContainerComponent } from '../../components/forms-container/forms-container.component';

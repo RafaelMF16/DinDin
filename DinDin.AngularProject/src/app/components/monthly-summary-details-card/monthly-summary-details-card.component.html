@@ -2,27 +2,33 @@
     class="summary-card mat-elevation-z8"
     *ngIf="monthlySummary() as monthlySummary">
     <mat-card-header>
-        <mat-card-title class="default-font-family">Resumo de {{ monthName() }}/{{ monthlySummary.year}}</mat-card-title>
-        <mat-card-subtitle class="default-font-family">Visão geral das finanças do mês</mat-card-subtitle>
+        <mat-card-title i18n class="default-font-family">Resumo de {{ monthName() }}/{{ monthlySummary.year}}</mat-card-title>
+        <mat-card-subtitle i18n class="default-font-family">Visão geral das finanças do mês</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
         <div class="summary-grid">
             <div class="summary-item">
                 <mat-icon>attach_money</mat-icon>
-                <p><strong>Renda</strong></p>
-                <p class="text-success">{{ monthlySummary.totalIncome| currency : "BRL" }}</p>
+                <p i18n>
+                    <strong>Renda</strong>
+                </p>
+                <p class="text-success">{{ monthlySummary.totalIncome | currency: currencyCode():'symbol' }}</p>
             </div>
             <div class="summary-item">
                 <mat-icon>money_off</mat-icon>
-                <p><strong>Gastos</strong></p>
-                <p class="text-danger">{{ monthlySummary.totalExpense| currency : "BRL" }}</p>
+                <p i18n>
+                    <strong>Gastos</strong>
+                </p>
+                <p class="text-danger">{{ monthlySummary.totalExpense | currency: currencyCode():'symbol' }}</p>
             </div>
             <div class="summary-item">
                 <mat-icon>account_balance</mat-icon>
-                <p><strong>Saldo</strong></p>
+                <p i18n>
+                    <strong>Saldo</strong>
+                </p>
                 <p
                     [ngClass]="{ 'text-success': monthlySummary.balance >= 0, 'text-danger': monthlySummary.balance < 0 }">
-                    {{ monthlySummary.balance| currency : "BRL" }}
+                    {{ monthlySummary.balance | currency: currencyCode():'symbol' }}
                 </p>
             </div>
         </div>

@@ -1,10 +1,11 @@
-import { Component, effect, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { Transaction } from '../../interfaces/transaction.interface';
 import { FormatterService } from '../../services/formatterService/formatter.service';
 import { EnumService } from '../../services/enumService/enum.service';
 import { catchError, throwError } from 'rxjs';
 import { MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription } from '@angular/material/expansion';
 import { NgClass, CurrencyPipe, CommonModule } from '@angular/common';
+import { I18nService } from '../../services/i18nService/i18n.service';
 
 @Component({
   selector: 'app-transaction-panel',
@@ -25,20 +26,21 @@ export class TransactionPanelComponent {
 
   readonly transaction = input<Transaction>();
 
-  private readonly formatterService = inject(FormatterService);
   private readonly enumService = inject(EnumService);
+  private readonly i18nService = inject(I18nService);
 
-  readonly formattedTransactionDate = signal<string>("");
   readonly transactionCategoryName = signal<string>("");
+
+  readonly currencyCode = computed(() => {
+    return this.i18nService.getCurrencyCode();
+  });
 
   constructor() {
     effect(() => {
       const currentTransaction = this.transaction();
 
-      if (!currentTransaction) 
+      if (!currentTransaction)
         return;
-
-      this.formattedTransactionDate.set(this.formatterService.formatteDate(currentTransaction.transactionDate));
 
       const isIncomeTransaction = currentTransaction.type === 2;
 

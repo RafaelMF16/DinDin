@@ -1,67 +1,67 @@
-<h3 mat-dialog-title class="default-font-family">Registrar Transação</h3>
+<h3 i18n mat-dialog-title class="default-font-family">Registrar Transação</h3>
 <mat-divider class="my-1"></mat-divider>
 <mat-dialog-content>
     <app-forms-container>
         <form [formGroup]="transactionForm">
             <mat-form-field class="form-field" floatLabel="always">
-                <mat-label class="default-font-family">
+                <mat-label i18n class="default-font-family">
                     Valor
                 </mat-label>
                 <input matInput type="number" class="amont-input" placeholder="0" formControlName="amont" />
                 <span matTextPrefix>$&nbsp;</span>
                 @if (transactionForm.get('amont')?.errors?.['required'] && transactionForm.get('amont')?.touched) {
-                <mat-error class="default-font-family">
+                <mat-error i18n class="default-font-family">
                     O campo valor é obrigatório!
                 </mat-error>
                 }
             </mat-form-field>
 
             <mat-form-field class="form-field" appearance="fill">
-                <mat-label class="default-font-family">Escolha uma data</mat-label>
+                <mat-label i18n class="default-font-family">Escolha uma data</mat-label>
                 <input matInput required [matDatepicker]="picker" formControlName="transactionDate">
                 <mat-datepicker-toggle matIconSuffix [for]="picker" />
                 <mat-datepicker #picker />
                 @if (transactionForm.get('transactionDate')?.errors?.['required'] && transactionForm.get('transactionDate')?.touched) {
-                    <mat-error class="default-font-family">
+                    <mat-error i18n class="default-font-family">
                         O campo data é obrigatório!
                     </mat-error>
                 }
             </mat-form-field>
 
             <mat-form-field class="form-field">
-                <mat-label class="default-font-family">Tipo da transação</mat-label>
+                <mat-label i18n class="default-font-family">Tipo da transação</mat-label>
                 <mat-select required formControlName="type" (selectionChange)="onSelectionChange($event)">
                     @for (type of types; track type) {
                         <mat-option [value]="type.key"> {{ type.value }}</mat-option>
                     }
                 </mat-select>
                 @if (transactionForm.get('type')?.errors?.['required'] && transactionForm.get('type')?.touched) {
-                    <mat-error class="default-font-family">
+                    <mat-error i18n class="default-font-family">
                         O campo tipo da transação é obrigatório!
                     </mat-error>
                 }
             </mat-form-field>
 
             <mat-form-field class="form-field">
-                <mat-label class="default-font-family">Categoria</mat-label>
+                <mat-label i18n class="default-font-family">Categoria</mat-label>
                 <mat-select required formControlName="category">
                     @for (category of categories; track category) {
                         <mat-option [value]="category.key"> {{ category.value }}</mat-option>
                     }
                 </mat-select>
                 @if (transactionForm.get('category')?.errors?.['required'] && transactionForm.get('category')?.touched) {
-                    <mat-error class="default-font-family">
+                    <mat-error i18n class="default-font-family">
                         O campo categoria é obrigatório!
                     </mat-error>
                 }
             </mat-form-field>
 
             <mat-form-field class="description-form-field" appearance="outline">
-                <mat-label class="default-font-family">Descrição</mat-label>
+                <mat-label i18n class="default-font-family">Descrição</mat-label>
                 <textarea matInput required class="text-area-input" formControlName="description">
                 </textarea>
                 @if (transactionForm.get('description')?.errors?.['required'] && transactionForm.get('description')?.touched) {
-                    <mat-error class="default-font-family">
+                    <mat-error i18n class="default-font-family">
                         O campo descrição é obrigatório!
                     </mat-error>
                 }
@@ -72,6 +72,7 @@
 <mat-divider class="my-1"></mat-divider>
 <mat-dialog-actions>
     <button 
+        i18n
         [disabled]="!transactionForm.valid"
         [ngClass]="{
             'btn-save': transactionForm.valid, 
@@ -81,7 +82,7 @@
         (click)="onClickInSave()">
         Salvar
     </button>
-    <button (click)="onClickCancel()" class="btn btn-sm btn-cancel btn-common">
+    <button i18n (click)="onClickCancel()" class="btn btn-sm btn-cancel btn-common">
         Cancelar
     </button>
 </mat-dialog-actions>

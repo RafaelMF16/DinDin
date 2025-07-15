@@ -1,16 +1,47 @@
 <div class="fluid-container header">
-    <button class="btn common-button">
-        <i class="fa-solid fa-bars"></i>
-    </button>
-
-    <button class="btn common-button" [mat-menu-trigger-for]="menu">
-        <i class="fa-solid fa-user"></i>
-    </button>
-
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="onClickInLogout()">
-            <mat-icon fontIcon="logout"></mat-icon>
-            <span class="default-font-family">Sair</span>
+    <div>
+        <button class="btn common-button">
+            <i class="fa-solid fa-bars"></i>
         </button>
-    </mat-menu>
+    </div>
+
+    <div>
+        <button class="btn common-button" [mat-menu-trigger-for]="languageMenu">
+            <i class="fa-solid fa-globe"></i>
+        </button>
+
+        <button class="btn common-button" [mat-menu-trigger-for]="userMenu">
+            <i class="fa-solid fa-user"></i>
+        </button>
+
+        <mat-menu #userMenu="matMenu">
+            <button mat-menu-item (click)="onClickInLogout()">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span i18n class="default-font-family">Sair</span>
+            </button>
+        </mat-menu>
+
+        <mat-menu #languageMenu="matMenu">
+            <button mat-menu-item (click)="onClickInPt()">
+                <div class="language-container">
+                    <img src="assets/flags/brazil.svg" alt="Brazil" width="35px">
+                    <span class="default-font-family">Português</span>
+                </div>
+            </button>
+
+            <button mat-menu-item (click)="onClickInUs()">
+                <div class="language-container">
+                    <img src="assets/flags/us.svg" alt="United States" width="35px">
+                    <span class="default-font-family">English</span>
+                </div>
+            </button>
+
+            <button mat-menu-item (click)="onClickInEs()">
+                <div class="language-container">
+                    <img src="assets/flags/spain.svg" alt="Spain" width="35px">
+                    <span class="default-font-family">Español</span>
+                </div>
+            </button>
+        </mat-menu>
+    </div>
 </div>

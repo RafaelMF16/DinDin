@@ -4,17 +4,17 @@
     <div class="background-interactive"></div>
 
     <div class="first-column">
-      <h2 class="title title-primary">você voltou!</h2>
-      <p class="description description-primary">
+      <h2 i18n class="title title-primary">você voltou!</h2>
+      <p i18n class="description description-primary">
         faça login com suas informações pessoais
       </p>
-      <button (click)="onClickInSignIn()" class="btn btn-primary">
+      <button i18n (click)="onClickInSignIn()" class="btn btn-primary">
         entrar
       </button>
     </div>
 
     <div class="second-column">
-      <h2 class="title tittle-secondary">criar conta</h2>
+      <h2 i18n class="title tittle-secondary">criar conta</h2>
       <app-forms-container [formGroup]="registerForm">
         <app-label-input>
           <i class="fa-solid fa-user icon-modify"></i>
@@ -22,6 +22,7 @@
         </app-label-input>
 
         <div
+          i18n
           class="error-message"
           *ngIf="
             registerForm.get('name')?.errors &&
@@ -38,6 +39,7 @@
         </app-label-input>
 
         <div
+          i18n
           class="error-message"
           *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched"
         >
@@ -45,6 +47,7 @@
         </div>
 
         <div
+          i18n
           class="error-message"
           *ngIf="registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.touched"
         >
@@ -62,6 +65,7 @@
         </app-label-input>
 
         <div
+          i18n
           class="error-message"
           *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched"
         >
@@ -69,6 +73,7 @@
         </div>
 
         <div
+          i18n
           class="error-message"
           *ngIf="registerForm.get('password')?.errors?.['minlength'] && registerForm.get('password')?.touched"
         >
@@ -76,6 +81,7 @@
         </div>
 
         <div
+          i18n
           class="error-message"
           *ngIf="registerForm.get('password')?.errors?.['maxlength'] && registerForm.get('password')?.touched"
         >
@@ -84,6 +90,7 @@
         <!-- End Password -->
 
         <button
+          i18n
           (click)="onClickMakeRegister()"
           class="btn"
           [disabled]="!registerForm.valid"
@@ -100,15 +107,15 @@
 
   <div class="content login-content">
     <div class="first-column">
-      <h2 class="title title-primary">Crie sua conta!</h2>
-      <p class="description description-primary">Insira seus dados pessoais</p>
-      <button (click)="onClickInSignUp()" class="btn btn-primary">
+      <h2 i18n class="title title-primary">Crie sua conta!</h2>
+      <p i18n class="description description-primary">Insira seus dados pessoais</p>
+      <button i18n (click)="onClickInSignUp()" class="btn btn-primary">
         inscrever-se
       </button>
     </div>
 
     <div class="second-column">
-      <h2 class="title tittle-secondary">faça login</h2>
+      <h2 i18n class="title tittle-secondary">faça login</h2>
       <app-forms-container [formGroup]="loginForm">
         <app-label-input>
           <i class="fa-solid fa-envelope icon-modify"></i>
@@ -116,6 +123,7 @@
         </app-label-input>
 
         <div
+          i18n
           class="error-message"
           *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched"
         >
@@ -123,6 +131,7 @@
         </div>
 
         <div
+          i18n
           class="error-message"
           *ngIf="loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched"
         >
@@ -140,6 +149,7 @@
         </app-label-input>
 
         <div
+          i18n
           class="error-message"
           *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched"
         >
@@ -147,6 +157,7 @@
         </div>
 
         <div
+          i18n
           class="error-message"
           *ngIf="loginForm.get('password')?.errors?.['minlength'] && loginForm.get('password')?.touched"
         >
@@ -154,6 +165,7 @@
         </div>
 
         <div
+          i18n
           class="error-message"
           *ngIf="loginForm.get('password')?.errors?.['maxlength'] && loginForm.get('password')?.touched"
         >
@@ -166,6 +178,7 @@
         </div> -->
 
         <button
+          i18n
           (click)="onClickMakeLogin()"
           class="btn"
           [disabled]="!loginForm.valid"
