@@ -22,5 +22,7 @@
         public const string USER_UPDATE_RULE_SET_NAME = "UpdateUser";
         public const string TRANSACTION_CREATE_RULE_SET_NAME = "CreateTransaction";
         public const string TRANSACTION_UPDATE_RULE_SET_NAME = "UpdateTransaction";
+        public const short ACCESS_TOKEN_EXPIRATION_MINUTES = 15;
+        public const short REFRESH_TOKEN_EXPIRATION_DAYS = 7;
     }
 }

@@ -1,7 +1,9 @@
-﻿using DinDin.Domain.Constantes;
+﻿using DinDin.Domain.Auth;
+using DinDin.Domain.Constantes;
 using DinDin.Domain.MonthlySummaries;
 using DinDin.Domain.Transactions;
 using DinDin.Domain.Users;
+using DinDin.Infra.Auth;
 using DinDin.Infra.MonthlySummaries;
 using DinDin.Infra.Postgres;
 using DinDin.Infra.Transactions;
@@ -40,6 +42,8 @@ namespace DinDin.Web
             builder.Services.AddScoped<IMonthlySummaryRepository, MonthlySummaryRepository>();
             builder.Services.AddScoped<IValidator<MonthlySummary>, ValidatorMonthlySummary>();
 
+            builder.Services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+
             builder.Services.AddScoped<EnumService>();
 
             var connectionString = Environment.GetEnvironmentVariable(ApplicationConstants.CONNECTION_STRING_ENVIRONMENT_VARIABLE)
@@ -77,7 +81,10 @@ namespace DinDin.Web
             {
                 options.AddPolicy(name: ApplicationConstants.CORS_POLICY_NAME, policy =>
                 {
-                    policy.WithOrigins(ApplicationConstants.LOCAL_FRONT_END_URL, ApplicationConstants.BUILD_LOCAL_FRONT_END_URL).AllowAnyHeader().AllowAnyMethod();
+                    policy.WithOrigins(ApplicationConstants.LOCAL_FRONT_END_URL, ApplicationConstants.BUILD_LOCAL_FRONT_END_URL)
+                        .AllowCredentials()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
                 });
             });
         }

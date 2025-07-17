@@ -29,8 +29,8 @@ namespace DinDin.Web.Controllers
         [HttpPost("Login")]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
-            var token = await _userService.AuthenticateUser(loginDto.Email, loginDto.Password);
-            if (token == null)
+            var loginResponseDto = await _userService.AuthenticateUser(loginDto.Email, loginDto.Password);
+            if (loginResponseDto == null)
             {
                 var problemDetails = new ProblemDetails
                 {
@@ -42,7 +42,23 @@ namespace DinDin.Web.Controllers
                 return Unauthorized(problemDetails);
             }
 
-            return Ok(token);
+            SetRefreshTokenCookie(loginResponseDto.RefreshToken);
+
+            return Ok(loginResponseDto);
+        }
+
+        private void SetRefreshTokenCookie(string refreshToken)
+        {
+            var cookieOption = new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddDays(ApplicationConstants.REFRESH_TOKEN_EXPIRATION_DAYS),
+                Path = "/auth/refresh-token"
+            };
+
+            Response.Cookies.Append("refreshToken", refreshToken, cookieOption);
         }
     }
 }

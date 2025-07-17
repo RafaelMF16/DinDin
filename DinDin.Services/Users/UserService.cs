@@ -54,7 +54,7 @@ namespace DinDin.Services.Users
             if (user == null || !_authService.VerifyPassword(password, user.Password))
                 return null;
 
-            return _authService.GenerateTokens(user.Id);
+            return await _authService.GenerateTokens(user.Id);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace DinDin.Services.Models
+﻿namespace DinDin.Domain.Auth
 {
     public class RefreshToken
     {

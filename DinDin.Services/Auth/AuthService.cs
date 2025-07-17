@@ -1,6 +1,8 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
+using DinDin.Domain.Auth;
 using DinDin.Domain.Constantes;
 using DinDin.Services.Dtos;
 using Microsoft.Extensions.Configuration;
@@ -8,13 +10,14 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace DinDin.Services.Auth
 {
-    public class AuthService(IConfiguration configuration)
+    public class AuthService(IConfiguration configuration, IRefreshTokenRepository refreshTokenRepository)
     {
         private readonly IConfiguration _configuration = configuration;
+        private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
 
         public async Task<string> HashPassword(string password)
         {
-            return await Task.Run(() => 
+            return await Task.Run(() =>
                 BCrypt.Net.BCrypt.HashPassword(password, ApplicationConstants.WORK_FACTOR));
         }
 
@@ -23,21 +26,18 @@ namespace DinDin.Services.Auth
             return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
 
-        public LoginResponseDto GenerateTokens(int userId)
+        public async Task<LoginResponseDto> GenerateTokens(int userId)
         {
             var secretKey = _configuration[ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE]
                 ?? throw new Exception($"Environment variable [{ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE}] not found");
 
             var accessToken = GenerateAccessToken(secretKey, userId);
-            var refreshToken = GenerateRefreshToken();
+            var refreshToken = GenerateRefreshToken(secretKey);
+            var hashedRefreshToken = HashRefreshToken(refreshToken, secretKey);
 
-            //SaveRefreshToken();
+            await SaveRefreshToken(hashedRefreshToken, userId);
 
-            return new LoginResponseDto
-            {
-                AccessToken = accessToken,
-                RefreshToken = refreshToken
-            };
+            return new LoginResponseDto(accessToken, refreshToken);
         }
 
         private static string GenerateAccessToken(string secretKey, int userId)
@@ -47,7 +47,7 @@ namespace DinDin.Services.Auth
             var tokenConfig = new SecurityTokenDescriptor
             {
                 Subject = claims,
-                Expires = DateTime.UtcNow.AddMinutes(15),
+                Expires = DateTime.UtcNow.AddMinutes(ApplicationConstants.ACCESS_TOKEN_EXPIRATION_MINUTES),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(encodedSecretKey), SecurityAlgorithms.HmacSha256Signature)
             };
 
@@ -57,14 +57,34 @@ namespace DinDin.Services.Auth
             return tokenHandler.WriteToken(token);
         }
 
-        private static string GenerateRefreshToken()
+        private static string GenerateRefreshToken(string secretKey)
         {
             return Guid.NewGuid().ToString();
         }
 
-        private void SaveRefreshToken()
+        private async Task SaveRefreshToken(string token, int userId)
         {
-            throw new NotImplementedException();
+            var refreshToken = new RefreshToken
+            {
+                CreatedAt = DateTime.UtcNow,
+                ExpiresAt = DateTime.UtcNow.AddDays(ApplicationConstants.REFRESH_TOKEN_EXPIRATION_DAYS),
+                Revoked = false,
+                TokenHash = token,
+                UserId = userId
+            };
+
+            await _refreshTokenRepository.Add(refreshToken);
+        }
+
+        private static string HashRefreshToken(string refreshToken, string secretKey)
+        {
+            var keyBytes = Encoding.UTF8.GetBytes(secretKey);
+            var tokenBytes = Encoding.UTF8.GetBytes(refreshToken);
+
+            using var hmac = new HMACSHA256(keyBytes);
+            var hashBytes = hmac.ComputeHash(tokenBytes);
+
+            return Convert.ToBase64String(hashBytes);
         }
     }
 }
