@@ -1,9 +1,17 @@
-﻿using DinDin.Domain.Constantes;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using DinDin.Domain.Constantes;
+using DinDin.Services.Dtos;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 
 namespace DinDin.Services.Auth
 {
-    public class AuthService
+    public class AuthService(IConfiguration configuration)
     {
+        private readonly IConfiguration _configuration = configuration;
+
         public async Task<string> HashPassword(string password)
         {
             return await Task.Run(() => 
@@ -13,6 +21,50 @@ namespace DinDin.Services.Auth
         public bool VerifyPassword(string password, string hashedPassword)
         {
             return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
+        }
+
+        public LoginResponseDto GenerateTokens(int userId)
+        {
+            var secretKey = _configuration[ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE]
+                ?? throw new Exception($"Environment variable [{ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE}] not found");
+
+            var accessToken = GenerateAccessToken(secretKey, userId);
+            var refreshToken = GenerateRefreshToken();
+
+            //SaveRefreshToken();
+
+            return new LoginResponseDto
+            {
+                AccessToken = accessToken,
+                RefreshToken = refreshToken
+            };
+        }
+
+        private static string GenerateAccessToken(string secretKey, int userId)
+        {
+            var claims = new ClaimsIdentity([new(ClaimTypes.NameIdentifier, userId.ToString())]);
+            var encodedSecretKey = Encoding.ASCII.GetBytes(secretKey);
+            var tokenConfig = new SecurityTokenDescriptor
+            {
+                Subject = claims,
+                Expires = DateTime.UtcNow.AddMinutes(15),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(encodedSecretKey), SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var token = tokenHandler.CreateToken(tokenConfig);
+
+            return tokenHandler.WriteToken(token);
+        }
+
+        private static string GenerateRefreshToken()
+        {
+            return Guid.NewGuid().ToString();
+        }
+
+        private void SaveRefreshToken()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -42,7 +42,7 @@ namespace DinDin.Web.Controllers
                 return Unauthorized(problemDetails);
             }
 
-            return Ok(new { Token = token});
+            return Ok(token);
         }
     }
 }
