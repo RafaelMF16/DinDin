@@ -15,10 +15,10 @@ export class MonthlySummaryService {
   getAllByUserId(): Observable<any> {
     let endpoint = "";
     const tokenKeyName = "token";
-    const token = localStorage.getItem(tokenKeyName);
+    const token = sessionStorage.getItem(tokenKeyName);
     const decodedToken = this.jwtHelper.decodeToken(token!);
     let userId = decodedToken?.nameid;
-    endpoint = `MonthlySummary/get-all-with-user-id/${userId}`; 
+    endpoint = `MonthlySummary/get-all-with-user-id/${userId}`;
 
     return this.httpService.get(endpoint);
   }

@@ -8,7 +8,7 @@ export class AuthInterceptor implements HttpInterceptor {
     private route = inject(Router);
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const token = localStorage.getItem('token');
+        const token = sessionStorage.getItem('token');
 
         const isAuthRoute = req.url.includes('login') || req.url.includes('register');
 

@@ -20,7 +20,7 @@ export class HeaderComponent {
   private readonly i18nService = inject(I18nService);
 
   onClickInLogout(): void {
-    localStorage.clear();
+    sessionStorage.clear();
     this.router.navigate(['/login']);
   }
 

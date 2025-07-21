@@ -143,7 +143,7 @@ export class LoginComponent implements OnInit {
         this.toastService.openSnackBar(successLoginMessage);
 
         const keyName = "token";
-        localStorage.setItem(keyName, response?.token);
+        sessionStorage.setItem(keyName, response?.accessToken);
 
         this.router.navigate(['/monthly-summaries']);
       });
