@@ -1,4 +1,5 @@
 ﻿using DinDin.Services.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DinDin.Web.Controllers
@@ -10,6 +11,7 @@ namespace DinDin.Web.Controllers
         private readonly EnumService _enumService = enumService;
 
         [HttpGet("Type")]
+        [Authorize]
         public IActionResult GetTypeEnum()
         {
             var types = _enumService.GetTypes();
@@ -17,6 +19,7 @@ namespace DinDin.Web.Controllers
         }
 
         [HttpGet("IncomeCategories")]
+        [Authorize]
         public IActionResult GetIncomeCategories()
         {
             var categories = _enumService.GetIncomeCategories();
@@ -24,6 +27,7 @@ namespace DinDin.Web.Controllers
         }
 
         [HttpGet("ExpenseCategories")]
+        [Authorize]
         public IActionResult GetExpenseCategories()
         {
             var categories = _enumService.GetExpenseCategories();

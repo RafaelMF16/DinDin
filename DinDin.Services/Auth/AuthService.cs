@@ -28,8 +28,7 @@ namespace DinDin.Services.Auth
 
         public async Task<LoginResponseDto> GenerateTokens(int userId)
         {
-            var secretKey = _configuration[ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE]
-                ?? throw new Exception($"Environment variable [{ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE}] not found");
+            var secretKey = GetSecretKey();
 
             var accessToken = GenerateAccessToken(secretKey, userId);
             var refreshToken = GenerateRefreshToken(secretKey);
@@ -38,6 +37,27 @@ namespace DinDin.Services.Auth
             await SaveRefreshToken(hashedRefreshToken, userId);
 
             return new LoginResponseDto(accessToken, refreshToken);
+        }
+
+        public async Task<LoginResponseDto?> VerifyRefreshToken(string refreshToken)
+        {
+            var secretKey = GetSecretKey();
+
+            var hashedRefreshToken = HashRefreshToken(refreshToken, secretKey);
+
+            var databaseRefreshToken = await _refreshTokenRepository.GetValidTokenByTokenHash(hashedRefreshToken);
+
+            if (databaseRefreshToken is null) 
+                return null;
+
+            await RevokeRefreshToken(databaseRefreshToken);
+            return await GenerateTokens(databaseRefreshToken.UserId);
+        }
+
+        private async Task RevokeRefreshToken(RefreshToken databaseRefreshToken)
+        {
+            databaseRefreshToken.Revoked = true;
+            await _refreshTokenRepository.UpdateRevoked(databaseRefreshToken);
         }
 
         private static string GenerateAccessToken(string secretKey, int userId)
@@ -55,6 +75,12 @@ namespace DinDin.Services.Auth
             var token = tokenHandler.CreateToken(tokenConfig);
 
             return tokenHandler.WriteToken(token);
+        }
+
+        private string GetSecretKey()
+        {
+            return _configuration[ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE]
+                ?? throw new Exception($"Environment variable [{ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE}] not found");
         }
 
         private static string GenerateRefreshToken(string secretKey)

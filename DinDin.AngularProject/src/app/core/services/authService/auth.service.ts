@@ -23,4 +23,9 @@ export class AuthService {
     const endpoint = "Auth/Logout";
     return this.httpService.post<any>(endpoint);
   }
+
+  verifyRefreshToken(): Observable<any> {
+    const endpoint = "Auth/verify-refresh-token";
+    return this.httpService.post<any>(endpoint);
+  }
 }

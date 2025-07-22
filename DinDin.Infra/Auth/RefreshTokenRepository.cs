@@ -1,6 +1,4 @@
 ﻿using DinDin.Domain.Auth;
-using DinDin.Domain.MonthlySummaries;
-using DinDin.Domain.Users;
 using DinDin.Infra.Postgres;
 using DinDin.Infra.Postgres.Models;
 using Microsoft.EntityFrameworkCore;
@@ -26,6 +24,19 @@ namespace DinDin.Infra.Auth
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<RefreshToken?> GetValidTokenByTokenHash(string hashedRefreshToken)
+        {
+            var refreshTokenModel = await _dbContext.RefreshToken
+                .AsNoTracking()
+                .Where(refreshToken => refreshToken.TokenHash == hashedRefreshToken && !refreshToken.Revoked)
+                .FirstOrDefaultAsync();
+
+            if (refreshTokenModel is null)
+                return null;
+
+            return MapRefreshToken(refreshTokenModel);
+        }
+
         public async Task<RefreshToken?> GetValidTokenByUserId(int userId)
         {
             var refreshTokenModel = await _dbContext.RefreshToken
@@ -36,15 +47,7 @@ namespace DinDin.Infra.Auth
             if (refreshTokenModel is null)
                 return null;
 
-            return new RefreshToken
-            {
-                Id = refreshTokenModel.Id,
-                CreatedAt = refreshTokenModel.CreatedAt,
-                ExpiresAt = refreshTokenModel.ExpiresAt,
-                TokenHash = refreshTokenModel.TokenHash,
-                UserId = refreshTokenModel.UserId,
-                Revoked = refreshTokenModel.Revoked
-            };
+            return MapRefreshToken(refreshTokenModel);
         }
 
         public async Task UpdateRevoked(RefreshToken refreshToken)
@@ -55,6 +58,19 @@ namespace DinDin.Infra.Auth
             refreshTokenModel.Revoked = refreshToken.Revoked;
 
             await _dbContext.SaveChangesAsync();
+        }
+
+        private static RefreshToken MapRefreshToken(RefreshTokenModel refreshTokenModel)
+        {
+            return new RefreshToken
+            {
+                Id = refreshTokenModel.Id,
+                CreatedAt = refreshTokenModel.CreatedAt,
+                ExpiresAt = refreshTokenModel.ExpiresAt,
+                TokenHash = refreshTokenModel.TokenHash,
+                UserId = refreshTokenModel.UserId,
+                Revoked = refreshTokenModel.Revoked
+            };
         }
     }
 }

@@ -1,7 +1,7 @@
-﻿using System.Security.Claims;
-using DinDin.Domain.Constantes;
+﻿using DinDin.Domain.Constantes;
 using DinDin.Domain.Extensions;
 using DinDin.Domain.Users;
+using DinDin.Services.Auth;
 using DinDin.Services.Users;
 using DinDin.Web.DTOS;
 using Microsoft.AspNetCore.Authorization;
@@ -11,9 +11,10 @@ namespace DinDin.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class AuthController(UserService userService) : ControllerBase
+    public class AuthController(UserService userService, AuthService authService) : ControllerBase
     {
         private readonly UserService _userService = userService;
+        private readonly AuthService _authService = authService;
 
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto newUserDto)
@@ -33,7 +34,7 @@ namespace DinDin.Web.Controllers
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             var loginResponseDto = await _userService.AuthenticateUser(loginDto.Email, loginDto.Password);
-            if (loginResponseDto == null)
+            if (loginResponseDto is null)
             {
                 var problemDetails = new ProblemDetails
                 {
@@ -48,6 +49,28 @@ namespace DinDin.Web.Controllers
             SetRefreshTokenCookie(loginResponseDto.RefreshToken);
 
             return Ok(loginResponseDto);
+        }
+
+        [HttpPost("verify-refresh-token")]
+        public async Task<IActionResult> VerifyRefreshToken()
+        {
+            var refreshToken = Request.Cookies[ApplicationConstants.REFRESH_TOKEN_KEY_NAME]
+                ?? throw new ArgumentNullException("Não foi possível renovar token");
+
+            var loginResponseDto = await _authService.VerifyRefreshToken(refreshToken);
+
+            if (loginResponseDto is null)
+            {
+                var problemDetails = new ProblemDetails
+                {
+                    Title = ApplicationConstants.AUTHENTICATION_ERROR_TITLE,
+                    Status = StatusCodes.Status401Unauthorized,
+                    Detail = ApplicationConstants.SESSION_EXPIRED_MESSAGE,
+                    Instance = HttpContext.Request.Path
+                };
+                return Unauthorized(problemDetails);
+            }
+            return Ok();
         }
 
         [Authorize]

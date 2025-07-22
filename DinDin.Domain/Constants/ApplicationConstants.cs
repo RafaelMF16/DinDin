@@ -18,13 +18,14 @@
         public const string BAD_REQUEST_ERROR_TITLE = "Requisição incorreta";
         public const string AUTHENTICATION_ERROR_TITLE = "Erro de autenticação";
         public const string AUTHENTICATION_ERROR_MESSAGE = "Email ou senha incorreta";
+        public const string SESSION_EXPIRED_MESSAGE = "Sua sessão foi expirada, faça login novamente!";
         public const string USER_CREATE_RULE_SET_NAME = "CreateUser";
         public const string USER_UPDATE_RULE_SET_NAME = "UpdateUser";
         public const string TRANSACTION_CREATE_RULE_SET_NAME = "CreateTransaction";
         public const string TRANSACTION_UPDATE_RULE_SET_NAME = "UpdateTransaction";
         public const short ACCESS_TOKEN_EXPIRATION_MINUTES = 15;
         public const short REFRESH_TOKEN_EXPIRATION_DAYS = 7;
-        public const string REFRESH_TOKEN_CONTROLLER_PATH = "/auth/refresh-token";
+        public const string REFRESH_TOKEN_CONTROLLER_PATH = "/Auth/verify-refresh-token";
         public const string REFRESH_TOKEN_KEY_NAME = "refreshToken";
     }
 }
