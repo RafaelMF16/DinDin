@@ -2,6 +2,9 @@ import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 import { I18nService } from '../../services/i18nService/i18n.service';
+import { AuthService } from '../../core/services/authService/auth.service';
+import { catchError, throwError } from 'rxjs';
+import { ErrorModalService } from '../../services/errorModalService/error-modal.service';
 
 @Component({
   selector: 'app-header',
@@ -18,10 +21,25 @@ export class HeaderComponent {
 
   private readonly router = inject(Router);
   private readonly i18nService = inject(I18nService);
+  private readonly authService = inject(AuthService);
+  private readonly errorModalService = inject(ErrorModalService);
+
+  makeLogout(): void {
+    this.authService.logout()
+      .pipe(
+        catchError((error) => {
+          this.errorModalService.show(error.error);
+          return throwError(() => error);
+        })
+      )
+      .subscribe(() => {
+        sessionStorage.clear();
+        this.router.navigate(['/login']);
+      });
+  }
 
   onClickInLogout(): void {
-    sessionStorage.clear();
-    this.router.navigate(['/login']);
+    this.makeLogout();
   }
 
   onClickInPt(): void {

@@ -24,5 +24,7 @@
         public const string TRANSACTION_UPDATE_RULE_SET_NAME = "UpdateTransaction";
         public const short ACCESS_TOKEN_EXPIRATION_MINUTES = 15;
         public const short REFRESH_TOKEN_EXPIRATION_DAYS = 7;
+        public const string REFRESH_TOKEN_CONTROLLER_PATH = "/auth/refresh-token";
+        public const string REFRESH_TOKEN_KEY_NAME = "refreshToken";
     }
 }

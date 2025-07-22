@@ -11,7 +11,7 @@ export class HttpService {
 
   constructor(private http: HttpClient) { }
 
-  post<T>(endpoint: string, body: any, headers?: HttpHeaders): Observable<T> {
+  post<T>(endpoint: string, body?: any, headers?: HttpHeaders): Observable<T> {
     return this.http.post<T>(`${this.baseUrl}/${endpoint}`, body, { headers, withCredentials: true });
   }
 

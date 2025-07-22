@@ -1,4 +1,5 @@
-﻿using DinDin.Domain.Constantes;
+﻿using DinDin.Domain.Auth;
+using DinDin.Domain.Constantes;
 using DinDin.Domain.Users;
 using DinDin.Services.Auth;
 using DinDin.Services.Dtos;
@@ -11,11 +12,13 @@ namespace DinDin.Services.Users
     public class UserService(
         IUserRepository userRepository,
         IValidator<User> userValidator,
-        AuthService authService)
+        AuthService authService,
+        IRefreshTokenRepository refreshTokenRepository)
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IValidator<User> _userValidator = userValidator;
         private readonly AuthService _authService = authService;
+        private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
 
         public async Task Add(User user)
         {
@@ -54,7 +57,22 @@ namespace DinDin.Services.Users
             if (user == null || !_authService.VerifyPassword(password, user.Password))
                 return null;
 
+            var token = await _refreshTokenRepository.GetValidTokenByUserId(user.Id);
+            if (token is not null)
+            {
+                token.Revoked = true;
+                await _refreshTokenRepository.UpdateRevoked(token);
+            }
+
             return await _authService.GenerateTokens(user.Id);
+        }
+
+        public async Task LogoutUser(int userId)
+        {
+            var token = await _refreshTokenRepository.GetValidTokenByUserId(userId);
+            token.Revoked = true;
+
+            await _refreshTokenRepository.UpdateRevoked(token);
         }
     }
 }

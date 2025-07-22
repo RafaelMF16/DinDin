@@ -1,7 +1,10 @@
-﻿using DinDin.Domain.Constantes;
+﻿using System.Security.Claims;
+using DinDin.Domain.Constantes;
+using DinDin.Domain.Extensions;
 using DinDin.Domain.Users;
 using DinDin.Services.Users;
 using DinDin.Web.DTOS;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DinDin.Web.Controllers
@@ -47,6 +50,21 @@ namespace DinDin.Web.Controllers
             return Ok(loginResponseDto);
         }
 
+        [Authorize]
+        [HttpPost("Logout")]
+        public async Task<IActionResult> Logout()
+        {
+            var userId = User.GetUserId();
+            await _userService.LogoutUser(userId);
+            ClearRefreshTokenCookie();
+            return Ok();
+        }
+
+        private void ClearRefreshTokenCookie()
+        {
+            Response.Cookies.Delete(ApplicationConstants.REFRESH_TOKEN_KEY_NAME);
+        }
+
         private void SetRefreshTokenCookie(string refreshToken)
         {
             var cookieOption = new CookieOptions
@@ -55,10 +73,10 @@ namespace DinDin.Web.Controllers
                 Secure = true,
                 SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddDays(ApplicationConstants.REFRESH_TOKEN_EXPIRATION_DAYS),
-                Path = "/auth/refresh-token"
+                Path = ApplicationConstants.REFRESH_TOKEN_CONTROLLER_PATH
             };
 
-            Response.Cookies.Append("refreshToken", refreshToken, cookieOption);
+            Response.Cookies.Append(ApplicationConstants.REFRESH_TOKEN_KEY_NAME, refreshToken, cookieOption);
         }
     }
 }

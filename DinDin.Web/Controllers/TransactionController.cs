@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using DinDin.Domain.Extensions;
 using DinDin.Domain.Transactions;
 using DinDin.Services.Transactions;
 using DinDin.Web.DTOS;
@@ -25,10 +26,7 @@ namespace DinDin.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> AddTransaction([FromBody] TransactionDto transactionDto)
         {
-            var userId = 0;
-            if (User.Identity.IsAuthenticated)
-                userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
-
+            var userId = User.GetUserId();
             var transaction = new Transaction 
             {
                 Amont = transactionDto.Amont,
