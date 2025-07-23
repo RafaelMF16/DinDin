@@ -141,7 +141,7 @@ export class LoginComponent implements OnInit {
       ).subscribe((response) => {
         const successLoginMessage = "Login Realizado!";
         this.toastService.openSnackBar(successLoginMessage);
-
+        
         const keyName = "token";
         sessionStorage.setItem(keyName, response?.accessToken);
 

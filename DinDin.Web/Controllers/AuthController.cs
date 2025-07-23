@@ -48,7 +48,10 @@ namespace DinDin.Web.Controllers
 
             SetRefreshTokenCookie(loginResponseDto.RefreshToken);
 
-            return Ok(loginResponseDto);
+            return Ok(new
+            {
+                accessToken = loginResponseDto.AccessToken
+            });
         }
 
         [HttpPost("verify-refresh-token")]
@@ -70,7 +73,12 @@ namespace DinDin.Web.Controllers
                 };
                 return Unauthorized(problemDetails);
             }
-            return Ok();
+
+            SetRefreshTokenCookie(loginResponseDto.RefreshToken);
+            return Ok(new 
+            { 
+                accessToken = loginResponseDto.AccessToken
+            });
         }
 
         [Authorize]

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 import { I18nService } from '../../services/i18nService/i18n.service';
 import { AuthService } from '../../core/services/authService/auth.service';
-import { catchError, Subscription, throwError } from 'rxjs';
+import { catchError, EMPTY, Observable, Subscription, switchMap, throwError } from 'rxjs';
 import { ErrorModalService } from '../../services/errorModalService/error-modal.service';
 
 @Component({
@@ -26,36 +26,32 @@ export class HeaderComponent implements OnDestroy{
   private mySubscription?: Subscription;
 
   makeLogout(): void {
-    this.authService.logout()
-      .pipe(
-        catchError((error) => {
-          debugger
-          const unauthorizedCode = 401;
-          if (error.status == unauthorizedCode)
-            this.renewAccessToken();
-          this.errorModalService.show(error.error);
-          return throwError(() => error);
-        })
-      )
-      .subscribe(() => {
-        sessionStorage.clear();
-        this.router.navigate(['/login']);
-      });
+    this.mySubscription = this.authService.logout().pipe(
+      catchError(error => this.renewAccessToken(error))
+    ).subscribe(() => {
+      sessionStorage.clear();
+      this.router.navigate(['/login']);
+    });
   }
 
-  renewAccessToken(): void {
-    this.authService.verifyRefreshToken()
-      .pipe(
-        catchError((error) => {
-          debugger
-          this.errorModalService.show(error.error);
-          return throwError(() => error);
+  renewAccessToken(error: any): Observable<any> {
+    const unauthorizedCode = 401;
+    if (error.status === unauthorizedCode) {
+      return this.authService.verifyRefreshToken().pipe(
+        switchMap((response) => {
+          const keyName = "token";
+          sessionStorage.setItem(keyName, response?.accessToken);
+          return this.authService.logout();
+        }),
+        catchError((refreshError) => {
+          this.errorModalService.show(refreshError.error);
+          return EMPTY;
         })
       )
-      .subscribe(() => {
-        debugger
-        this.makeLogout();
-      });
+    }
+
+    this.errorModalService.show(error.error);
+    return EMPTY;
   }
 
   onClickInLogout(): void {
