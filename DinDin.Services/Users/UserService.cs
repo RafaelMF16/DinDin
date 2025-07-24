@@ -66,13 +66,5 @@ namespace DinDin.Services.Users
 
             return await _authService.GenerateTokens(user.Id);
         }
-
-        public async Task LogoutUser(int userId)
-        {
-            var token = await _refreshTokenRepository.GetValidTokenByUserId(userId);
-            token.Revoked = true;
-
-            await _refreshTokenRepository.UpdateRevoked(token);
-        }
     }
 }

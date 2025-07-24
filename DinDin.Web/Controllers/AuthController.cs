@@ -81,13 +81,15 @@ namespace DinDin.Web.Controllers
             });
         }
 
-        [Authorize]
         [HttpPost("Logout")]
         public async Task<IActionResult> Logout()
         {
-            var userId = User.GetUserId();
-            await _userService.LogoutUser(userId);
+            var refreshToken = Request.Cookies[ApplicationConstants.REFRESH_TOKEN_KEY_NAME]
+                ?? throw new ArgumentNullException("Não foi possível renovar token");
+            await _authService.LogoutUser(refreshToken);
+
             ClearRefreshTokenCookie();
+
             return Ok();
         }
 

@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using DinDin.Domain.Auth;
 using DinDin.Domain.Constantes;
+using DinDin.Domain.Users;
 using DinDin.Services.Dtos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -52,6 +53,17 @@ namespace DinDin.Services.Auth
 
             await RevokeRefreshToken(databaseRefreshToken);
             return await GenerateTokens(databaseRefreshToken.UserId);
+        }
+
+        public async Task LogoutUser(string refreshToken)
+        {
+            var secretKey = GetSecretKey();
+
+            var hashedRefreshToken = HashRefreshToken(refreshToken, secretKey);
+
+            var databaseRefreshToken = await _refreshTokenRepository.GetValidTokenByTokenHash(hashedRefreshToken);
+
+            await RevokeRefreshToken(databaseRefreshToken!);
         }
 
         private async Task RevokeRefreshToken(RefreshToken databaseRefreshToken)

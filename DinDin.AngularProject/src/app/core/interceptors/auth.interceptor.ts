@@ -1,26 +1,94 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/authService/auth.service';
+import { ErrorModalService } from '../../services/errorModalService/error-modal.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-    private route = inject(Router);
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
+  private readonly errorModalService = inject(ErrorModalService);
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const token = sessionStorage.getItem('token');
+  private isRefreshing = false;
+  private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
-        const isAuthRoute = req.url.includes('login') || req.url.includes('register');
+  private isPublicAuthRoute(url: string): boolean {
+    return ['login', 'register', 'verify-refresh-token', 'logout']
+      .some(route => url.toLowerCase().includes(route));
+  }
 
-        if (token && !isAuthRoute) {
-            const clonedReq = req.clone({
-                headers: req.headers.set('Authorization', `Bearer ${token}`)
-            });
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const token = sessionStorage.getItem('token');
+    const isAuthRoute = this.isPublicAuthRoute(req.url);
 
-            return next.handle(clonedReq);
+    let modifiedReq = req;
+    if (token && !isAuthRoute) {
+      modifiedReq = req.clone({
+        headers: req.headers.set('Authorization', `Bearer ${token}`)
+      });
+    }
+
+    return next.handle(modifiedReq).pipe(
+      catchError(error => {
+        if (error instanceof HttpErrorResponse && error.status === 401 && !isAuthRoute) {
+          return this.verifyRefreshTokenAndTryAgain(modifiedReq, next);
         }
 
-        this.route.navigate(['/login']);
-        return next.handle(req);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  private verifyRefreshTokenAndTryAgain(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (!this.isRefreshing) {
+      this.isRefreshing = true;
+      this.refreshTokenSubject.next(null);
+
+      return this.authService.verifyRefreshToken().pipe(
+        switchMap(response => {
+          const newToken = response?.accessToken;
+          if (!newToken) throw new Error('Token vazio');
+
+          sessionStorage.setItem('token', newToken);
+          this.refreshTokenSubject.next(newToken);
+          this.isRefreshing = false;
+
+          const newRequest = req.clone({
+            headers: req.headers.set('Authorization', `Bearer ${newToken}`)
+          });
+
+          return next.handle(newRequest);
+        }),
+        catchError(error => {
+          this.isRefreshing = false;
+          this.errorModalService.show(error?.error ?? 'Sessão expirada.');
+
+          if (sessionStorage.getItem('token')) {
+            this.authService.logout().subscribe(() => {
+              this.router.navigate(['/login']);
+            });
+          } else {
+            this.router.navigate(['/login']);
+          }
+
+          return throwError(() => new Error('Sessão expirada'));
+        })
+      );
+    } else {
+      return this.refreshTokenSubject.pipe(
+        filter(token => !!token),
+        take(1),
+        switchMap(token => {
+          const newRequest = req.clone({
+            headers: req.headers.set('Authorization', `Bearer ${token}`)
+          });
+          return next.handle(newRequest);
+        })
+      );
     }
+  }
 }
+

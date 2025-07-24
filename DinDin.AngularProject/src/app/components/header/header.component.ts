@@ -22,36 +22,15 @@ export class HeaderComponent implements OnDestroy{
   private readonly router = inject(Router);
   private readonly i18nService = inject(I18nService);
   private readonly authService = inject(AuthService);
-  private readonly errorModalService = inject(ErrorModalService);
   private mySubscription?: Subscription;
 
   makeLogout(): void {
     this.mySubscription = this.authService.logout().pipe(
-      catchError(error => this.renewAccessToken(error))
+      catchError(error => throwError(() => error))
     ).subscribe(() => {
       sessionStorage.clear();
       this.router.navigate(['/login']);
     });
-  }
-
-  renewAccessToken(error: any): Observable<any> {
-    const unauthorizedCode = 401;
-    if (error.status === unauthorizedCode) {
-      return this.authService.verifyRefreshToken().pipe(
-        switchMap((response) => {
-          const keyName = "token";
-          sessionStorage.setItem(keyName, response?.accessToken);
-          return this.authService.logout();
-        }),
-        catchError((refreshError) => {
-          this.errorModalService.show(refreshError.error);
-          return EMPTY;
-        })
-      )
-    }
-
-    this.errorModalService.show(error.error);
-    return EMPTY;
   }
 
   onClickInLogout(): void {
