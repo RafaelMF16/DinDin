@@ -20,21 +20,21 @@ export class AuthInterceptor implements HttpInterceptor {
       .some(route => url.toLowerCase().includes(route));
   }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, httpHandler: HttpHandler): Observable<HttpEvent<any>> {
     const token = sessionStorage.getItem('token');
-    const isAuthRoute = this.isPublicAuthRoute(req.url);
+    const isAuthRoute = this.isPublicAuthRoute(request.url);
 
-    let modifiedReq = req;
+    let modifiedRequest = request;
     if (token && !isAuthRoute) {
-      modifiedReq = req.clone({
-        headers: req.headers.set('Authorization', `Bearer ${token}`)
+      modifiedRequest = request.clone({
+        headers: request.headers.set('Authorization', `Bearer ${token}`)
       });
     }
 
-    return next.handle(modifiedReq).pipe(
+    return httpHandler.handle(modifiedRequest).pipe(
       catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401 && !isAuthRoute) {
-          return this.verifyRefreshTokenAndTryAgain(modifiedReq, next);
+          return this.verifyRefreshTokenAndTryAgain(modifiedRequest, httpHandler);
         }
 
         return throwError(() => error);
@@ -42,39 +42,39 @@ export class AuthInterceptor implements HttpInterceptor {
     );
   }
 
-  private verifyRefreshTokenAndTryAgain(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  private verifyRefreshTokenAndTryAgain(request: HttpRequest<any>, httpHandler: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.isRefreshing) {
+      const tokenKeyName = 'token';
+
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
 
       return this.authService.verifyRefreshToken().pipe(
         switchMap(response => {
           const newToken = response?.accessToken;
-          if (!newToken) throw new Error('Token vazio');
-
-          sessionStorage.setItem('token', newToken);
+          sessionStorage.setItem(tokenKeyName, newToken);
           this.refreshTokenSubject.next(newToken);
           this.isRefreshing = false;
 
-          const newRequest = req.clone({
-            headers: req.headers.set('Authorization', `Bearer ${newToken}`)
+          const newRequest = request.clone({
+            headers: request.headers.set('Authorization', `Bearer ${newToken}`)
           });
-
-          return next.handle(newRequest);
+          return httpHandler.handle(newRequest);
         }),
         catchError(error => {
           this.isRefreshing = false;
-          this.errorModalService.show(error?.error ?? 'Sessão expirada.');
+          this.errorModalService.show(error?.error);
 
-          if (sessionStorage.getItem('token')) {
+          if (sessionStorage.getItem(tokenKeyName)) {
             this.authService.logout().subscribe(() => {
+              sessionStorage.clear();
               this.router.navigate(['/login']);
             });
           } else {
             this.router.navigate(['/login']);
           }
 
-          return throwError(() => new Error('Sessão expirada'));
+          return throwError(() => error);
         })
       );
     } else {
@@ -82,13 +82,12 @@ export class AuthInterceptor implements HttpInterceptor {
         filter(token => !!token),
         take(1),
         switchMap(token => {
-          const newRequest = req.clone({
-            headers: req.headers.set('Authorization', `Bearer ${token}`)
+          const newRequest = request.clone({
+            headers: request.headers.set('Authorization', `Bearer ${token}`)
           });
-          return next.handle(newRequest);
+          return httpHandler.handle(newRequest);
         })
       );
     }
   }
 }
-
