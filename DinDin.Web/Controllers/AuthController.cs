@@ -1,10 +1,8 @@
 ﻿using DinDin.Domain.Constantes;
-using DinDin.Domain.Extensions;
 using DinDin.Domain.Users;
 using DinDin.Services.Auth;
 using DinDin.Services.Users;
 using DinDin.Web.DTOS;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DinDin.Web.Controllers
@@ -71,6 +69,9 @@ namespace DinDin.Web.Controllers
                     Detail = ApplicationConstants.SESSION_EXPIRED_MESSAGE,
                     Instance = HttpContext.Request.Path
                 };
+
+                ClearRefreshTokenCookie();
+
                 return Unauthorized(problemDetails);
             }
 

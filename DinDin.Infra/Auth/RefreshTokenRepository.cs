@@ -28,7 +28,7 @@ namespace DinDin.Infra.Auth
         {
             var refreshTokenModel = await _dbContext.RefreshToken
                 .AsNoTracking()
-                .Where(refreshToken => refreshToken.TokenHash == hashedRefreshToken && !refreshToken.Revoked && refreshToken.ExpiresAt < DateTime.UtcNow)
+                .Where(refreshToken => refreshToken.TokenHash == hashedRefreshToken && !refreshToken.Revoked)
                 .FirstOrDefaultAsync();
 
             if (refreshTokenModel is null)

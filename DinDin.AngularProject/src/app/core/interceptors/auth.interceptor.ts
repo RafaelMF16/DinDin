@@ -16,13 +16,20 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
   private isPublicAuthRoute(url: string): boolean {
-    return ['login', 'register', 'verify-refresh-token', 'logout']
-      .some(route => url.toLowerCase().includes(route));
+    const normalizedUrl = url.toLowerCase();
+
+    return [
+      '/api/auth/login',
+      '/api/auth/register',
+      '/api/auth/verify-refresh-token',
+      '/api/auth/logout'
+    ].some(route => normalizedUrl.includes(route));
   }
 
-  intercept(request: HttpRequest<any>, httpHandler: HttpHandler): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = sessionStorage.getItem('token');
     const isAuthRoute = this.isPublicAuthRoute(request.url);
+    console.log('Intercepted URL:', request.url);
 
     let modifiedRequest = request;
     if (token && !isAuthRoute) {
@@ -31,10 +38,10 @@ export class AuthInterceptor implements HttpInterceptor {
       });
     }
 
-    return httpHandler.handle(modifiedRequest).pipe(
+    return next.handle(modifiedRequest).pipe(
       catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401 && !isAuthRoute) {
-          return this.verifyRefreshTokenAndTryAgain(modifiedRequest, httpHandler);
+          return this.verifyRefreshTokenAndTryAgain(modifiedRequest, next);
         }
 
         return throwError(() => error);
@@ -42,7 +49,7 @@ export class AuthInterceptor implements HttpInterceptor {
     );
   }
 
-  private verifyRefreshTokenAndTryAgain(request: HttpRequest<any>, httpHandler: HttpHandler): Observable<HttpEvent<any>> {
+  private verifyRefreshTokenAndTryAgain(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (!this.isRefreshing) {
       const tokenKeyName = 'token';
 
@@ -59,7 +66,7 @@ export class AuthInterceptor implements HttpInterceptor {
           const newRequest = request.clone({
             headers: request.headers.set('Authorization', `Bearer ${newToken}`)
           });
-          return httpHandler.handle(newRequest);
+          return next.handle(newRequest);
         }),
         catchError(error => {
           this.isRefreshing = false;
@@ -85,7 +92,7 @@ export class AuthInterceptor implements HttpInterceptor {
           const newRequest = request.clone({
             headers: request.headers.set('Authorization', `Bearer ${token}`)
           });
-          return httpHandler.handle(newRequest);
+          return next.handle(newRequest);
         })
       );
     }

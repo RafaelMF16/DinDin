@@ -48,11 +48,21 @@ namespace DinDin.Services.Auth
 
             var databaseRefreshToken = await _refreshTokenRepository.GetValidTokenByTokenHash(hashedRefreshToken);
 
-            if (databaseRefreshToken is null) 
+            var isValid = validateRefreshToken(databaseRefreshToken);
+
+            if (!isValid)
                 return null;
 
-            await RevokeRefreshToken(databaseRefreshToken);
-            return await GenerateTokens(databaseRefreshToken.UserId);
+            await RevokeRefreshToken(databaseRefreshToken!);
+            return await GenerateTokens(databaseRefreshToken!.UserId);
+        }
+
+        private bool validateRefreshToken(RefreshToken? refreshToken)
+        {
+            if (refreshToken is null)
+                return false;
+            
+            return !(refreshToken.ExpiresAt <= DateTime.UtcNow);
         }
 
         public async Task LogoutUser(string refreshToken)
