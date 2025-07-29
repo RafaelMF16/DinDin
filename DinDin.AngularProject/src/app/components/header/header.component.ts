@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 import { I18nService } from '../../services/i18nService/i18n.service';
 import { AuthService } from '../../core/services/authService/auth.service';
-import { catchError, EMPTY, Observable, Subscription, switchMap, throwError } from 'rxjs';
-import { ErrorModalService } from '../../services/errorModalService/error-modal.service';
+import { catchError, Subscription, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-header',

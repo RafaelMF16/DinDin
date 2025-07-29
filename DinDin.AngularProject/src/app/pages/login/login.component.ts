@@ -11,6 +11,7 @@ import { NgClass, NgIf } from '@angular/common';
 import { FormsContainerComponent } from '../../components/forms-container/forms-container.component';
 import { LabelInputComponent } from '../../components/label-input/label-input.component';
 import { ErrorModalService } from '../../services/errorModalService/error-modal.service';
+import { TokenService } from '../../services/tokenService/token.service';
 
 @Component({
     selector: 'app-login',
@@ -32,12 +33,11 @@ export class LoginComponent implements OnInit {
   registerForm!: FormGroup;
   isLogin: boolean = true;
 
-  private authService = inject(AuthService);
-  private router = inject(Router);
-  private toastService = inject(ToastService);
-  private errorModalService = inject(ErrorModalService);
-
-  readonly errorDialog = inject(MatDialog);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly toastService = inject(ToastService);
+  private readonly errorModalService = inject(ErrorModalService);
+  private readonly tokenService = inject(TokenService);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -143,7 +143,7 @@ export class LoginComponent implements OnInit {
         this.toastService.openSnackBar(successLoginMessage);
         
         const keyName = "token";
-        sessionStorage.setItem(keyName, response?.accessToken);
+        this.tokenService.setToken(keyName, response?.accessToken);
 
         this.router.navigate(['/monthly-summaries']);
       });

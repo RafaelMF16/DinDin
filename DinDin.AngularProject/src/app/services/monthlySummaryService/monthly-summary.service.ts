@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpService } from '../../core/services/httpService/http.service';
+import { TokenService } from '../tokenService/token.service';
 
 
 @Injectable({
@@ -11,11 +12,11 @@ export class MonthlySummaryService {
 
   private httpService = inject(HttpService);
   private jwtHelper = new JwtHelperService();
+  private readonly tokenService = inject(TokenService);
 
   getAllByUserId(): Observable<any> {
     let endpoint = "";
-    const tokenKeyName = "token";
-    const token = sessionStorage.getItem(tokenKeyName);
+    const token = this.tokenService.getToken();
     const decodedToken = this.jwtHelper.decodeToken(token!);
     let userId = decodedToken?.nameid;
     endpoint = `MonthlySummary/get-all-with-user-id/${userId}`;

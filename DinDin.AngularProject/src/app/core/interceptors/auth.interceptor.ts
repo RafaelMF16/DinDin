@@ -5,12 +5,14 @@ import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/authService/auth.service';
 import { ErrorModalService } from '../../services/errorModalService/error-modal.service';
+import { TokenService } from '../../services/tokenService/token.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
   private readonly router = inject(Router);
   private readonly authService = inject(AuthService);
   private readonly errorModalService = inject(ErrorModalService);
+  private readonly tokenService = inject(TokenService);
 
   private isRefreshing = false;
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
@@ -27,9 +29,8 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = sessionStorage.getItem('token');
+    const token = this.tokenService.getToken();
     const isAuthRoute = this.isPublicAuthRoute(request.url);
-    console.log('Intercepted URL:', request.url);
 
     let modifiedRequest = request;
     if (token && !isAuthRoute) {
@@ -59,7 +60,7 @@ export class AuthInterceptor implements HttpInterceptor {
       return this.authService.verifyRefreshToken().pipe(
         switchMap(response => {
           const newToken = response?.accessToken;
-          sessionStorage.setItem(tokenKeyName, newToken);
+          this.tokenService.setToken(tokenKeyName, newToken);
           this.refreshTokenSubject.next(newToken);
           this.isRefreshing = false;
 
@@ -72,7 +73,7 @@ export class AuthInterceptor implements HttpInterceptor {
           this.isRefreshing = false;
           this.errorModalService.show(error?.error);
 
-          if (sessionStorage.getItem(tokenKeyName)) {
+          if (this.tokenService.getToken()) {
             this.authService.logout().subscribe(() => {
               sessionStorage.clear();
               this.router.navigate(['/login']);
