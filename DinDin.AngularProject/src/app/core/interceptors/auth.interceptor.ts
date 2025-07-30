@@ -20,31 +20,27 @@ export class AuthInterceptor implements HttpInterceptor {
   private refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
   private isPublicAuthRoute(url: string): boolean {
-    return [
+    let isPublicRoute = [
       '/api/auth/login',
       '/api/auth/register',
       '/api/auth/verify-refresh-token',
       '/api/auth/logout'
     ].some(route => url.toLowerCase().includes(route));
+    return isPublicRoute;
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = this.tokenService.getToken();
     const isAuthRoute = this.isPublicAuthRoute(request.url);
-
     if (token && !isAuthRoute) {
       request = this.addTokenToRequest(request, token);
     }
 
     return next.handle(request).pipe(
       catchError(error => {
-        if (
-          error instanceof HttpErrorResponse &&
-          error.status === 401 &&
-          !isAuthRoute
-        ) {
+        const unauthorizedCode = 401;
+        if (error.status === unauthorizedCode && !isAuthRoute) 
           return this.handle401Error(request, next);
-        }
 
         return throwError(() => error);
       })
@@ -81,14 +77,11 @@ export class AuthInterceptor implements HttpInterceptor {
             this.errorModalService.show(error?.error);
           }
           this.tokenService.clearToken();
-          this.loadingService.show();
           this.authService.logout().subscribe({
             complete: () => {
-              this.loadingService.hide();
               this.router.navigate(['/login']);
             },
             error: () => {
-              this.loadingService.hide();
               this.router.navigate(['/login']);
             }
           });
