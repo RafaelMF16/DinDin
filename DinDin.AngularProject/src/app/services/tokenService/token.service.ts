@@ -14,4 +14,8 @@ export class TokenService {
   setToken(keyName: string, token: any): void {
     sessionStorage.setItem(keyName, token)
   }
+
+  clearToken(): void {
+    sessionStorage.clear();
+  }
 }

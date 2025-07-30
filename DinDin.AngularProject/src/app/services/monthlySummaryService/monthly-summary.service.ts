@@ -15,17 +15,12 @@ export class MonthlySummaryService {
   private readonly tokenService = inject(TokenService);
 
   getAllByUserId(): Observable<any> {
-    let endpoint = "";
-    const token = this.tokenService.getToken();
-    const decodedToken = this.jwtHelper.decodeToken(token!);
-    let userId = decodedToken?.nameid;
-    endpoint = `MonthlySummary/get-all-with-user-id/${userId}`;
-
+    const endpoint = "MonthlySummary/get-all-with-user-id";
     return this.httpService.get(endpoint);
   }
 
   getById(id?: number): Observable<any> {
     let endpoint = `MonthlySummary/${id}`;
-    return this.httpService.get(endpoint);
+    return this.httpService.get(endpoint);  
   }
 }

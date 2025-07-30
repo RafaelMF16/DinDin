@@ -70,8 +70,6 @@ namespace DinDin.Web.Controllers
                     Instance = HttpContext.Request.Path
                 };
 
-                ClearRefreshTokenCookie();
-
                 return Unauthorized(problemDetails);
             }
 
