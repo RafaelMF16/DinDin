@@ -28,7 +28,7 @@ namespace DinDin.Infra.Auth
         {
             var refreshTokenModel = await _dbContext.RefreshToken
                 .AsNoTracking()
-                .Where(refreshToken => refreshToken.TokenHash == hashedRefreshToken && !refreshToken.Revoked)
+                .Where(refreshToken => refreshToken.TokenHash == hashedRefreshToken)
                 .FirstOrDefaultAsync();
 
             if (refreshTokenModel is null)
@@ -53,7 +53,7 @@ namespace DinDin.Infra.Auth
         public async Task UpdateRevoked(RefreshToken refreshToken)
         {
             var refreshTokenModel = await _dbContext.RefreshToken.FindAsync(refreshToken.Id)
-                ?? throw new ArgumentNullException($"Não foi encontrado um token válido vinculado ao usuário com id: {refreshToken.Id}");
+                ?? throw new ArgumentNullException($"Não foi encontrado um token válido vinculado ao usuário com id: {refreshToken.UserId}");
 
             refreshTokenModel.Revoked = refreshToken.Revoked;
 

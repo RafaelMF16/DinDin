@@ -62,6 +62,9 @@ namespace DinDin.Services.Auth
             if (refreshToken is null)
                 return false;
 
+            if (refreshToken.Revoked)
+                return false;
+
             return !(refreshToken.ExpiresAt <= DateTime.UtcNow);
         }
 

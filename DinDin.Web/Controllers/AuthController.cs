@@ -85,6 +85,7 @@ namespace DinDin.Web.Controllers
         {
             var refreshToken = Request.Cookies[ApplicationConstants.REFRESH_TOKEN_KEY_NAME]
                 ?? throw new ArgumentNullException("Não foi possível renovar token");
+
             await _authService.LogoutUser(refreshToken);
 
             ClearRefreshTokenCookie();
