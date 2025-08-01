@@ -1,6 +1,5 @@
 import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { Transaction } from '../../interfaces/transaction.interface';
-import { FormatterService } from '../../services/formatterService/formatter.service';
 import { EnumService } from '../../services/enumService/enum.service';
 import { catchError, throwError } from 'rxjs';
 import { MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription } from '@angular/material/expansion';
