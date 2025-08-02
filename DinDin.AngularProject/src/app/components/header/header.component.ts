@@ -1,7 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 import { I18nService } from '../../services/i18nService/i18n.service';
+import { AuthService } from '../../core/services/authService/auth.service';
+import { catchError, Subscription, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -14,14 +16,24 @@ import { I18nService } from '../../services/i18nService/i18n.service';
     MatMenuItem,
   ]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnDestroy{
 
   private readonly router = inject(Router);
   private readonly i18nService = inject(I18nService);
+  private readonly authService = inject(AuthService);
+  private mySubscription?: Subscription;
+
+  makeLogout(): void {
+    this.mySubscription = this.authService.logout().pipe(
+      catchError(error => throwError(() => error))
+    ).subscribe(() => {
+      sessionStorage.clear();
+      this.router.navigate(['/login']);
+    });
+  }
 
   onClickInLogout(): void {
-    localStorage.clear();
-    this.router.navigate(['/login']);
+    this.makeLogout();
   }
 
   onClickInPt(): void {
@@ -37,5 +49,9 @@ export class HeaderComponent {
   onClickInEs(): void {
     const esLocale: string = "es"
     this.i18nService.changeLanguage(esLocale);
+  }
+
+  ngOnDestroy(): void {
+    this.mySubscription?.unsubscribe();
   }
 }

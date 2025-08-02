@@ -1,14 +1,10 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+﻿using DinDin.Domain.Auth;
 using DinDin.Domain.Constantes;
 using DinDin.Domain.Users;
 using DinDin.Services.Auth;
+using DinDin.Services.Dtos;
 using FluentValidation;
-using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using Npgsql;
 
 namespace DinDin.Services.Users
@@ -17,12 +13,12 @@ namespace DinDin.Services.Users
         IUserRepository userRepository,
         IValidator<User> userValidator,
         AuthService authService,
-        IConfiguration configuration)
+        IRefreshTokenRepository refreshTokenRepository)
     {
         private readonly IUserRepository _userRepository = userRepository;
         private readonly IValidator<User> _userValidator = userValidator;
         private readonly AuthService _authService = authService;
-        private readonly IConfiguration _configuration = configuration;
+        private readonly IRefreshTokenRepository _refreshTokenRepository = refreshTokenRepository;
 
         public async Task Add(User user)
         {
@@ -54,31 +50,21 @@ namespace DinDin.Services.Users
             }
         }
 
-        public async Task<string?> AuthenticateUser(string email, string password)
+        public async Task<LoginResponseDto?> AuthenticateUser(string email, string password)
         {
             var user = await _userRepository.GetUserByEmail(email);
 
             if (user == null || !_authService.VerifyPassword(password, user.Password))
                 return null;
 
-            var secretKey = _configuration[ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE]
-                ?? throw new Exception($"Environment variable [{ApplicationConstants.SECRET_KEY_ENVIRONMENT_VARIABLE}] not found");
-
-            var encodedSecretKey = Encoding.ASCII.GetBytes(secretKey);
-            var tokenConfig = new SecurityTokenDescriptor
+            var token = await _refreshTokenRepository.GetValidTokenByUserId(user.Id);
+            if (token is not null)
             {
-                Subject = new ClaimsIdentity(new Claim[]
-                {
-                    new (ClaimTypes.NameIdentifier, user.Id.ToString())
-                }),
-                Expires = DateTime.UtcNow.AddHours(2),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(encodedSecretKey), SecurityAlgorithms.HmacSha256Signature)
-            };
+                token.Revoked = true;
+                await _refreshTokenRepository.UpdateRevoked(token);
+            }
 
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var token = tokenHandler.CreateToken(tokenConfig);
-
-            return tokenHandler.WriteToken(token);
+            return await _authService.GenerateTokens(user.Id);
         }
     }
 }

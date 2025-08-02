@@ -1,4 +1,5 @@
-﻿using DinDin.Services.MonthlySummaries;
+﻿using DinDin.Domain.Extensions;
+using DinDin.Services.MonthlySummaries;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,16 +11,17 @@ namespace DinDin.Web.Controllers
     {
         private readonly MonthlySummaryService _monthlySummaryService = monthlySummaryService;
 
-        [HttpGet("get-all-with-user-id/{id}")]
         [Authorize]
-        public async Task<IActionResult> GetAll([FromRoute] int id)
+        [HttpGet("get-all-with-user-id")]
+        public async Task<IActionResult> GetAll()
         {
-            var monthlySummariesList = await _monthlySummaryService.GetAllWithUserId(id);
+            var userId = User.GetUserId();
+            var monthlySummariesList = await _monthlySummaryService.GetAllWithUserId(userId);
             return Ok(monthlySummariesList);
         }
 
-        [HttpGet("{id}")]
         [Authorize]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByID([FromRoute] int id)
         {
             var monthlySummary = await _monthlySummaryService.GetById(id);
