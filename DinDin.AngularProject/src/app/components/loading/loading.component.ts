@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
@@ -7,6 +7,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   standalone: true,
   templateUrl: './loading.component.html',
   styleUrl: './loading.component.css',
+  encapsulation: ViewEncapsulation.None,
   imports: [
     CommonModule, 
     MatProgressSpinnerModule

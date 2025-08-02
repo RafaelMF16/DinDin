@@ -10,24 +10,24 @@ namespace DinDin.Web.Controllers
     {
         private readonly EnumService _enumService = enumService;
 
-        [HttpGet("Type")]
         [Authorize]
+        [HttpGet("Type")]
         public IActionResult GetTypeEnum()
         {
             var types = _enumService.GetTypes();
             return Ok(types);
         }
 
-        [HttpGet("IncomeCategories")]
         [Authorize]
+        [HttpGet("IncomeCategories")]
         public IActionResult GetIncomeCategories()
         {
             var categories = _enumService.GetIncomeCategories();
             return Ok(categories);
         }
 
-        [HttpGet("ExpenseCategories")]
         [Authorize]
+        [HttpGet("ExpenseCategories")]
         public IActionResult GetExpenseCategories()
         {
             var categories = _enumService.GetExpenseCategories();

@@ -1,9 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpService } from '../../core/services/httpService/http.service';
-import { TokenService } from '../tokenService/token.service';
-
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +8,6 @@ import { TokenService } from '../tokenService/token.service';
 export class MonthlySummaryService {
 
   private httpService = inject(HttpService);
-  private jwtHelper = new JwtHelperService();
-  private readonly tokenService = inject(TokenService);
 
   getAllByUserId(): Observable<any> {
     const endpoint = "MonthlySummary/get-all-with-user-id";

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { LoadingComponent } from "./components/loading/loading.component";
-import { AsyncPipe, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { LoadingService } from './services/loadingService/loading.service';
 
 @Component({
@@ -9,7 +9,7 @@ import { LoadingService } from './services/loadingService/loading.service';
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
     standalone: true,
-    imports: [RouterOutlet, LoadingComponent, NgIf, AsyncPipe]
+    imports: [RouterOutlet, LoadingComponent, NgIf]
 })
 export class AppComponent {
   title = 'DinDin';
