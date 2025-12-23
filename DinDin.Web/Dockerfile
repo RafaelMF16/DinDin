@@ -4,7 +4,7 @@ WORKDIR /app
 COPY ./DinDin.Domain/*.csproj ./DinDin.Domain/
 COPY ./DinDin.Services/*.csproj ./DinDin.Services/
 COPY ./DinDin.Infra/*.csproj ./DinDin.Infra/
-COPY ./DinDin.Web/*.csproj
+COPY ./DinDin.Web/*.csproj ./DinDin.Web/
 
 RUN dotnet restore ./DinDin.Web.csproj
 
