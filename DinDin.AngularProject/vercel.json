@@ -1,0 +1,24 @@
+{
+  "routes": [
+    {
+      "src": "^/$",
+      "dest": "/pt-BR/index.html"
+    },
+    {
+      "src": "^/pt-BR/(.*)",
+      "dest": "/pt-BR/$1"
+    },
+    {
+      "src": "^/en-US/(.*)",
+      "dest": "/en-US/$1"
+    },
+    {
+      "src": "^/es/(.*)",
+      "dest": "/es/$1"
+    },
+    {
+      "src": "^(?!/(pt-BR|en-US|es)).*$",
+      "dest": "/pt-BR/index.html"
+    }
+  ]
+}
