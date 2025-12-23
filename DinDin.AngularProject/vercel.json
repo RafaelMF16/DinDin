@@ -1,15 +1,24 @@
 {
-  "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "dist/din-din.angular-project/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
+      "source": "/en/(.*)",
+      "destination": "/en/index.html"
+    },
     {
-      "src": "/(.*)",
-      "dest": "/dist/din-din.angular-project/$1"
+      "source": "/es/(.*)",
+      "destination": "/es/index.html"
+    },
+    {
+      "source": "/pt/(.*)",
+      "destination": "/pt/index.html"
+    },
+    {
+      "source": "/",
+      "destination": "/pt/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/pt/index.html"
     }
   ]
 }
