@@ -81,7 +81,7 @@ namespace DinDin.Web
             {
                 options.AddPolicy(name: ApplicationConstants.CORS_POLICY_NAME, policy =>
                 {
-                    policy.WithOrigins(ApplicationConstants.LOCAL_FRONT_END_URL, ApplicationConstants.BUILD_LOCAL_FRONT_END_URL)
+                    policy.WithOrigins(ApplicationConstants.LOCAL_FRONT_END_URL, ApplicationConstants.BUILD_LOCAL_FRONT_END_URL, ApplicationConstants.BUILD_VERCEL_URL)
                         .AllowCredentials()
                         .AllowAnyHeader()
                         .AllowAnyMethod();

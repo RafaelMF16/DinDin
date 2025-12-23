@@ -11,6 +11,7 @@
         public const string CORS_POLICY_NAME = "MyPolicy";
         public const string LOCAL_FRONT_END_URL = "http://localhost:57053";
         public const string BUILD_LOCAL_FRONT_END_URL = "http://localhost:8080";
+        public const string BUILD_VERCEL_URL = "https://din-din-front-b3u0y7ng9-rafaelmf16s-projects.vercel.app";
         public const char ID_SEPARATION_PATTERN = '-';
         public const string INTERNAL_SERVER_ERROR_TITLE = "Ocorreu um erro inesperado.";
         public const string VALIDATION_EXCEPTION_TITLE = "Erro de validação";
